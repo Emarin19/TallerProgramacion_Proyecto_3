@@ -103,7 +103,14 @@ L_Titulo.place(x=100,y=300)
 E_read = Entry(C_main,width=30,font=('Agency FB',14))
 E_read.place(x=200,y=300)
 
+def move_forward(event):
+    mns=str("pwm:600;")
+    myCar.send(mns)
 
+def move_back(event):
+    mns="pwm:-700;"
+    myCar.send(mns)
+    
 def send (event):
     """
     Ejemplo como enviar un mensaje sencillo sin importar la respuesta
@@ -148,6 +155,9 @@ Asegurese que el ID: {0} sea correcto".format(mnsID))
         messagebox.showwarning("Error en formato", "Recuerde ingresar el separador (':')")
 
 main.bind('<Return>', send) #Vinculando tecla Enter a la función send
+main.bind ("<Up>", move_forward)
+main.bind ("<Down>", move_back)
+
 
 def w_description():
     #Esconder ventana principal
