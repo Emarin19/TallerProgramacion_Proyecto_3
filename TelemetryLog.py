@@ -189,7 +189,7 @@ def positions_table():
     positions.minsize(800,600)
     positions.resizable(width=NO, height=NO)
 
-    C_positions = Canvas(positions, width=800, height=600, bg="white")
+    C_positions = Canvas(positions, width=800, height=600, bg="red")
     C_positions.place(x=0, y=0)
 
     def back():
