@@ -5,63 +5,70 @@ Taller de Programación
 
 Ejemplo Consola Cliente
 Implementación del módulo NodeMCU
-Proyecto 2, semestre 1
+Proyecto 2 y 3, Semestre 1
 2019
 
 Profesor: Milton Villegas Lemus
 Autor: Santiago Gamboa Ramirez
+       Emanuel Marín Gutiérrez
+       Alejandro Vasquez Oviedo
 
 Restricciónes: Python3.7 
 Ejemplo de como usar el módudo NodeMCU de wifiConnection
 
 """
-#           _____________________________
+#           _____________________________________________________
 #__________/BIBLIOTECAS
 from tkinter import *               # Tk(), Label, Canvas, Photo
+from tkinter import messagebox      # AskYesNo ()
 from threading import Thread        # p.start()
+from random import randint          #
+import random                       #
 import threading                    # 
+import winsound                     # Playsound
 import os                           # ruta = os.path.join('')
 import time                         # time.sleep(x)
-from tkinter import messagebox      # AskYesNo ()
 import tkinter.scrolledtext as tkscrolled
+
 ##### Biblioteca para el Carro
 from WiFiClient import NodeMCU
 
+#Función para cargar imágenes
+#Código tomado de ejemplo de Santiago
+def loadImg(name):
+    ruta=os.path.join("imgs",name)
+    imagen=PhotoImage(file=ruta)
+    return imagen
 
-#           ____________________________
-#__________/Ventana Principal
-root=Tk()
-root.title('Proyecto 1')
-root.minsize(800,400)
-root.resizable(width=NO,height=NO)
+#           _____________________________________________________
+#__________/ VENTANA PRINCIPAL
 
-#           ______________________________
-#__________/Se crea un lienzo para objetos
-C_root=Canvas(root, width=800,height=600, bg='white')
-C_root.place(x=0,y=0)
+#Creación ventana principal y sus atributos
+main=Tk()
+main.title("Proyecto 3")
+main.minsize(800,600)
+main.resizable(width=NO,height=NO)
 
+#Canvas de la ventana principal
+C_main=Canvas(main, width=800,height=600, bg='white')
+C_main.place(x=0,y=0)
 
-#           _____________________________________
-#__________/Se titulo de los Cuadros de texto
-L_Titulo = Label(C_root,text="Mensajes Enviados",font=('Agency FB',14),bg='white',fg='blue')
+#Labels (Más adelante los quitamos)
+L_Titulo = Label(C_main,text="Mensajes Enviados",font=('Agency FB',14),bg='white',fg='blue')
 L_Titulo.place(x=100,y=10)
 
-L_Titulo = Label(C_root,text="Respuesta Mensaje",font=('Agency FB',14),bg='white',fg='blue')
+L_Titulo = Label(C_main,text="Respuesta Mensaje",font=('Agency FB',14),bg='white',fg='blue')
 L_Titulo.place(x=490,y=10)
 
-
-SentCarScrolledTxt = tkscrolled.ScrolledText(C_root, height=10, width=45)
+SentCarScrolledTxt = tkscrolled.ScrolledText(C_main, height=10, width=45)
 SentCarScrolledTxt.place(x=10,y=50)
 
-RevCarScrolledTxt = tkscrolled.ScrolledText(C_root, height=10, width=45)
+RevCarScrolledTxt = tkscrolled.ScrolledText(C_main, height=10, width=45)
 RevCarScrolledTxt.place(x=400,y=50)
 
-
-#           _____________________________________
-#__________/Creando el cliente para NodeMCU
+#Creando el cliente para NodeMCU
 myCar = NodeMCU()
 myCar.start()
-
 
 def get_log():
     """
@@ -84,18 +91,16 @@ def get_log():
 p = Thread(target=get_log)
 p.start()
            
-
-
-L_Titulo = Label(C_root,text="Mensaje:",font=('Agency FB',14),bg='white',fg='blue')
+L_Titulo = Label(C_main,text="Mensaje:",font=('Agency FB',14),bg='white',fg='blue')
 L_Titulo.place(x=100,y=250)
 
-E_Command = Entry(C_root,width=30,font=('Agency FB',14))
+E_Command = Entry(C_main,width=30,font=('Agency FB',14))
 E_Command.place(x=200,y=250)
 
-L_Titulo = Label(C_root,text="ID mensaje:",font=('Agency FB',14),bg='white',fg='blue')
+L_Titulo = Label(C_main,text="ID mensaje:",font=('Agency FB',14),bg='white',fg='blue')
 L_Titulo.place(x=100,y=300)
 
-E_read = Entry(C_root,width=30,font=('Agency FB',14))
+E_read = Entry(C_main,width=30,font=('Agency FB',14))
 E_read.place(x=200,y=300)
 
 
@@ -109,7 +114,6 @@ def send (event):
         myCar.send(mns)
     else:
         messagebox.showwarning("Error del mensaje", "Mensaje sin caracter de finalización (';')") 
-
 
 def sendShowID():
     """
@@ -143,17 +147,89 @@ Asegurese que el ID: {0} sea correcto".format(mnsID))
     else:
         messagebox.showwarning("Error en formato", "Recuerde ingresar el separador (':')")
 
-root.bind('<Return>', send) #Vinculando tecla Enter a la función send
+main.bind('<Return>', send) #Vinculando tecla Enter a la función send
 
+def w_description():
+    #Esconder ventana principal
+    main.withdraw()
+    #Ventana de testeo del carro y sus atributos
+    about=Toplevel()
+    about.title("About of")
+    about.minsize(800,600)
+    about.resizable(width=NO, height=NO)
+
+    C_about = Canvas(about, width=800, height=600, bg="white")
+    C_about.place(x=0, y=0)
+
+    def back():
+        about.destroy()
+        main.deiconify()
+
+    Btn_back = Button(about, text="Back", command=back, bg="light blue", fg='black')
+    Btn_back.place(x=10,y=10)
+
+    main.mainloop()
+
+def positions_table():
+    #Esconder ventana principal
+    main.withdraw()
+    #Ventana de testeo del carro y sus atributos
+    positions=Toplevel()
+    positions.title("Positions Table")
+    positions.minsize(800,600)
+    positions.resizable(width=NO, height=NO)
+
+    C_positions = Canvas(positions, width=800, height=600, bg="white")
+    C_positions.place(x=0, y=0)
+
+    def back():
+        positions.destroy()
+        main.deiconify()
+
+    Btn_back = Button(positions, text="Back", command=back, bg="light blue", fg='black')
+    Btn_back.place(x=10,y=10)
+
+    main.mainloop()
+
+def test_drive():
+    #Esconder ventana principal
+    main.withdraw()
+    #Ventana de testeo del carro y sus atributos
+    test=Toplevel()
+    test.title("Driving Test")
+    test.minsize(800,600)
+    test.resizable(width=NO, height=NO)
+
+    C_test = Canvas(test, width=800, height=600, bg="white")
+    C_test.place(x=0, y=0)
+
+    def back():
+        test.destroy()
+        main.deiconify()
+
+    Btn_back = Button(test, text="Back", command=back, bg="light blue", fg='black')
+    Btn_back.place(x=10,y=10)
+
+    main.mainloop()
+    
 #           ____________________________
-#__________/Botones de ventana principal
+#__________/BOTONES VENTANA PRINCIPAL
 
-Btn_ConnectControl = Button(C_root,text='Send',command=lambda:send(None),fg='white',bg='blue', font=('Agency FB',12))
+Btn_Test_Drive = Button(C_main,text="About",command=w_description,fg="white",bg="blue", font=("Agency FB",12))
+Btn_Test_Drive.place(x=300,y=550)
+
+Btn_Test_Drive = Button(C_main,text="Positions Table",command=positions_table,fg="white",bg="blue", font=("Agency FB",12))
+Btn_Test_Drive.place(x=500,y=550)
+
+Btn_Test_Drive = Button(C_main,text="Test Drive",command=test_drive,fg="white",bg="blue", font=("Agency FB",12))
+Btn_Test_Drive.place(x=500,y=500)
+
+Btn_ConnectControl = Button(C_main,text='Send',command=lambda:send(None),fg='white',bg='blue', font=('Agency FB',12))
 Btn_ConnectControl.place(x=450,y=250)
 
-Btn_Controls = Button(C_root,text='Send & Show ID',command=sendShowID,fg='white',bg='blue', font=('Agency FB',12))
+Btn_Controls = Button(C_main,text='Send & Show ID',command=sendShowID,fg='white',bg='blue', font=('Agency FB',12))
 Btn_Controls.place(x=500,y=250)
 
-Btn_ConnectControl = Button(C_root,text='Leer Mensaje',command=read,fg='white',bg='blue', font=('Agency FB',12))
+Btn_ConnectControl = Button(C_main,text='Leer Mensaje',command=read,fg='white',bg='blue', font=('Agency FB',12))
 Btn_ConnectControl.place(x=450,y=300)
-root.mainloop()
+main.mainloop()
