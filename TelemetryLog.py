@@ -1,7 +1,7 @@
 """
-Instituto TecnolÃ³gico de Costa Rica
+Instituto Tecnológico de Costa Rica
 Computer Engineering
-Taller de ProgramaciÃ³n
+Taller de Programación
 
 Ejemplo Consola Cliente
 Implementación del módulo NodeMCU
@@ -9,7 +9,7 @@ Proyecto 2, semestre 1
 2019
 
 Profesor: Milton Villegas Lemus
-Autor: Santiago Gamboa RamÃ­rez
+Autor: Santiago Gamboa Ramirez
 
 Restricciónes: Python3.7 
 Ejemplo de como usar el módudo NodeMCU de wifiConnection
