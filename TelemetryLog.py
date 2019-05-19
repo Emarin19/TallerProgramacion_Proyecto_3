@@ -40,6 +40,19 @@ def loadImg(name):
     imagen=PhotoImage(file=ruta)
     return imagen
 
+#Variables globales
+#Manejo del carro
+global Forward, Back, Left, Right, Lfront, Lback, Lleft, Lright, Stop
+Forward = False
+Back = False
+Left = False
+Left = False
+Lfront = False
+Lback = False
+Lleft = False
+Lright = False
+Stop = False
+
 #           _____________________________________________________
 #__________/ VENTANA PRINCIPAL
 
@@ -103,13 +116,6 @@ L_Titulo.place(x=100,y=300)
 E_read = Entry(C_main,width=30,font=('Agency FB',14))
 E_read.place(x=200,y=300)
 
-def move_forward(event):
-    mns=str("pwm:600;")
-    myCar.send(mns)
-
-def move_back(event):
-    mns="pwm:-700;"
-    myCar.send(mns)
     
 def send (event):
     """
@@ -155,8 +161,7 @@ Asegurese que el ID: {0} sea correcto".format(mnsID))
         messagebox.showwarning("Error en formato", "Recuerde ingresar el separador (':')")
 
 main.bind('<Return>', send) #Vinculando tecla Enter a la función send
-main.bind ("<Up>", move_forward)
-main.bind ("<Down>", move_back)
+
 
 
 def w_description():
@@ -199,12 +204,19 @@ def positions_table():
     Btn_back = Button(positions, text="Back", command=back, bg="light blue", fg='black')
     Btn_back.place(x=10,y=10)
 
+
+
     main.mainloop()
+
+
+
+#           _____________________________________________________
+#__________/ DRIVING TEST WINDOWS
 
 def test_drive():
     #Esconder ventana principal
     main.withdraw()
-    #Ventana de testeo del carro y sus atributos
+    #Ventana testeo del carro y sus atributos
     test=Toplevel()
     test.title("Driving Test")
     test.minsize(800,600)
@@ -213,6 +225,127 @@ def test_drive():
     C_test = Canvas(test, width=800, height=600, bg="white")
     C_test.place(x=0, y=0)
 
+    #Creando el cliente para NodeMCU
+    myCar = NodeMCU()
+    myCar.start()
+
+    def get_log():
+        """
+        Hilo que actualiza los Text cada vez que se agrega un nuevo mensaje al log de myCar
+        """
+        indice = 0
+        while(myCar.loop):
+            while(indice < len(myCar.log)):
+                mnsSend = "[{0}] cmd: {1}\n".format(indice,myCar.log[indice][0])
+                SentCarScrolledTxt.insert(END,mnsSend)
+                SentCarScrolledTxt.see("end")
+
+                mnsRecv = "[{0}] result: {1}\n".format(indice,myCar.log[indice][1])
+                RevCarScrolledTxt.insert(END, mnsRecv)
+                RevCarScrolledTxt.see('end')
+
+                indice+=1
+            time.sleep(0.200)
+
+
+    def move_forward(event):
+        pwm=400
+        mns="pwm:"
+        En=1
+        p=Thread(target=move_forward_aux,args=(pwm,mns,En)).start()
+
+    def move_forward_aux(pwm,mns,En):
+        global Stop
+        if Stop == False:
+            if pwm<1000 and En==1:
+                print("A")
+                mns=mns+str(pwm)+";"
+                myCar.send(mns)
+                pwm=pwm+10
+                time.sleep(0.01)
+                test.update()
+                return move_forward_aux(pwm+10,mns,En)
+            else:
+                En=0
+                print("B")
+                pwm=pwm-10
+                mns=mns+str(pwm)+";"
+                myCar.send(mns)
+                time.sleep(0.01)
+                test.update()
+                return move_forward_aux(pwm-10,mns,En)
+        else:
+            print("I can´t")
+
+    def stop(event):
+        Stop=True
+        print(Stop)
+        test.update()
+            
+
+    def move_back(event):
+        mns="pwm:-700;"
+        myCar.send(mns)
+
+    def front_lights(event):
+        global Lfront
+        if Lfront == False:
+            mns="lf:1;"
+            myCar.send(mns)
+            Lfront = True
+
+        else:
+            mns="lf:0;"
+            myCar.send(mns)
+            Lfront = False
+
+    def back_lights(event):
+        global Lback
+        if Lback == False:
+            mns = "lb:1;"
+            myCar.send(mns)
+            Lback = True
+
+        else:
+            mns = "lb:0;"
+            myCar.send(mns)
+            Lback = False
+
+    def left_light(event):
+        global Lleft
+        if Lleft == False:
+            mns = "ll:1;"
+            myCar.send(mns)
+            Lleft = True
+
+        else:
+            mns = "ll:0;"
+            myCar.send(mns)
+            Lleft = False
+
+    def right_light(event):
+        global Lright
+        if Lright == False:
+            mns = "lr:1;"
+            myCar.send(mns)
+            Lright = True
+
+        else:
+            mns = "lr:0;"
+            myCar.send(mns)
+            Lright = False
+        
+    def send (event):
+        """
+        Ejemplo como enviar un mensaje sencillo sin importar la respuesta
+        """
+        mns = str(E_Command.get())
+        if(len(mns)>0 and mns[-1] == ";"):
+            E_Command.delete(0, 'end')
+            myCar.send(mns)
+        else:
+            messagebox.showwarning("Error del mensaje", "Mensaje sin caracter de finalización (';')")
+
     def back():
         test.destroy()
         main.deiconify()
@@ -220,6 +353,18 @@ def test_drive():
     Btn_back = Button(test, text="Back", command=back, bg="light blue", fg='black')
     Btn_back.place(x=10,y=10)
 
+
+    test.bind('<Return>', send) #Vinculando tecla Enter a la función send
+    test.bind("<Up>", move_forward)
+    test.bind("<Down>", move_back)
+    test.bind("<KeyRelease>",stop)
+    test.bind("b", back_lights)
+    test.bind("f", front_lights)
+    test.bind("l", left_light)
+    test.bind("r", right_light)
+    
+    p = Thread(target=get_log)
+    p.start()
     main.mainloop()
     
 #           ____________________________
