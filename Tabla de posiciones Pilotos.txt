@@ -1,0 +1,1 @@
+posición, nombre, edad, nacionalidad, temporada, cantidad de competencias, RGP y REP.

@@ -180,24 +180,54 @@ def w_description():
 
     main.mainloop()
 
-def positions_table():
+183def positions_table():
     #Esconder ventana principal
     main.withdraw()
-    #Ventana de testeo del carro y sus atributos
+    #Ventana de posiciones
     positions=Toplevel()
     positions.title("Positions Table")
     positions.minsize(800,600)
     positions.resizable(width=NO, height=NO)
 
-    C_positions = Canvas(positions, width=800, height=600, bg="red")
+    C_positions = Canvas(positions, width=800, height=600, bg="light blue")
     C_positions.place(x=0, y=0)
 
     def back():
         positions.destroy()
         main.deiconify()
 
+    def car_table():
+        #Esconder ventana principal
+        positions.withdraw()
+        #Ventana de posiciones
+        car_table=Toplevel()
+        car_table.title("Car Position Table")
+        car_table.minsize(800,600)
+        car_table.resizable(width=NO, height=NO)
+
+        C_car_table = Canvas(car_table, width=800, height=600, bg="red")
+        C_car_table.place(x=0, y=0)
+
+        def back():
+            car_table.destroy()
+            positions.deiconify()
+            
+        Btn_back = Button(car_table, text="Back", command=back, bg="light blue", fg='black')
+        Btn_back.place(x=700,y=0)
+
+        main.mainloop()
+        
     Btn_back = Button(positions, text="Back", command=back, bg="light blue", fg='black')
     Btn_back.place(x=10,y=10)
+
+    Btn_Car_Position =Button(positions, text="Tabla de Autos", command=car_table, bg="light blue", fg='black')
+    Btn_Car_Position.place(x=100,y=10)    
+
+    Btn_Ascendente =Button(positions, text="Descendente", command=back, bg="light blue", fg='black')
+    Btn_Ascendente.place(x=600,y=10)
+    
+    Btn_Descendente =Button(positions, text="Ascendente", command=back, bg="light blue", fg='black')
+    Btn_Descendente.place(x=700,y=10)    
 
     main.mainloop()
 
@@ -221,15 +251,15 @@ def test_drive():
     Btn_back.place(x=10,y=10)
 
     main.mainloop()
-    
+        
 #           ____________________________
 #__________/BOTONES VENTANA PRINCIPAL
 
 Btn_Test_Drive = Button(C_main,text="About",command=w_description,fg="white",bg="blue", font=("Agency FB",12))
 Btn_Test_Drive.place(x=300,y=550)
 
-Btn_Test_Drive = Button(C_main,text="Positions Table",command=positions_table,fg="white",bg="blue", font=("Agency FB",12))
-Btn_Test_Drive.place(x=500,y=550)
+Btn_Table_Position = Button(C_main,text="Positions Table",command=positions_table,fg="white",bg="blue", font=("Agency FB",12))
+Btn_Table_Position.place(x=500,y=550)
 
 Btn_Test_Drive = Button(C_main,text="Test Drive",command=test_drive,fg="white",bg="blue", font=("Agency FB",12))
 Btn_Test_Drive.place(x=500,y=500)
