@@ -67,3 +67,28 @@ Asegurese que el ID: {0} sea correcto".format(mnsID))
         messagebox.showwarning("Error en formato", "Recuerde ingresar el separador (':')")
 
 main.bind('<Return>', send) #Vinculando tecla Enter a la función send
+
+#Labels (Más adelante los quitamos)
+"""L_Titulo = Label(C_main,text="Mensajes Enviados",font=('Agency FB',14),bg='white',fg='blue')
+L_Titulo.place(x=100,y=10)
+
+L_Titulo = Label(C_main,text="Respuesta Mensaje",font=('Agency FB',14),bg='white',fg='blue')
+L_Titulo.place(x=490,y=10)
+
+SentCarScrolledTxt = tkscrolled.ScrolledText(C_main, height=10, width=45)
+SentCarScrolledTxt.place(x=10,y=50)
+
+RevCarScrolledTxt = tkscrolled.ScrolledText(C_main, height=10, width=45)
+RevCarScrolledTxt.place(x=400,y=50)
+ 
+L_Titulo = Label(C_main,text="Mensaje:",font=('Agency FB',14),bg='white',fg='blue')
+L_Titulo.place(x=100,y=250)
+
+E_Command = Entry(C_main,width=30,font=('Agency FB',14))
+E_Command.place(x=200,y=250)
+
+L_Titulo = Label(C_main,text="ID mensaje:",font=('Agency FB',14),bg='white',fg='blue')
+L_Titulo.place(x=100,y=300)
+
+E_read = Entry(C_main,width=30,font=('Agency FB',14))
+E_read.place(x=200,y=300)"""

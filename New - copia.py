@@ -77,6 +77,7 @@ def main_window():
         Main_BG.config(image=BG)
         Main_BG.lower()
         time.sleep(3)
+        Loading = False
         Main_BG.destroy()
 
         BG2 = loadImg("14.1.png")
@@ -165,47 +166,7 @@ def main_window():
        Game_Background.place(x=0, y=0)
        Game_Background.config(image=Background)
        Game_Background.lower()
-
-       def drive_car():
-           test.withdraw()
-           car=Toplevel()
-           car.title("Driving Test")
-           car.minsize(1200, 675)
-           car.resizable(width=NO, height=NO)
-
-           C_car = Canvas(car, width=1200, height=675, bg="white")
-           C_car.place(x=0, y=0)
-
-           def intro():
-               BG = loadImg("FE.1.png")
-               Intro_BG = Label (car, bg="white")
-               Intro_BG.place(x=0, y=0)
-               Intro_BG.config(image=BG)
-               time.sleep(3)
-               Intro_BG.destroy()
-               
-               BG3 = loadImg("23.1.png")
-               Car_Background = Label(C_car, bg="white")
-               Car_Background.place(x=0, y=0)
-               Car_Background.config(image=BG3)
-               Car_Background.lower()
-               time.sleep(10000)
-
-           p=Thread(target=intro,args=()).start()
-
-           def back():
-               car.destroy()
-               test.deiconify()
-
-           Btn_back = Button(car, text="Back", command=back, bg="#cb3234", fg="white")
-           Btn_back.place(x=50, y=50)
-
-           L_Escuderia = Label(C_car,
-
-           main.mainloop()
-
-            
-           
+       
        #Creando el cliente para NodeMCU
        myCar = NodeMCU()
        myCar.start()
@@ -337,7 +298,7 @@ def main_window():
        Btn_back.place(x=10,y=10)
 
        Start=loadImg("S1.1.png")
-       Btn_start = Button(C_test,command=drive_car, fg="black", bg="light blue")
+       Btn_start = Button(C_test,command=test_drive,fg="black",bg="light blue")
        Btn_start.place(x=380,y=555)
        Btn_start.config(image=Start)
 
