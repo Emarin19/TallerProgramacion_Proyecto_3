@@ -30,6 +30,7 @@ import threading                    #
 import winsound                     # Playsound
 import os                           # ruta = os.path.join('')
 import time                         # time.sleep(x)
+#import tkinter.scrolledtext as tkscrolled
 
 #Biblioteca para el Carro
 from WiFiClient import NodeMCU
@@ -43,11 +44,10 @@ def loadImg(name):
 
 #Variables globales
 #Manejo del carro
-global Forward, Back, Left, Right, Lfront, Lback, Lleft, Lright
+global Forward, Back, Lfront, Lback, Lleft, Lright, F_arrow, B_arrow, L_arrow, R_arrow, Front_img, Back_img, Left_img, Right_img,Stoped, PWM
 Forward = 700
 Back = -700
-Left = False
-Right = False
+PWM = 0
 Lfront = False
 Lback = False
 Lleft = False
@@ -176,6 +176,77 @@ def main_window():
            C_car = Canvas(car, width=1200, height=675, bg="white")
            C_car.place(x=0, y=0)
 
+           global Front_img
+           Front = loadImg("F.1.png")
+           Front_img = Label(C_car)
+           Front_img.place(x=-100, y=50)
+           Front_img.config(image=Front)
+           
+           global Back_img
+           Back2 = loadImg("B.1.png")
+           Back_img = Label(C_car, bg="red")
+           Back_img.place(x=-100, y=50)
+           Back_img.config(image=Back2)
+
+           global Left_img
+           Left = loadImg("D.1.png")
+           Left_img = Label(C_car, bg="yellow")
+           Left_img.place(x=-100, y=50)
+           Left_img.config(image=Left)
+
+           global Right_img
+           Right = loadImg("D.1.png")
+           Right_img = Label(C_car, bg="yellow")
+           Right_img.place(x=-100, y=50)
+           Right_img.config(image=Right)
+
+           global F_arrow
+           FA = loadImg("FA.1E2.png")
+           F_arrow = Label(C_car)
+           F_arrow.place(x=-250, y=80)
+           F_arrow.config(image=FA)
+
+           global B_arrow
+           FB = loadImg("FB.1E2.png")
+           B_arrow = Label(C_car)
+           B_arrow.place(x=-250, y=240)
+           B_arrow.config(image=FB)
+
+           global L_arrow
+           FL = loadImg("FI.1E2.png")
+           L_arrow = Label(C_car)
+           L_arrow.place(x=-140, y=185)
+           L_arrow.config(image=FL)
+
+           global R_arrow
+           FR = loadImg("FD.1E2.png")
+           R_arrow = Label(C_car)
+           R_arrow.place(x=-310, y=185)
+           R_arrow.config(image=FR)
+
+           global Stoped
+           St = loadImg("S.1E2.png")
+           Stoped = Label(C_car)
+           Stoped.place(x=-255, y=190)
+           Stoped.config(image=St)
+           
+           L_PWM = Label(C_car, text="PWM", font=("Agency",22), bg="#2cb1a9", fg="white")
+           L_PWM.place(x=560, y=400)
+
+           global L_PWM_aux
+           L_PWM_aux = Label(C_car, text=str(PWM), font=("Agency",18), bg="#2cb1a9", fg="white")
+           L_PWM_aux.place(x=592, y=462)
+
+           L_Escuderia = Label(C_car, text="Escuderia", font=("Agency",16), bg="#2cb1a9", fg="white")
+           L_Escuderia.place(x=10, y=250)
+
+           L_Name = Label(C_car, text="Emanuel", font=("Agency",22), bg="#2cb1a9", fg="white" )
+           L_Name.place(x=1050, y=5)
+
+           L_Nacionality = Label(C_car, text="Costarricense", font=("Agency",22), bg="#2cb1a9", fg="white")
+           L_Nacionality.place(x=1000, y=45)
+           
+
            def intro():
                BG = loadImg("FE.1.png")
                Intro_BG = Label (car, bg="white")
@@ -184,150 +255,183 @@ def main_window():
                time.sleep(3)
                Intro_BG.destroy()
                
-               BG3 = loadImg("23.1.png")
+               BG3 = loadImg("23.1E.png")
                Car_Background = Label(C_car, bg="white")
                Car_Background.place(x=0, y=0)
                Car_Background.config(image=BG3)
                Car_Background.lower()
                time.sleep(10000)
 
-           p=Thread(target=intro,args=()).start()
+           #Creando el cliente para NodeMCU
+           myCar = NodeMCU()
+           myCar.start()
+
+           def get_log():
+               #Hilo que actualiza los Text cada vez que se agrega un nuevo mensaje al log de myCar
+               indice = 0
+               while(myCar.loop):
+                   while(indice < len(myCar.log)):
+                       mnsSend = "[{0}] cmd: {1}\n".format(indice,myCar.log[indice][0])
+                       #SentCarScrolledTxt.insert(END,mnsSend)
+                       #SentCarScrolledTxt.see("end")
+
+                       mnsRecv = "[{0}] result: {1}\n".format(indice,myCar.log[indice][1])
+                       #RevCarScrolledTxt.insert(END, mnsRecv)
+                       #RevCarScrolledTxt.see('end')
+
+                       indice+=1
+                   time.sleep(0.200)
+                   
+           def lights(event):
+               global Lfront, Lback, Lleft, Lright, Front_img, Back_img, Left_img, Right_img
+               if event.char == "f":
+                   if Lfront == False:
+                       Front_img.place(x=880, y=200)
+                       mns="lf:1;"
+                       myCar.send(mns)
+                       Lfront = True
+                   else:
+                       Front_img.place(x=-880, y=200)
+                       mns="lf:0;"
+                       myCar.send(mns)
+                       Lfront = False
+                    
+               if event.char == "b":
+                   if Lback == False:
+                       Back_img.place(x=940, y=200)
+                       mns = "lb:1;"
+                       myCar.send(mns)
+                       Lback = True
+                   else:
+                       Back_img.place(x=-940, y=200)
+                       mns = "lb:0;"
+                       myCar.send(mns)
+                       Lback = False
+
+               if event.char == "l":
+                   if Lleft == False:
+                       Left_img.place(x=820, y=200)
+                       mns = "ll:1;"
+                       myCar.send(mns)
+                       Lleft = True
+                   else:
+                       Left_img.place(x=-820, y=200)
+                       mns = "ll:0;"
+                       myCar.send(mns)
+                       Lleft = False
+
+               if event.char == "r":
+                   if Lright == False:
+                       Right_img.place(x=1000, y=200)
+                       mns = "lr:1;"
+                       myCar.send(mns)
+                       Lright = True
+                   else:
+                       Right_img.place(x=-1000, y=50)
+                       mns = "lr:0;"
+                       myCar.send(mns)
+                       Lright = False  
+               
+           def move_forward(event):
+               global Forward, Back, L_PWM_aux, F_arrow, B_arrow, Stoped
+               Back = -700
+               Stoped.place(x=-255, y=190)
+               B_arrow.place(x=-250, y=240)
+               F_arrow.place(x=250, y=80)
+               if Forward <1023:
+                   Forward+=1
+                   print(Forward)
+                   L_PWM_aux.config(text=str(Forward))
+                   mns = "pwm:" + str(Forward) + ";"
+                   myCar.send(mns)
+                   time.sleep(0.01)
+               else:
+                   Forward = 1023
+                   print(Forward)
+                   mns = "pwm:" + str(Forward) + ";"
+                   myCar.send(mns)
+                   time.sleep(0.01)
+
+           def move_back(event):
+               global Forward, Back, L_PWM_aux, F_arrow, B_arrow, Stoped
+               Forward = 700
+               Stoped.place(x=-255, y=190)
+               F_arrow.place(x=-250, y=80)
+               B_arrow.place(x=250, y=240)
+               if Back>-1023:
+                   Back-=1
+                   print(Back)
+                   mns = "pwm:" + str(Back) + ";"
+                   myCar.send(mns)
+                   L_PWM_aux.config(text=str(Back))
+                   time.sleep(0.01)
+               else:
+                   Back = -1023
+                   print(Back)
+                   mns = "pwm:" + str(Back) + ";"
+                   myCar.send(mns)
+                   L_PWM_aux.config(text=str(Back))
+                   time.sleep(0.01)
+
+           def stop(event):
+               global Forward, Back, L_PWM_aux, F_arrow, B_arrow, Stoped
+               Forward = 700
+               Back = -700
+               velocidad = 0
+               F_arrow.place(x=-250, y=80)
+               B_arrow.place(x=-250, y=240)
+               Stoped.place(x=255, y=190)
+               mns = "pwm:" + str(velocidad) + ";"
+               myCar.send(mns)
+               L_PWM_aux.config(text=str(velocidad))
+
+           def move_left(event):
+               global L_arrow, R_arrow
+               R_arrow.place(x=-310, y=185)
+               L_arrow.place(x=140, y=185)
+               mns = "dir:-1;"
+               myCar.send(mns)
+	        
+           def move_right(event):
+               global L_arror, R_arrow
+               global L_arrow, R_arrow
+               L_arrow.place(x=-250, y=80)
+               R_arrow.place(x=310, y=185)
+               mns = "dir:1;"
+               myCar.send(mns)
+
+           def move_direct(event):
+               mns = "dir:0;"
+               myCar.send(mns)
+
+           def send (event):
+               mns = str(E_Command.get())
+               if(len(mns)>0 and mns[-1] == ";"):
+                   E_Command.delete(0, 'end')
+                   myCar.send(mns)
+               else:
+                   messagebox.showwarning("Error del mensaje", "Mensaje sin caracter de finalización (';')")
 
            def back():
                car.destroy()
                test.deiconify()
 
-           Btn_back = Button(car, text="Back", command=back, bg="#cb3234", fg="white")
-           Btn_back.place(x=50, y=50)
+           Btn_back = Button(car, text="ATRAS", command=back, bg="#cb3234", fg="white")
+           Btn_back.place(x=0, y=0)
 
-           L_Escuderia = Label(C_car,
+           car.bind("<Up>", move_forward)
+           car.bind("<Down>", move_back)
+           car.bind("p", stop)
+           car.bind("<Left>", move_left)
+           car.bind("<Right>", move_right)
+           car.bind("d", move_direct)
+           car.bind("<Key>",lights)
 
+           p=Thread(target=intro,args=()).start()
+           p = Thread(target=get_log).start()
            main.mainloop()
 
-            
-           
-       #Creando el cliente para NodeMCU
-       myCar = NodeMCU()
-       myCar.start()
-
-       def get_log():
-           #Hilo que actualiza los Text cada vez que se agrega un nuevo mensaje al log de myCar
-           indice = 0
-           while(myCar.loop):
-               while(indice < len(myCar.log)):
-                   mnsSend = "[{0}] cmd: {1}\n".format(indice,myCar.log[indice][0])
-                   SentCarScrolledTxt.insert(END,mnsSend)
-                   SentCarScrolledTxt.see("end")
-
-                   mnsRecv = "[{0}] result: {1}\n".format(indice,myCar.log[indice][1])
-                   RevCarScrolledTxt.insert(END, mnsRecv)
-                   RevCarScrolledTxt.see('end')
-
-                   indice+=1
-               time.sleep(0.200)
-
-       def lights(event):
-           global Lfront, Lback, Lleft, Lright
-           if event.char == "f":
-               if Lfront == False:
-                   mns="lf:1;"
-                   myCar.send(mns)
-                   Lfront = True
-               else:
-                   mns="lf:0;"
-                   myCar.send(mns)
-                   Lfront = False
-                    
-           if event.char == "b":
-               if Lback == False:
-                   mns = "lb:1;"
-                   myCar.send(mns)
-                   Lback = True
-               else:
-                   mns = "lb:0;"
-                   myCar.send(mns)
-                   Lback = False
-
-           if event.char == "l":
-               if Lleft == False:
-                   mns = "ll:1;"
-                   myCar.send(mns)
-                   Lleft = True
-               else:
-                   mns = "ll:0;"
-                   myCar.send(mns)
-                   Lleft = False
-
-           if event.char == "r":
-               if Lright == False:
-                   mns = "lr:1;"
-                   myCar.send(mns)
-                   Lright = True
-               else:
-                   mns = "lr:0;"
-                   myCar.send(mns)
-                   Lright = False
-
-       def move_forward(event):
-           global Forward, Back
-           Back = -700
-           if Forward <1023:
-               Forward+=1
-               print(Forward)
-               mns = "pwm:" + str(Forward) + ";"
-               myCar.send(mns)
-               time.sleep(0.01)
-           else:
-               Forward = 1023
-               print(Forward)
-               mns = "pwm:" + str(Forward) + ";"
-               myCar.send(mns)
-               time.sleep(0.01)
- 
-       def move_back(event):
-           global Forward, Back
-           Forward = 700
-           if Back>-1023:
-               Back-=1
-               print(Back)
-               mns = "pwm:" + str(Back) + ";"
-               myCar.send(mns)
-               time.sleep(0.01)
-
-           else:
-               Back = -1023
-               print(Back)
-               mns = "pwm:" + str(Back) + ";"
-               myCar.send(mns)
-               time.sleep(0.01)
-            
-       def stop(event):
-           global Forward, Back
-           Forward = 700
-           Back = -700
-           velocidad = 0
-           mns = "pwm:" + str(velocidad) + ";"
-           myCar.send(mns)
-
-       def move_left(event):
-           mns = "dir:-1;"
-           myCar.send(mns)
-	        
-       def move_right(event):
-           mns = "dir:1;"
-           myCar.send(mns)
-
-       def move_direct(event):
-           mns = "dir:0;"
-           myCar.send(mns)
-
-       def send (event):
-           mns = str(E_Command.get())
-           if(len(mns)>0 and mns[-1] == ";"):
-               E_Command.delete(0, 'end')
-               myCar.send(mns)
-           else:
-               messagebox.showwarning("Error del mensaje", "Mensaje sin caracter de finalización (';')")
+       
 
        def back():
            test.destroy()
@@ -341,15 +445,7 @@ def main_window():
        Btn_start.place(x=380,y=555)
        Btn_start.config(image=Start)
 
-       test.bind("<Up>", move_forward)
-       test.bind("<Down>", move_back)
-       test.bind("p", stop)
-       test.bind("<Left>", move_left)
-       test.bind("<Right>", move_right)
-       test.bind("d", move_direct)
-       test.bind("<Key>",lights)
-
-       p = Thread(target=get_log).start()
+       #p = Thread(target=get_log).start()
        main.mainloop()
 
 	    
