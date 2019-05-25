@@ -30,7 +30,6 @@ import threading                    #
 import winsound                     # Playsound
 import os                           # ruta = os.path.join('')
 import time                         # time.sleep(x)
-#import tkinter.scrolledtext as tkscrolled
 
 #Biblioteca para el Carro
 from WiFiClient import NodeMCU
@@ -69,14 +68,17 @@ def main_window():
     #Canvas de la ventana principal
     C_main=Canvas(main, width=1200,height=675,bg="white")
     C_main.place(x=0,y=0)
-
+    
     def intro():
-        BG = loadImg("FE.1.png")
+        p=Thread(target=song_intro,args=()).start()
+        p=Thread(target=move_logo,args=()).start()
+        BG = loadImg("FE.1E.png")
         Main_BG = Label(C_main, bg="white")
         Main_BG.place(x=0, y=0)
         Main_BG.config(image=BG)
         Main_BG.lower()
-        time.sleep(3)
+        time.sleep(2.7)
+        Logo.destroy()
         Main_BG.destroy()
 
         BG2 = loadImg("14.1.png")
@@ -85,6 +87,43 @@ def main_window():
         Main_BG2.config(image=BG2)
         Main_BG2.lower()
         time.sleep(1000000)
+
+    def song_intro():
+        winsound.PlaySound("Intro", winsound.SND_ASYNC)
+
+    def move_logo():
+        global Logo
+        BGL = loadImg("FE.1E2.png")
+        Logo = Label(C_main, bg="white")
+        Logo.place(x=-1100, y=241)
+        Logo.config(image=BGL)
+        Logo.lower
+        x=-1100
+        y=241
+        return move_logo_aux(Logo,x,y)
+
+    def move_logo_aux(Logo,x,y):
+        try:
+            while x<=60 and y==y:
+                if x!=20:
+                    print (x)
+                    Logo.place(x=x,y=y)
+                    x=x+20
+                    y=y
+                    time.sleep(0.001)
+                else:
+                    Logo.place(x=-10, y=y)
+                    time.sleep(0.0001)
+                
+            Logo.place(x=x, y=y)
+
+        except:
+            pass
+        
+
+        
+        
+
 
     """def loading():
         style = ttk.Style()
@@ -431,8 +470,6 @@ def main_window():
            p = Thread(target=get_log).start()
            main.mainloop()
 
-       
-
        def back():
            test.destroy()
            main.deiconify()
@@ -444,11 +481,8 @@ def main_window():
        Btn_start = Button(C_test,command=drive_car, fg="black", bg="light blue")
        Btn_start.place(x=380,y=555)
        Btn_start.config(image=Start)
-
-       #p = Thread(target=get_log).start()
-       main.mainloop()
-
-	    
+       
+       main.mainloop()    
     
     #           ____________________________
     #__________/BOTONES VENTANA PRINCIPAL
