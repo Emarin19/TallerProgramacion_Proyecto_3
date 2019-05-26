@@ -1,1 +1,10 @@
-posición, nombre, edad, nacionalidad, temporada, cantidad de competencias, RGP y REP.
+2019A.png   Enrique Segoviano Porras     30     costarricense    2019       1000             100 100
+2019B.png   Enrique Segoviano Porras     30     costarricense    2019       1000             100 100
+2017A.png   Enrique Segoviano Porras     30     costarricense    2019       1000             100 100
+2017B.png   Enrique Segoviano Porras     30     costarricense    2019       1000             100 100
+2016A.png   Enrique Segoviano Porras     30     costarricense    2019       1000             100 100
+2016B.png   Enrique Segoviano Porras     30     costarricense    2019       1000             120 100
+2015A.png   Enrique Segoviano Porras     30     costarricense    2019       1000             550 100
+2015B.png   Enrique Segoviano Porras     30     costarricense    2019       1000             600 100
+2018A.png   Enrique Segoviano Porras     30     costarricense    2019       1000             100 150
+2018B.png   Enrique Segoviano Porras     30     costarricense    2019       1000             100 200

@@ -1,0 +1,13 @@
+1   Enrique Segoviano Porras     30 costarricense 2019 1000 100 100
+2   Enrique Segoviano Porras     30 costarricense 2019 1000 100 150
+3   Enrique Segoviano Porras     30 costarricense 2019 1000 550 100
+4   Enrique Segoviano Porras     30 costarricense 2019 1000 100 100
+5   Enrique Segoviano Porras     30 costarricense 2019 1000 120 100
+6   Enrique Segoviano Porras     30 costarricense 2019 1000 600 100
+7   Enrique Segoviano Porras     30 costarricense 2019 1000 100 100
+8   Enrique Segoviano Porras     30 costarricense 2019 1000 100 200
+9   Enrique Segoviano Porras     30 costarricense 2019 1000 100 100
+10  Enrique Segoviano Porras     30 costarricense 2019 1000 100 100
+
+2345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
+posición, nombre, edad, nacionalidad, temporada, cantidad de competencias, RGP y REP.
