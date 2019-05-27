@@ -216,15 +216,15 @@ def positions_table():
     lista_autos = arch_autos.readlines()
 #Imágenes a usar
     Piloto1 = loadImg(lista_pilotos[0][:9])
-    #Piloto2 = loadImg(lista_pilotos[1][:9])
-    #Piloto3 = loadImg(lista_pilotos[2][:9])
-    #Piloto4 = loadImg(lista_pilotos[3][:9])
-    #Piloto5 = loadImg(lista_pilotos[4][:9])
-    #Piloto6 = loadImg(lista_pilotos[5][:9])
-    #Piloto7 = loadImg(lista_pilotos[6][:9])
-    #Piloto8 = loadImg(lista_pilotos[7][:9])
-    #Piloto9 = loadImg(lista_pilotos[8][:9])
-    #Piloto10 = loadImg(lista_pilotos[9][:9])
+    Piloto2 = loadImg(lista_pilotos[1][:9])
+    Piloto3 = loadImg(lista_pilotos[2][:9])
+    Piloto4 = loadImg(lista_pilotos[3][:9])
+    Piloto5 = loadImg(lista_pilotos[4][:9])
+    Piloto6 = loadImg(lista_pilotos[5][:9])
+    Piloto7 = loadImg(lista_pilotos[6][:9])
+    Piloto8 = loadImg(lista_pilotos[7][:9])
+    Piloto9 = loadImg(lista_pilotos[8][:9])
+    Piloto10 = loadImg(lista_pilotos[9][:9])
 
     Auto1 = loadImg(lista_autos[0][:8])
     Auto2 = loadImg(lista_autos[1][:8])
@@ -232,8 +232,8 @@ def positions_table():
     Auto4 = loadImg(lista_autos[3][:8])
     Auto5 = loadImg(lista_autos[4][:8])
     Auto6 = loadImg(lista_autos[5][:8])
-    #Auto7 = loadImg(lista_autos[6][:8])
-    #Auto8 = loadImg(lista_autos[7][:8])
+    Auto7 = loadImg(lista_autos[6][:8])
+    Auto8 = loadImg(lista_autos[7][:8])
     Auto9 = loadImg(lista_autos[8][:8])
     Auto10 = loadImg(lista_autos[9][:8])
 
@@ -249,62 +249,62 @@ def positions_table():
     C_positionsP.create_image(65,55,image=Piloto1, anchor=NW,state=NORMAL)
     
     C_positionsP.create_text(105,130,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_pilotos[1][9:])
-    #C_positionsP.create_image(65,105,image=Piloto2, anchor=NW,state=NORMAL)
+    C_positionsP.create_image(65,105,image=Piloto2, anchor=NW,state=NORMAL)
 
     C_positionsP.create_text(105,180,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_pilotos[2][9:])
-    #C_positionsP.create_image(65,159,image=Piloto3, anchor=NW,state=NORMAL)
+    C_positionsP.create_image(65,159,image=Piloto3, anchor=NW,state=NORMAL)
 
     C_positionsP.create_text(105,235,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_pilotos[3][9:])
-    #C_positionsP.create_image(65,212,image=Piloto4, anchor=NW,state=NORMAL)
+    C_positionsP.create_image(65,212,image=Piloto4, anchor=NW,state=NORMAL)
 
     C_positionsP.create_text(105,287,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_pilotos[4][9:])
-    #C_positionsP.create_image(65,265,image=Piloto5, anchor=NW,state=NORMAL)
+    C_positionsP.create_image(65,265,image=Piloto5, anchor=NW,state=NORMAL)
 
     C_positionsP.create_text(105,342,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_pilotos[5][9:])
-    #C_positionsP.create_image(65,317,image=Piloto6, anchor=NW,state=NORMAL)
+    C_positionsP.create_image(65,317,image=Piloto6, anchor=NW,state=NORMAL)
 
     C_positionsP.create_text(105,394,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_pilotos[6][9:])
-    #C_positionsP.create_image(65,368,image=Piloto7, anchor=NW,state=NORMAL)
+    C_positionsP.create_image(65,368,image=Piloto7, anchor=NW,state=NORMAL)
 
     C_positionsP.create_text(105,444,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_pilotos[7][9:])
-    #C_positionsP.create_image(65,422,image=Piloto8, anchor=NW,state=NORMAL)
+    C_positionsP.create_image(65,422,image=Piloto8, anchor=NW,state=NORMAL)
 
     C_positionsP.create_text(105,499,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_pilotos[8][9:])
-    #C_positionsP.create_image(65,475,image=Piloto9, anchor=NW,state=NORMAL)
+    C_positionsP.create_image(65,475,image=Piloto9, anchor=NW,state=NORMAL)
     
     C_positionsP.create_text(105,555,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_pilotos[9][9:])
-    #C_positionsP.create_image(65,527,image=Piloto10, anchor=NW,state=NORMAL)
+    C_positionsP.create_image(65,527,image=Piloto10, anchor=NW,state=NORMAL)
 
 #Labels de Autos    
     C_positionsA.create_text(180,80,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_autos[0][8:])
-    #C_positionsA.create_image(65,55,image=Auto1, anchor=NW,state=NORMAL)
+    C_positionsA.create_image(65,65,image=Auto1, anchor=NW,state=NORMAL)
     
     C_positionsA.create_text(180,130,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_autos[1][8:])
-    #C_positionsA.create_image(65,105,image=Auto2, anchor=NW,state=NORMAL)
+    C_positionsA.create_image(65,115,image=Auto2, anchor=NW,state=NORMAL)
 
     C_positionsA.create_text(180,185,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_autos[2][8:])
-    #C_positionsA.create_image(65,159,image=Auto3, anchor=NW,state=NORMAL)
+    C_positionsA.create_image(65,169,image=Auto3, anchor=NW,state=NORMAL)
 
     C_positionsA.create_text(180,235,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_autos[3][8:])
-    #C_positionsA.create_image(65,212,image=Auto4, anchor=NW,state=NORMAL)
+    C_positionsA.create_image(65,227,image=Auto4, anchor=NW,state=NORMAL)
 
     C_positionsA.create_text(180,287,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_autos[4][8:])
-    #C_positionsA.create_image(65,265,image=Auto5, anchor=NW,state=NORMAL)
+    C_positionsA.create_image(65,280,image=Auto5, anchor=NW,state=NORMAL)
 
     C_positionsA.create_text(180,342,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_autos[5][8:])
-    #C_positionsA.create_image(65,317,image=Auto6, anchor=NW,state=NORMAL)
+    C_positionsA.create_image(65,337,image=Auto6, anchor=NW,state=NORMAL)
     
     C_positionsA.create_text(180,394,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_autos[6][8:])
-    #C_positionsA.create_image(65,368,image=Auto7, anchor=NW,state=NORMAL)
+    C_positionsA.create_image(65,383,image=Auto7, anchor=NW,state=NORMAL)
 
     C_positionsA.create_text(180,444,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_autos[7][8:])
-    #C_positionsA.create_image(65,422,image=Auto8, anchor=NW,state=NORMAL)
+    C_positionsA.create_image(65,437,image=Auto8, anchor=NW,state=NORMAL)
     
     C_positionsA.create_text(180,499,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_autos[8][8:])
-    #C_positionsA.create_image(65,475,image=Auto9, anchor=NW,state=NORMAL)
+    C_positionsA.create_image(65,485,image=Auto9, anchor=NW,state=NORMAL)
     
     C_positionsA.create_text(180,555,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_autos[9][8:])
-    #C_positionsA.create_image(65,527,image=Auto10, anchor=NW,state=NORMAL)
+    C_positionsA.create_image(65,542,image=Auto10, anchor=NW,state=NORMAL)
 
     tab_control.pack(expand=1, fill='both')
 #Funciones de botones
@@ -313,28 +313,48 @@ def positions_table():
         main.deiconify()
         arch_autos.close()
         arch_pilotos.close()
-    def edit_textP():
+
+        
+    def edit_textP(y,Elegir):
         edit=Toplevel()
         edit.title("Edit")
         edit.minsize(650,100)
         edit.resizable(width=NO, height=NO)
         C_edit=Canvas(edit, width=650,height=650, bg='light blue')
         C_edit.place(x=0,y=0)
-        arch_pilotos = open("Tabla de posiciones Pilotos.txt","r+")
-        Lista = arch_pilotos.readlines()
+        Lista = 0
+        arch = 0
+        if Elegir == 0:
+            arch = open("Tabla de posiciones Autos.txt","r+")
+            Lista = arch.readlines()
+        if Elegir == 1:    
+            arch = open("Tabla de posiciones Pilotos.txt","r+")
+            Lista = arch.readlines()
         E_edit = Entry(C_edit,text="hola",width=100,font=("Agency FB",14))
-        E_edit.insert(END,Lista[0][10:]) #This works
+        def mod_entry(y,i,n):
+            if y == 75:
+                E_edit.insert(END,Lista[0][10:]) #This works
+            if y == n:
+                print(y)
+                print(i)
+                print(n)
+                E_edit.insert(END,Lista[i][10:])
+            else:
+                return mod_entry(y,i+1,n+55)
+        mod_entry(y,1,125)
         E_edit.place(x=0,y=50)
         AEscribir = str(E_edit.get())
-        #lista_pilotos = arch_pilotos.readlines()
-        #if y == 50:
-            #arch_pilotos.seek(0)
-            #arch_pilotos.write(AEscribir)
-            #arch_pilotos.close()
         def cambiar():
-            arch_pilotos = open("Tabla de posiciones Pilotos.txt","r+")
+            #arch[0].insert(AEscribir)
+            print(AEscribir)
+            E_edit.delete(0, END)
+            arch.close()
             edit.destroy()
-            arch_pilotos.close()
+        def disable_event():
+            E_edit.delete(0, END)
+            arch.close()
+            edit.destroy()
+        edit.protocol("WM_DELETE_WINDOW", disable_event)
         Btn_back = Button(edit, text="Confirmar cambio", command=cambiar, bg="light blue", fg='black')
         Btn_back.place(x=530,y=100)
 
@@ -500,7 +520,7 @@ def positions_table():
         
 #Botones de la ventana
     Btn_back = Button(positions, text="Back", command=back, bg="light blue", fg='black')
-    Btn_back.place(x=750,y=592)    
+    Btn_back.place(x=750,y=615)    
 #Botones pestaña pilotos
     Btn_Descendente =Button(tab1, text="Descendente REP", command=descendenteP_REP, bg="light blue", fg='black')
     Btn_Descendente.place(x=270,y=592)
@@ -515,18 +535,72 @@ def positions_table():
     Btn_Ascendente.place(x=600,y=592)
     
     #Botones de edición de texto
-    Btn_Edit =Button(tab1, text="Edit", command=edit_textP, bg="light blue", fg='black')
+    Btn_Edit =Button(tab1, text="Edit", command=lambda: edit_textP(75,1), bg="light blue", fg='black')
     Btn_Edit.place(x=750,y=75)
+    
+    Btn_Edit =Button(tab1, text="Edit", command= lambda: edit_textP(125,1), bg="light blue", fg='black')
+    Btn_Edit.place(x=750,y=125)
 
-    Btn_Edit =Button(tab1, text="Edit", command=edit_textP, bg="light blue", fg='black')
-    Btn_Edit.place(x=750,y=130)
+    Btn_Edit =Button(tab1, text="Edit", command=lambda: edit_textP(180,1), bg="light blue", fg='black')
+    Btn_Edit.place(x=750,y=180)
 
+    Btn_Edit =Button(tab1, text="Edit", command=lambda: edit_textP(235,1), bg="light blue", fg='black')
+    Btn_Edit.place(x=750,y=235)
+    
+    Btn_Edit =Button(tab1, text="Edit", command=lambda: edit_textP(290,1), bg="light blue", fg='black')
+    Btn_Edit.place(x=750,y=290)
+    
+    Btn_Edit =Button(tab1, text="Edit", command=lambda: edit_textP(345,1), bg="light blue", fg='black')
+    Btn_Edit.place(x=750,y=345)
+
+    Btn_Edit =Button(tab1, text="Edit", command=lambda: edit_textP(400,1), bg="light blue", fg='black')
+    Btn_Edit.place(x=750,y=400)
+
+    Btn_Edit =Button(tab1, text="Edit", command=lambda: edit_textP(455,1), bg="light blue", fg='black')
+    Btn_Edit.place(x=750,y=455)
+
+    Btn_Edit =Button(tab1, text="Edit", command=lambda: edit_textP(510,1), bg="light blue", fg='black')
+    Btn_Edit.place(x=750,y=510)
+
+    Btn_Edit =Button(tab1, text="Edit", command=lambda: edit_textP(565,1), bg="light blue", fg='black')
+    Btn_Edit.place(x=750,y=565)
+    
 #Botones pestaña autos
     Btn_DescendenteA =Button(tab2, text="Descendente", command=descendenteA, bg="light blue", fg='black')
     Btn_DescendenteA.place(x=500,y=587)
     
     Btn_AscendenteA =Button(tab2, text="Ascendente", command=ascendenteA, bg="light blue", fg='black')
     Btn_AscendenteA.place(x=600,y=587)
+
+    Btn_Edit =Button(tab2, text="Edit", command=lambda: edit_textP(75,0), bg="light blue", fg='black')
+    Btn_Edit.place(x=750,y=75)
+    
+    Btn_Edit =Button(tab2, text="Edit", command= lambda: edit_textP(125,0), bg="light blue", fg='black')
+    Btn_Edit.place(x=750,y=125)
+
+    Btn_Edit =Button(tab2, text="Edit", command=lambda: edit_textP(180,0), bg="light blue", fg='black')
+    Btn_Edit.place(x=750,y=180)
+
+    Btn_Edit =Button(tab2, text="Edit", command=lambda: edit_textP(235,0), bg="light blue", fg='black')
+    Btn_Edit.place(x=750,y=235)
+    
+    Btn_Edit =Button(tab2, text="Edit", command=lambda: edit_textP(290,0), bg="light blue", fg='black')
+    Btn_Edit.place(x=750,y=290)
+    
+    Btn_Edit =Button(tab2, text="Edit", command=lambda: edit_textP(345,0), bg="light blue", fg='black')
+    Btn_Edit.place(x=750,y=345)
+
+    Btn_Edit =Button(tab2, text="Edit", command=lambda: edit_textP(400,0), bg="light blue", fg='black')
+    Btn_Edit.place(x=750,y=400)
+
+    Btn_Edit =Button(tab2, text="Edit", command=lambda: edit_textP(455,0), bg="light blue", fg='black')
+    Btn_Edit.place(x=750,y=455)
+
+    Btn_Edit =Button(tab2, text="Edit", command=lambda: edit_textP(510,0), bg="light blue", fg='black')
+    Btn_Edit.place(x=750,y=510)
+
+    Btn_Edit =Button(tab2, text="Edit", command=lambda: edit_textP(565,0), bg="light blue", fg='black')
+    Btn_Edit.place(x=750,y=565)
     
     main.mainloop()
 
