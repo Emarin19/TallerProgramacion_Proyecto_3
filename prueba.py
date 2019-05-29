@@ -22,7 +22,7 @@ def edad_aux(String,i,n,ContA,ContB):
         b = Num[key]
         if a == b:
             ContA = ContA+n
-            ContB = nombres_aux(String,ContA+3,ContA+3,0)
+            ContB = nombres_aux(String,ContA+4,ContA+4,0)
             ContC = año(String,ContB,ContB,0)
             return [ContA,ContB,ContC]
         else:
