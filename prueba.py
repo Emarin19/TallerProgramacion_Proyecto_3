@@ -47,3 +47,18 @@ def año(String,i,n,Cont):
 Validar que haya un " " entre la tempoarda y las competencias
 Validad que Competencias, REP, RGP sean los últimos n caracteres
 """
+def edad_a(String):
+    return edad_a_aux(String,9,9,0,0)
+def edad_a_aux(String,i,n,ContA,ContB):
+    for key in Num:
+        a = String[i]
+        b = Num[key]
+        if a == b:
+            ContA = ContA+n
+            ContB = nombres_aux(String,ContA+4,ContA+4,0)
+            return [ContA,ContB]
+        else:
+            pass
+    i += 1
+    ContA += 1
+    return edad_a_aux(String,i,n,ContA,ContB)

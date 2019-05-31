@@ -248,99 +248,51 @@ def positions_table():
     C_positionsA.create_image(0,0,image=Fondo_Autos, anchor=NW,state=NORMAL)
 
 #Imágenes y textos de pilotos
-    C_positionsP.create_text(120,80,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_pilotos[0][9:nombres(lista_pilotos[0])]) #Nombre piloto
-    C_positionsP.create_text(405,80,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_pilotos[0][edad(lista_pilotos[0])[0]:edad(lista_pilotos[0])[1]]) #Edad y nacionalidad
-    C_positionsP.create_text(528,80,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_pilotos[0][edad(lista_pilotos[0])[1]:edad(lista_pilotos[0])[2]]) #Temporada
-    C_positionsP.create_text(632,80,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_pilotos[0][-19:]) #Últimos tres datos
-    C_positionsP.create_image(65,55,image=Piloto1, anchor=NW,state=NORMAL)
+    def carg_pilotos():
+        y = 75
+        for i in range(0,10):
+            C_positionsP.create_text(120,y,font=("Arial", 10, "bold"), anchor=NW,tags=("pilot"),fill="white", text=lista_pilotos[i][10:nombres(lista_pilotos[i])])
+            C_positionsP.create_text(405,y,font=("Arial", 10, "bold"), anchor=NW,tags=("pilot"),fill="white", text=lista_pilotos[i][edad(lista_pilotos[i])[0]:edad(lista_pilotos[i])[1]]) #Edad y nacionalidad
+            C_positionsP.create_text(528,y,font=("Arial", 10, "bold"), anchor=NW,tags=("pilot"),fill="white", text=lista_pilotos[i][edad(lista_pilotos[i])[1]:edad(lista_pilotos[i])[2]])
+            C_positionsP.create_text(592,y,font=("Arial", 10, "bold"), anchor=NW,tags=("pilot"),fill="white", text=lista_pilotos[i][edad(lista_pilotos[i])[2]:])
+            
+            y+=55
+            
+        C_positionsP.create_image(65,55,image=Piloto1, anchor=NW,tags=("pilot"),state=NORMAL)           
+        C_positionsP.create_image(65,105,image=Piloto2, anchor=NW,tags=("pilot"),state=NORMAL)
+        C_positionsP.create_image(65,159,image=Piloto3, anchor=NW,tags=("pilot"),state=NORMAL)
+        C_positionsP.create_image(65,212,image=Piloto4, anchor=NW,tags=("pilot"),state=NORMAL)
+        C_positionsP.create_image(65,265,image=Piloto5, anchor=NW,tags=("pilot"),state=NORMAL)
+        C_positionsP.create_image(65,317,image=Piloto6, anchor=NW,tags=("pilot"),state=NORMAL)
+        C_positionsP.create_image(65,368,image=Piloto7, anchor=NW,tags=("pilot"),state=NORMAL)
+        C_positionsP.create_image(65,422,image=Piloto8, anchor=NW,tags=("pilot"),state=NORMAL)
+        C_positionsP.create_image(65,475,image=Piloto9, anchor=NW,tags=("pilot"),state=NORMAL)    
+        C_positionsP.create_image(65,527,image=Piloto10, anchor=NW,tags=("pilot"),state=NORMAL)
+        
+    carg_pilotos()
 
-    
-    C_positionsP.create_text(120,130,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_pilotos[1][9:nombres(lista_pilotos[1])])
-    C_positionsP.create_text(405,130,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_pilotos[1][edad(lista_pilotos[1])[0]:edad(lista_pilotos[1])[1]]) #Edad y nacionalidad
-    C_positionsP.create_text(528,130,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_pilotos[1][edad(lista_pilotos[1])[1]:edad(lista_pilotos[1])[2]])
-    C_positionsP.create_text(632,130,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_pilotos[1][-19:])
-    C_positionsP.create_image(65,105,image=Piloto2, anchor=NW,state=NORMAL)
+#Labels de Autos
+    def carg_autos():
+        y = 75
+        for i in range(0,10):
+            C_positionsA.create_text(180,y,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_autos[i][8:nombres(lista_autos[i])])
+            C_positionsA.create_text(280,y,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_autos[i][edad_a(lista_autos[i])[0]:edad_a(lista_autos[i])[1]])
+            C_positionsA.create_text(500,y,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_autos[i][edad_a(lista_autos[i])[1]:])
 
-    C_positionsP.create_text(120,180,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_pilotos[2][9:nombres(lista_pilotos[2])])
-    C_positionsP.create_text(405,180,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_pilotos[2][edad(lista_pilotos[2])[0]:edad(lista_pilotos[2])[1]]) #Edad y nacionalidad
-    C_positionsP.create_text(528,180,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_pilotos[2][edad(lista_pilotos[2])[1]:edad(lista_pilotos[2])[2]])
-    C_positionsP.create_text(632,180,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_pilotos[2][-19:])
-    C_positionsP.create_image(65,159,image=Piloto3, anchor=NW,state=NORMAL)
-
-    C_positionsP.create_text(120,235,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_pilotos[3][9:nombres(lista_pilotos[3])])
-    C_positionsP.create_text(405,235,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_pilotos[3][edad(lista_pilotos[3])[0]:edad(lista_pilotos[3])[1]]) #Edad y nacionalidad
-    C_positionsP.create_text(528,235,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_pilotos[3][edad(lista_pilotos[3])[1]:edad(lista_pilotos[3])[2]])
-    C_positionsP.create_text(632,235,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_pilotos[3][-14:])
-    C_positionsP.create_image(65,212,image=Piloto4, anchor=NW,state=NORMAL)
-
-    C_positionsP.create_text(120,287,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_pilotos[4][9:nombres(lista_pilotos[4])])
-    C_positionsP.create_text(405,287,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_pilotos[4][edad(lista_pilotos[4])[0]:edad(lista_pilotos[4])[1]]) #Edad y nacionalidad
-    C_positionsP.create_text(528,287,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_pilotos[4][edad(lista_pilotos[4])[1]:edad(lista_pilotos[4])[2]])
-    C_positionsP.create_text(632,287,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_pilotos[4][-19:])
-    C_positionsP.create_image(65,265,image=Piloto5, anchor=NW,state=NORMAL)
-
-    C_positionsP.create_text(120,342,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_pilotos[5][9:nombres(lista_pilotos[5])])
-    C_positionsP.create_text(405,342,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_pilotos[5][edad(lista_pilotos[5])[0]:edad(lista_pilotos[5])[1]]) #Edad y nacionalidad
-    C_positionsP.create_text(528,342,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_pilotos[5][edad(lista_pilotos[5])[1]:edad(lista_pilotos[5])[2]])
-    C_positionsP.create_text(632,342,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_pilotos[5][-19:])
-    C_positionsP.create_image(65,317,image=Piloto6, anchor=NW,state=NORMAL)
-
-    C_positionsP.create_text(120,394,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_pilotos[6][9:nombres(lista_pilotos[6])])
-    C_positionsP.create_text(405,394,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_pilotos[6][edad(lista_pilotos[6])[0]:edad(lista_pilotos[6])[1]]) #Edad y nacionalidad
-    C_positionsP.create_text(528,394,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_pilotos[6][edad(lista_pilotos[6])[1]:edad(lista_pilotos[6])[2]])
-    C_positionsP.create_text(632,394,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_pilotos[6][-19:])
-    C_positionsP.create_image(65,368,image=Piloto7, anchor=NW,state=NORMAL)
-
-    C_positionsP.create_text(120,444,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_pilotos[7][9:nombres(lista_pilotos[7])])
-    C_positionsP.create_text(405,444,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_pilotos[7][edad(lista_pilotos[7])[0]:edad(lista_pilotos[7])[1]]) #Edad y nacionalidad
-    C_positionsP.create_text(528,444,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_pilotos[7][edad(lista_pilotos[7])[1]:edad(lista_pilotos[7])[2]])
-    C_positionsP.create_text(632,444,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_pilotos[7][-19:])
-    C_positionsP.create_image(65,422,image=Piloto8, anchor=NW,state=NORMAL)
-
-    C_positionsP.create_text(120,499,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_pilotos[8][9:nombres(lista_pilotos[8])])
-    C_positionsP.create_text(405,499,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_pilotos[8][edad(lista_pilotos[8])[0]:edad(lista_pilotos[8])[1]]) #Edad y nacionalidad
-    C_positionsP.create_text(528,499,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_pilotos[8][edad(lista_pilotos[8])[1]:edad(lista_pilotos[8])[2]])
-    C_positionsP.create_text(632,499,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_pilotos[8][-19:])
-    C_positionsP.create_image(65,475,image=Piloto9, anchor=NW,state=NORMAL)
-    
-    C_positionsP.create_text(120,555,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_pilotos[9][9:nombres(lista_pilotos[9])])
-    C_positionsP.create_text(405,555,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_pilotos[9][edad(lista_pilotos[9])[0]:edad(lista_pilotos[9])[1]]) #Edad y nacionalidad
-    C_positionsP.create_text(528,555,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_pilotos[9][edad(lista_pilotos[9])[1]:edad(lista_pilotos[9])[2]])
-    C_positionsP.create_text(632,555,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_pilotos[9][-19:])
-    C_positionsP.create_image(65,527,image=Piloto10, anchor=NW,state=NORMAL)
-
-#Labels de Autos    
-    C_positionsA.create_text(180,80,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_autos[0][8:nombres(lista_autos[0])])
-    #C_positionsA.create_text(270,80,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_autos[0][:edad(lista_pilotos[0])[1]])
-    C_positionsA.create_image(65,65,image=Auto1, anchor=NW,state=NORMAL)
-    
-    C_positionsA.create_text(180,130,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_autos[1][8:])
-    C_positionsA.create_image(65,115,image=Auto2, anchor=NW,state=NORMAL)
-
-    C_positionsA.create_text(180,185,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_autos[2][8:])
-    C_positionsA.create_image(65,169,image=Auto3, anchor=NW,state=NORMAL)
-
-    C_positionsA.create_text(180,235,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_autos[3][8:])
-    C_positionsA.create_image(65,227,image=Auto4, anchor=NW,state=NORMAL)
-
-    C_positionsA.create_text(180,287,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_autos[4][8:])
-    C_positionsA.create_image(65,280,image=Auto5, anchor=NW,state=NORMAL)
-
-    C_positionsA.create_text(180,342,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_autos[5][8:])
-    C_positionsA.create_image(65,337,image=Auto6, anchor=NW,state=NORMAL)
-    
-    C_positionsA.create_text(180,394,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_autos[6][8:])
-    C_positionsA.create_image(65,383,image=Auto7, anchor=NW,state=NORMAL)
-
-    C_positionsA.create_text(180,444,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_autos[7][8:])
-    C_positionsA.create_image(65,437,image=Auto8, anchor=NW,state=NORMAL)
-    
-    C_positionsA.create_text(180,499,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_autos[8][8:])
-    C_positionsA.create_image(65,485,image=Auto9, anchor=NW,state=NORMAL)
-    
-    C_positionsA.create_text(180,555,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_autos[9][8:])
-    C_positionsA.create_image(65,542,image=Auto10, anchor=NW,state=NORMAL)
-
+            y+=55
+            
+        C_positionsA.create_image(65,65,image=Auto1, anchor=NW,state=NORMAL)
+        C_positionsA.create_image(65,115,image=Auto2, anchor=NW,state=NORMAL)
+        C_positionsA.create_image(65,169,image=Auto3, anchor=NW,state=NORMAL)
+        C_positionsA.create_image(65,227,image=Auto4, anchor=NW,state=NORMAL)
+        C_positionsA.create_image(65,280,image=Auto5, anchor=NW,state=NORMAL)
+        C_positionsA.create_image(65,337,image=Auto6, anchor=NW,state=NORMAL)
+        C_positionsA.create_image(65,383,image=Auto7, anchor=NW,state=NORMAL)
+        C_positionsA.create_image(65,437,image=Auto8, anchor=NW,state=NORMAL)
+        C_positionsA.create_image(65,485,image=Auto9, anchor=NW,state=NORMAL)
+        C_positionsA.create_image(65,542,image=Auto10, anchor=NW,state=NORMAL)
+            
+    carg_autos()
     tab_control.pack(expand=1, fill='both')
 #Funciones de botones
     def back():
@@ -368,31 +320,43 @@ def positions_table():
             
         E_name = Entry(C_edit,text="hola",width=25,font=("Agency FB",14))
         E_name.place(x=0,y=50)
-        E_age = Entry(C_edit,text="texto",width=25,font=("Agency FB",14))
+        E_age = Entry(C_edit,text="texto",width=20,font=("Agency FB",14))
         E_age.place(x=210,y=50)
-        #E_temporada = Entry(C_edit,text="texto",width=15,font=("Agency FB",14))
-        #E_temporada.place(x=340,y=50)
+        E_rest = Entry(C_edit,width=15,font=("Agency FB",14))
+        E_rest.place(x=380,y=50)
         def mod_entry(y,i,n,Elegir):
             if Elegir == 1:
                 if y == 75:
                     E_name.insert(END,Lista[0][9:nombres(Lista[0])]) #This works
-                    #E_age.delete(0,END)
                     E_age.insert(0,Lista[0][edad(lista_pilotos[0])[0]:edad(lista_pilotos[0])[2]])
-                    #E_temporada.delete(0,END)
-                    #E_temporada.insert(END,Lista[0][edad(lista_pilotos[0])[1]:edad(lista_pilotos[0])[2]])
+                    E_rest.insert(0,Lista[0][edad(lista_pilotos[0])[2]:])
                     return
                 if y == n:
                     E_name.insert(END,Lista[i][9:nombres(Lista[i])])
+                    E_age.insert(0,Lista[i][edad(lista_pilotos[i])[0]:edad(lista_pilotos[i])[2]])
+                    E_rest.insert(0,Lista[0][edad(lista_pilotos[i])[2]:])
                     return
                 else:
                     return mod_entry(y,i+1,n+55,Elegir)
             elif Elegir == 0:
-                pass
+                if y == 75:
+                    E_name.insert(END,Lista[0][9:nombres(Lista[0])]) #This works
+                    E_age.insert(0,Lista[0][edad_a(lista_autos[0])[0]:edad_a(lista_autos[0])[1]])
+                    E_rest.insert(0,Lista[0][edad_a(lista_autos[0])[1]:])
+                    return
+                if y == n:
+                    E_name.insert(END,Lista[i][9:nombres(Lista[i])])
+                    E_age.insert(0,Lista[i][edad_a(lista_autos[i])[0]:edad_a(lista_autos[i])[1]])
+                    E_rest.insert(0,Lista[i][edad_a(lista_autos[i])[1]:])
+                    return
+                else:
+                    return mod_entry(y,i+1,n+55,Elegir)
         mod_entry(y,1,125,Elegir)
-        #AEscribir = str(E_edit.get())
         def cambiar(i,Lista,Elegir):
-            #Datos_Finales = (' '*19-len(str(E_datos_f.get())))+str(E_datos_f.get()) 
-            AEscribir = Lista[i][:10]+str(E_name.get())+str(E_age.get())#+" "+Datos_finales
+            Nombre = str(E_name.get())
+            Datos1 = str(E_age.get())
+            Datos2 = str(E_rest.get())
+            AEscribir = Lista[i][:10]+str(E_name.get())+str(E_age.get())+" "+str(E_rest.get())
             
             Lista[i] = AEscribir
             if Elegir == 0:
@@ -407,6 +371,7 @@ def positions_table():
             
             E_name.delete(0, END)
             E_age.delete(0, END)
+            E_rest.delete(0,END)
             arch.close()
             edit.destroy()
             positions.destroy()
@@ -414,6 +379,7 @@ def positions_table():
         def disable_event():
             E_name.delete(0, END)
             E_age.delete(0, END)
+            E_rest.delete(0,END)
             arch.close()
             edit.destroy()
         edit.protocol("WM_DELETE_WINDOW", disable_event)
@@ -480,6 +446,7 @@ def positions_table():
         #Thread(target=positions_table,args=()).start()
 ########################################################################
 
+
 ################  FUNCIONES ORDENAMIENTO PILOTOS ##########################
     def descendenteP_REP():
         def seleccion(Lista):
@@ -506,6 +473,7 @@ def positions_table():
         TablaAutos.write(''.join(seleccion(Lista)))
         TablaAutos.close()
         positions.destroy()
+        #positions.delete("pilot")
         positions_table()
 
     def ascendenteP_REP():
@@ -534,6 +502,7 @@ def positions_table():
         TablaAutos.close()
         positions.destroy()
         positions_table()
+        #positions_table()
 ###########################################################################
     def descendenteP_RGP():
         def seleccion(Lista):
@@ -542,7 +511,8 @@ def positions_table():
         def menor(Lista,j,n,Min):
             if j == n:
                 return Min
-            if Lista[j][-8:-5] > Lista[Min][-8:-5]:
+            if Lista[j][-12:-6] > Lista[Min][-12:-6]:
+                print(Lista[j][-12:-6])
                 Min = j
             return menor(Lista,j+1,n,Min)
             
@@ -569,7 +539,7 @@ def positions_table():
         def menor(Lista,j,n,Min):
             if j == n:
                 return Min
-            if Lista[j][-8:-5] < Lista[Min][-8:-5]:
+            if Lista[j][-12:-6] < Lista[Min][-12:-6]:
                 Min = j
             return menor(Lista,j+1,n,Min)
             
