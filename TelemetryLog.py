@@ -57,7 +57,9 @@ Lleft = False
 Lright = False
 
 #INTERFAZ
-global F_arrow, B_arrow, L_arrow, R_arrow, Front_img, Back_img, Left_img, Right_img
+global F_arrow, B_arrow, L_arrow, R_arrow, Front_img, Back_img, Left_img, Right_img, Piloto
+Piloto = ""
+
 
 
 #           _____________________________________________________
@@ -160,7 +162,7 @@ def main_window():
                     C_main.move(Logo,0,0)
                     time.sleep(0.0001)  
         except:
-            pass    
+            return    
 
     def information():
         main.withdraw()
@@ -422,7 +424,115 @@ def main_window():
        BG1 = loadImg("T.2.png")
        C_test.create_image(0, 0, image=BG1, anchor=NW, state=NORMAL)
 
+       Bat = open("Battery_level.txt","r+")
+       Bat_level = Bat.readlines()
+       Estado = loadImg(Bat_level[0])
+       C_test.create_text(320, 20, font=("Agency", 16, "bold"), anchor=NW, fill="white", text="CAR STATE")
+       C_test.create_image(345, 50, image=Estado, anchor=NW, state=NORMAL)
+
+       def select_pilot():
+           pilot=Toplevel()
+           pilot.title("Selección de piloto")
+           pilot.minsize(900, 300)
+           pilot.resizable(width=NO, height=NO)
+
+           C_pilot = Canvas(pilot, width=900, height=300, bg="white")
+           C_pilot.place(x=0, y=0)
+           
+           Pilotos_FE = open("Tabla de posiciones Pilotos.txt","r+")
+           Pilotos_2019 = Pilotos_FE.readlines()
+
+           def buscarA(Pilotos_2019,i,PA):
+               if Pilotos_2019[i][:9]==PA:
+                   return Pilotos_2019[i]
+
+               else:
+                   return buscarA(Pilotos_2019,i+1,PA)
+
+           def buscarB(Pilotos_2019,i,PB):
+               if Pilotos_2019[i][:9]==PB:
+                   return Pilotos_2019[i]
+
+               else:
+                   return buscarB(Pilotos_2019,i+1,PB)
+
+           PilotoA = buscarA(Pilotos_2019,0,"2019A.png")
+           PilotoB = buscarB(Pilotos_2019,0,"2019B.png")
+           
+           PilotoA_img = loadImg(PilotoA[0:9])
+           C_pilot.create_image(10, 80, image=PilotoA_img, anchor=NW, state=NORMAL)
+
+           PilotoB_img = loadImg(PilotoB[0:9])
+           C_pilot.create_image(10, 180, image=PilotoB_img, anchor=NW, state=NORMAL)
+
+           Selected = IntVar()
+
+           rad1 = Radiobutton(pilot,text="Piloto 1", value=1, variable=Selected)
+           rad2 = Radiobutton(pilot,text="Piloto 2", value=2, variable=Selected)
+
+           C_pilot.create_text(320, 10, font=("Agency", 16, "bold"), anchor=NW, fill="black", text="PILOTOS TEMPORADA 2019")
+           C_pilot.create_text(150, 50, font=("Agency", 16, "bold"), anchor=NW, fill="black", text="Nombre")
+           C_pilot.create_text(70, 110, font=("Agency", 12), anchor=NW, fill="black", text=PilotoA[12:38])
+           C_pilot.create_text(70, 210, font=("Agency", 12), anchor=NW, fill="black", text=PilotoB[12:38])
+           
+           C_pilot.create_text(280, 50, font=("Agency", 16, "bold"), anchor=NW, fill="black", text="Edad")
+           C_pilot.create_text(290, 110, font=("Agency", 12), anchor=NW, fill="black", text=PilotoA[41:44])
+           C_pilot.create_text(290, 210, font=("Agency", 12), anchor=NW, fill="black", text=PilotoB[41:44])
+
+           C_pilot.create_text(350, 50, font=("Agency", 16, "bold"), anchor=NW, fill="black", text="Nacionalidad")
+           C_pilot.create_text(360, 110, font=("Agency", 12), anchor=NW, fill="black", text=PilotoA[48:65])
+           C_pilot.create_text(360, 210, font=("Agency", 12), anchor=NW, fill="black", text=PilotoB[48:65])
+           
+           C_pilot.create_text(500, 50, font=("Agency", 16, "bold"), anchor=NW, fill="black", text="Temporada")
+           C_pilot.create_text(530, 110, font=("Agency", 12), anchor=NW, fill="black", text=PilotoA[65:70])
+           C_pilot.create_text(530, 210, font=("Agency", 12), anchor=NW, fill="black", text=PilotoB[65:70])
+           
+           C_pilot.create_text(620, 50, font=("Agency", 16, "bold"), anchor=NW, fill="black", text="Competencias")
+           C_pilot.create_text(680, 110, font=("Agency", 12), anchor=NW, fill="black", text=PilotoA[76:81])
+           C_pilot.create_text(680, 210, font=("Agency", 12), anchor=NW, fill="black", text=PilotoB[76:81])
+
+           C_pilot.create_text(790, 50, font=("Agency", 16, "bold"), anchor=NW, fill="black", text="RGP")
+           C_pilot.create_text(795, 110, font=("Agency", 12), anchor=NW, fill="black", text=PilotoA[93:97])
+           C_pilot.create_text(795, 210, font=("Agency", 12), anchor=NW, fill="black", text=PilotoB[93:97])
+           
+           C_pilot.create_text(850, 50, font=("Agency", 16, "bold"), anchor=NW, fill="black", text="REP")
+           C_pilot.create_text(855, 110, font=("Agency", 12), anchor=NW, fill="black", text=PilotoA[97:])
+           C_pilot.create_text(855, 210, font=("Agency", 12), anchor=NW, fill="black", text=PilotoB[97:])
+
+
+           def back():
+               global Piloto
+               Seleccion = Selected.get()
+               print(Seleccion)
+               if Seleccion == 1:
+                   Piloto = PilotoA
+               elif Seleccion == 2:
+                   Piloto = PilotoB
+               else:
+                   print("Piloto no ha sido seleccionado")
+
+               pilot.destroy()
+               test.deiconify()
+
+           rad1.place(x=130, y=130)
+           rad2.place(x=130, y=230)
+           
+           Btn_back = Button(pilot, text="Seleccionar", command=back, bg="#cb3234", fg="white")
+           Btn_back.place(x=430, y=250)
+
+
+           main.mainloop()
+
+ 
        def drive_car():
+           global Piloto
+           if Piloto!="":
+               return drive_car_aux()
+
+           else:
+               messagebox.showwarning("Pilot selection", "No se ha seleccionado un piloto")
+               
+       def drive_car_aux():
            #global Sense12
            test.withdraw()
            car=Toplevel()
@@ -432,63 +542,25 @@ def main_window():
 
            C_car = Canvas(car, width=1200, height=675, bg="white")
            C_car.place(x=0, y=0)
-   
-           global Front_img
-           Front = loadImg("F.1.png")
-           Front_img = Label(C_car)
-           Front_img.place(x=-100, y=50)
-           Front_img.config(image=Front)
+
+           """global Piloto
+           L_Name = Label(C_car, text=Piloto[12:38], font=("Agency",20), bg="#2cb1a9", fg="white")
+           L_Name.place(x=860, y=5)
+
+           L_Nacionality = Label(C_car, text=Piloto[48:65], font=("Agency",22), bg="#2cb1a9", fg="white")
+           L_Nacionality.place(x=1000, y=45)
+
+           Logo_Escuderia = Logos = open("Team information.txt", "r+")
+           Logo = Logo_Escuderia.readlines()
+           L_Escuderia = Label(C_car, text=Logo[0][7:22], font=("Agency",16), bg="#2cb1a9", fg="white")
+           L_Escuderia.place(x=10, y=250)"""
            
-           global Back_img
-           Back2 = loadImg("B.1.png")
-           Back_img = Label(C_car, bg="red")
-           Back_img.place(x=-100, y=50)
-           Back_img.config(image=Back2)
+           
+           
 
-           global Left_img
-           Left = loadImg("D.1.png")
-           Left_img = Label(C_car, bg="yellow")
-           Left_img.place(x=-100, y=50)
-           Left_img.config(image=Left)
-
-           global Right_img
-           Right = loadImg("D.1.png")
-           Right_img = Label(C_car, bg="yellow")
-           Right_img.place(x=-100, y=50)
-           Right_img.config(image=Right)
-
-           global F_arrow
-           FA = loadImg("FA.1E2.png")
-           F_arrow = Label(C_car)
-           F_arrow.place(x=-250, y=80)
-           F_arrow.config(image=FA)
-
-           global B_arrow
-           FB = loadImg("FB.1E2.png")
-           B_arrow = Label(C_car)
-           B_arrow.place(x=-250, y=240)
-           B_arrow.config(image=FB)
-
-           global L_arrow
-           FL = loadImg("FI.1E2.png")
-           L_arrow = Label(C_car)
-           L_arrow.place(x=-140, y=185)
-           L_arrow.config(image=FL)
-
-           global R_arrow
-           FR = loadImg("FD.1E2.png")
-           R_arrow = Label(C_car)
-           R_arrow.place(x=-310, y=185)
-           R_arrow.config(image=FR)
-
-           global Stoped
-           St = loadImg("S.1E2.png")
-           Stoped = Label(C_car)
-           Stoped.place(x=-255, y=190)
-           Stoped.config(image=St)
-
-           global B0_level
-           B0 = loadImg("B0.png")
+    
+           """global B0_level
+           B0 = loadImg("B50.png")
            B0_level = Label(C_car)
            B0_level.place(x=-1105, y=185)
            B0_level.config(image=B0)
@@ -498,48 +570,91 @@ def main_window():
            B10 = loadImg("B10.png")
            B10_level = Label(C_car)
            B10_level.place(x=-1105, y=185)
-           B10_level.config(image=B10)       
+           B10_level.config(image=B10)
+           B10_level.lift()
+
+           global B20_level
+           B20 = loadImg("B20.png")
+           B20_level = Label(C_car)
+           B20_level.place(x=-1105, y=185)
+           B20_level.config(image=B20)
+           B20_level.lift()"""
            
-           L_PWM = Label(C_car, text="PWM", font=("Agency",22), bg="#2cb1a9", fg="white")
-           L_PWM.place(x=560, y=400)
+           #L_PWM = Label(C_car, text="PWM", font=("Agency",22), bg="#2cb1a9", fg="white")
+           #L_PWM.place(x=560, y=400)
 
-           global L_PWM_aux
-           L_PWM_aux = Label(C_car, text=str(PWM), font=("Agency",18), bg="#2cb1a9", fg="white")
-           L_PWM_aux.place(x=592, y=462)
+           #global L_PWM_aux
+           #L_PWM_aux = Label(C_car, text=str(PWM), font=("Agency",18), bg="#2cb1a9", fg="white")
+           #L_PWM_aux.place(x=592, y=462)
 
-           L_Escuderia = Label(C_car, text="Escuderia", font=("Agency",16), bg="#2cb1a9", fg="white")
-           L_Escuderia.place(x=10, y=250)
-
-           L_Name = Label(C_car, text="Emanuel", font=("Agency",22), bg="#2cb1a9", fg="white" )
-           L_Name.place(x=1050, y=5)
-
-           L_Nacionality = Label(C_car, text="Costarricense", font=("Agency",22), bg="#2cb1a9", fg="white")
-           L_Nacionality.place(x=1000, y=45)
-           
 
            def intro():
                BG = loadImg("FE.1.png")
-               Intro_BG = Label (car, bg="white")
-               Intro_BG.place(x=0, y=0)
-               Intro_BG.config(image=BG)
-               time.sleep(3)
-               Intro_BG.destroy()
+               C_car.create_image(0, 0, image=BG, anchor=NW, state=NORMAL)
+               time.sleep(2.7)
+               C_car.create_image(0, 0, image=BG, anchor=NW, state=HIDDEN)
+               
 
                global Car_Background1
-               BG3 = loadImg("23.1E.png")
-               Car_Background1 = Label(C_car, bg="white")
-               Car_Background1.place(x=0, y=0)
-               Car_Background1.config(image=BG3)
-               Car_Background1.lower()
+               BG2 = loadImg("23.1E.png")
+               Car_Background1 = C_car.create_image(0, 0, image=BG2, anchor=NW, state=NORMAL)
 
                global Car_Background2
-               BG4 = loadImg("23.N.png")
-               Car_Background2 = Label(C_car, bg="white")
-               Car_Background2.place(x=-2000, y=0)
-               Car_Background2.config(image=BG4)
-               Car_Background2.lower()
+               BG3 = loadImg("23.N.png")
+               Car_Background2 = C_car.create_image(-2000, 0, image=BG3, anchor=NW, state=HIDDEN)
+
+               global Piloto
+               C_car.create_text(840, 5, font=("Agency", 20, "bold"), anchor=NW, fill="white", text=Piloto[12:38])
+               C_car.create_text(1000, 45, font=("Agency", 20, "bold"), anchor=NW, fill="white", text=Piloto[48:65])
+
+               Logo_Escuderia = Logos = open("Team information.txt", "r+")
+               Logo = Logo_Escuderia.readlines()
+               C_car.create_text(100, 250, font=("Agency", 22, "bold"), anchor=NW, fill="white", text=Logo[0][7:22])
                
-               time.sleep(10000)
+               global Front_img
+               Front = loadImg("F.1.png")
+               Front_img = C_car.create_image(880, 200, image=Front, anchor=NW, state=HIDDEN)
+
+               global Back_img
+               Back = loadImg("B.1.png")
+               Back_img = C_car.create_image(940, 200, image=Back, anchor=NW, state=HIDDEN)
+
+               global Left_img
+               Left = loadImg("D.1.png")
+               Left_img = C_car.create_image(820, 200, image=Left, anchor=NW, state=HIDDEN)
+
+               global Right_img
+               Right = loadImg("D.1.png")
+               Right_img = C_car.create_image(1000, 200, image=Right, anchor=NW, state=HIDDEN)
+
+               global F_arrow
+               FA = loadImg("FA.1E2.png")
+               F_arrow = C_car.create_image(250, 80, image=FA, anchor=NW, state=HIDDEN)
+
+               global B_arrow
+               FB = loadImg("FB.1E2.png")
+               B_arrow = C_car.create_image(250, 240, image=FB, anchor=NW, state=HIDDEN)
+
+               global Stoped
+               ST = loadImg("S.1E2.png")
+               Stoped = C_car.create_image(255, 190, image=ST, anchor=NW, state=HIDDEN)
+
+               global L_PWM_aux
+               C_car.create_text(560, 400, font=("Agency", 22), anchor=NW, fill="white", text="PWM")
+               L_PWM_aux = C_car.create_text(592, 462, font=("Agency", 28), anchor=NW, fill="white", text=str(PWM))
+
+               global L_arrow
+               FL = loadImg("FI.1E2.png")
+               L_arrow = C_car.create_image(140, 185, image=FL, anchor=NW, state=HIDDEN)
+
+               global R_arrow
+               FR = loadImg("FD.1E2.png")
+               R_arrow = C_car.create_image(310, 185, image=FR, anchor=NW, state=HIDDEN)
+
+               Btn_back = Button(car, text="TERMINAR TEST", command=back, bg="#cb3234", fg="white")
+               Btn_back.place(x=0, y=0)
+
+               time.sleep(100000)
 
            #Creando el cliente para NodeMCU
            myCar = NodeMCU()
@@ -555,8 +670,9 @@ def main_window():
                        try:
                            mnsRecv = "[{0}] result: {1}\n".format(indice,myCar.log[indice][1])
                            Sense12 = mnsRecv
+                           
                            if len(Sense12)>=27:
-                               #sense_aux(Sense12)
+                               sense_aux(Sense12)
                                battery(Sense12),sense_aux(Sense12)
                                
                        except:
@@ -584,22 +700,35 @@ def main_window():
                    drive_car.update()
                    
            def battery(Sense12):
-               global B0_level, B10_level
+               global B0_level, B10_level, B20_level
                print("HOLA")
-               print(Sense12)
+               print(Sense12[18])
                Bat = open("Battery_level.txt","r+")
                Bat.seek(0)
                
                if Sense12[17] or Sense12[18] or Sense12[19] == "0":
-                   B0_level.place(x=1105, y=185)
+                   B0_level.place(x=105, y=185)
+                   B10_level.place(x=-1105, y=185)
+                   B20_level.place(x=-1105, y=185)
                    Bat.write("Descargado")
                    Bat.close()
                    drive_car.update()
 
-               elif Sense12[17] or Sense12[18] or Sense12[19] == "1":
+               if Sense12[17] or Sense12[18] or Sense12[19] == "1":
+                   B0_level.place(x=-1105, y=185)
+                   B10_level.place(x=205, y=185)
+                   B20_level.place(x=-1105, y=185)
                    Bat.write("Descargado")
                    Bat.close()
-                   B10_level.place(x=1105, y=185)
+                   drive_car.update()
+
+               if Sense12[17] or Sense12[18] or Sense12[19] == "2":
+
+                   B0_level.place(x=-1105, y=185)
+                   B10_level.place(x=-1105, y=185)
+                   B20_level.place(x=305, y=185)
+                   Bat.write("Descargado")
+                   Bat.close()
                    drive_car.update()
                    
                    
@@ -607,48 +736,48 @@ def main_window():
                global Lfront, Lback, Lleft, Lright, Front_img, Back_img, Left_img, Right_img
                if event.char == "f":
                    if Lfront == False:
-                       Front_img.place(x=880, y=200)
+                       C_car.itemconfig(Front_img, state=NORMAL)
                        mns="lf:1;"
                        myCar.send(mns)
                        Lfront = True
                    else:
-                       Front_img.place(x=-880, y=200)
+                       C_car.itemconfig(Front_img, state=HIDDEN)
                        mns="lf:0;"
                        myCar.send(mns)
                        Lfront = False
                     
                if event.char == "b":
                    if Lback == False:
-                       Back_img.place(x=940, y=200)
+                       C_car.itemconfig(Back_img, state=NORMAL)
                        mns = "lb:1;"
                        myCar.send(mns)
                        Lback = True
                    else:
-                       Back_img.place(x=-940, y=200)
+                       C_car.itemconfig(Back_img, state=HIDDEN)
                        mns = "lb:0;"
                        myCar.send(mns)
                        Lback = False
 
                if event.char == "l":
                    if Lleft == False:
-                       Left_img.place(x=820, y=200)
+                       C_car.itemconfig(Left_img, state=NORMAL)
                        mns = "ll:1;"
                        myCar.send(mns)
                        Lleft = True
                    else:
-                       Left_img.place(x=-820, y=200)
+                       C_car.itemconfig(Left_img, state=HIDDEN)
                        mns = "ll:0;"
                        myCar.send(mns)
                        Lleft = False
 
                if event.char == "r":
                    if Lright == False:
-                       Right_img.place(x=1000, y=200)
+                       C_car.itemconfig(Right_img, state=NORMAL)
                        mns = "lr:1;"
                        myCar.send(mns)
                        Lright = True
                    else:
-                       Right_img.place(x=-1000, y=50)
+                       C_car.itemconfig(Right_img, state=HIDDEN)
                        mns = "lr:0;"
                        myCar.send(mns)
                        Lright = False  
@@ -656,60 +785,59 @@ def main_window():
            def move_forward(event):
                global Forward, Back, L_PWM_aux, F_arrow, B_arrow, Stoped
                Back = -700
-               Stoped.place(x=-255, y=190)
-               B_arrow.place(x=-250, y=240)
-               F_arrow.place(x=250, y=80)
+               C_car.itemconfig(Stoped, state=HIDDEN)
+               C_car.itemconfig(F_arrow, state=NORMAL)
+               C_car.itemconfig(B_arrow, state=HIDDEN)
                if Forward <1023:
                    Forward+=1
-                   print(Forward)
-                   L_PWM_aux.config(text=str(Forward))
                    mns = "pwm:" + str(Forward) + ";"
                    myCar.send(mns)
+                   C_car.itemconfig(L_PWM_aux, text=str(Forward))
                    time.sleep(0.01)
                else:
                    Forward = 1023
-                   print(Forward)
                    mns = "pwm:" + str(Forward) + ";"
                    myCar.send(mns)
+                   C_car.itemconfig(L_PWM_aux, text=str(Forward))
                    time.sleep(0.01)
 
            def move_back(event):
                global Forward, Back, L_PWM_aux, F_arrow, B_arrow, Stoped
                Forward = 700
-               Stoped.place(x=-255, y=190)
-               F_arrow.place(x=-250, y=80)
-               B_arrow.place(x=250, y=240)
+               C_car.itemconfig(Stoped, state=HIDDEN)
+               C_car.itemconfig(F_arrow, state=HIDDEN)
+               C_car.itemconfig(B_arrow, state=NORMAL)
                if Back>-1023:
                    Back-=1
-                   print(Back)
                    mns = "pwm:" + str(Back) + ";"
                    myCar.send(mns)
-                   L_PWM_aux.config(text=str(Back))
+                   C_car.itemconfig(L_PWM_aux, text=str(Back))
                    time.sleep(0.01)
                else:
                    Back = -1023
-                   print(Back)
                    mns = "pwm:" + str(Back) + ";"
                    myCar.send(mns)
-                   L_PWM_aux.config(text=str(Back))
+                   C_car.itemconfig(L_PWM_aux, text=str(Back))
                    time.sleep(0.01)
 
            def stop(event):
-               global Forward, Back, L_PWM_aux, F_arrow, B_arrow, Stoped
+               global Forward, Back, L_PWM_aux, F_arrow, B_arrow, L_arrow, R_arrow, Stoped
                Forward = 700
                Back = -700
-               velocidad = 0
-               F_arrow.place(x=-250, y=80)
-               B_arrow.place(x=-250, y=240)
-               Stoped.place(x=255, y=190)
-               mns = "pwm:" + str(velocidad) + ";"
+               Velocidad = 0
+               C_car.itemconfig(Stoped, state=NORMAL)
+               C_car.itemconfig(F_arrow, state=HIDDEN)
+               C_car.itemconfig(B_arrow, state=HIDDEN)
+               C_car.itemconfig(R_arrow, state=HIDDEN)
+               C_car.itemconfig(L_arrow, state=HIDDEN)
+               mns = "pwm:" + str(Velocidad) + ";"
                myCar.send(mns)
-               L_PWM_aux.config(text=str(velocidad))
+               C_car.itemconfig(L_PWM_aux, text=str(Velocidad))
 
            def move_left(event):
                global L_arrow, R_arrow
-               R_arrow.place(x=-310, y=185)
-               L_arrow.place(x=140, y=185)
+               C_car.itemconfig(R_arrow, state=HIDDEN)
+               C_car.itemconfig(L_arrow, state=NORMAL)
                p=Thread(target=move_left_aux,args=()).start()
                mns = "dir:-1;"
                myCar.send(mns)
@@ -731,9 +859,8 @@ def main_window():
 	        
            def move_right(event):
                global L_arror, R_arrow
-               global L_arrow, R_arrow
-               L_arrow.place(x=-250, y=80)
-               R_arrow.place(x=310, y=185)
+               C_car.itemconfig(R_arrow, state=NORMAL)
+               C_car.itemconfig(L_arrow, state=HIDDEN)
                p=Thread(target=move_right_aux,args=()).start()
                mns = "dir:1;"
                myCar.send(mns)
@@ -754,6 +881,8 @@ def main_window():
                myCar.send(mns2)
 
            def move_direct(event):
+               C_car.itemconfig(R_arrow, state=HIDDEN)
+               C_car.itemconfig(L_arrow, state=HIDDEN)
                mns = "dir:0;"
                myCar.send(mns)
 
@@ -766,11 +895,11 @@ def main_window():
                    messagebox.showwarning("Error del mensaje", "Mensaje sin caracter de finalización (';')")
 
            def back():
+               global Piloto
+               Piloto = ""
                car.destroy()
                test.deiconify()
 
-           Btn_back = Button(car, text="ATRAS", command=back, bg="#cb3234", fg="white")
-           Btn_back.place(x=0, y=0)
 
            car.bind("<Up>", move_forward)
            car.bind("<Down>", move_back)
@@ -779,6 +908,7 @@ def main_window():
            car.bind("<Right>", move_right)
            car.bind("d", move_direct)
            car.bind("<Key>",lights)
+
 
            p=Thread(target=intro,args=()).start()
            p = Thread(target=get_log).start()
@@ -790,8 +920,11 @@ def main_window():
            main.destroy()
            main_window()
 
-       Btn_back = Button(test, text="Back", command=back, bg="#cb3234", fg="white")
-       Btn_back.place(x=10,y=10)
+       Btn_back = Button(test, text="ATRAS", command=back, bg="#cb3234", fg="white")
+       Btn_back.place(x=10,y=595)
+
+       Btn_pilot = Button(test, text="Seleccionar Piloto", command=select_pilot, bg="#cb3234", fg="white")
+       Btn_pilot.place(x=50,y=50)
 
        Start=loadImg("S1.1.png")
        Btn_start = Button(C_test,command=drive_car, fg="black", bg="light blue")
