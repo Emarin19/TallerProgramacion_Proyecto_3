@@ -123,7 +123,7 @@ def main_window():
         Btn_TD = Button(C_main, text="Test Drive", command=test_drive, bg="#cb3234", fg="white", font=("Agency FB",16))
         Btn_TD.place(x=1000,y=500)
 
-        Bat = open("Battery_level.txt","r+")
+        Bat = open("Car state.txt","r+")
         Bat_level = Bat.readlines()
         Estado = loadImg(Bat_level[0])
         C_main.create_text(1080, 80, font=("Agency", 16, "bold"), anchor=NW, fill="white", text="CAR STATE") 
@@ -385,7 +385,6 @@ def main_window():
         C_about.place(x=0, y=0)
 
         fondo = loadImg("about.gif")
-
         L_fondo = Label(C_about,bg='black')
         L_fondo.place(x=0,y=0)
         L_fondo.config(image=fondo)
@@ -889,7 +888,7 @@ def main_window():
        C_test.create_image(0, 0, image=BG1, anchor=NW, state=NORMAL)
 
        #Se abre el archivo que contiene el estado actual del carro y se coloca una imagen representativa del mismo
-       Bat = open("Battery_level.txt","r+")
+       Bat = open("Car state.txt","r+")
        Bat_level = Bat.readlines()
        Estado = loadImg(Bat_level[0])
        C_test.create_text(320, 20, font=("Agency", 16, "bold"), anchor=NW, fill="white", text="CAR STATE")
@@ -1134,14 +1133,8 @@ def main_window():
                R_arrow = C_car.create_image(310, 185, image=FR, anchor=NW, state=HIDDEN)
 
                #NIVEL DE BATERIA
-               global LB20
-               LB20 = C_car.create_text(500, 500, font=("Agency", 16), anchor=NW, fill="white", text="")
-
-               global LB30
-               LB30 = C_car.create_text(500, 500, font=("Agency", 16), anchor=NW, fill="white", text="")
-
-               global LB40
-               LB40 = C_car.create_text(500, 500, font=("Agency", 16), anchor=NW, fill="white", text="")
+               global Battery
+               Battery = C_car.create_text(1108, 255, font=("Agency", 14), anchor=NW, fill="white", text="")
 
                Btn_back = Button(car, text="TERMINAR TEST", command=back, bg="#cb3234", fg="white")
                Btn_back.place(x=10, y=10)
@@ -1165,12 +1158,6 @@ def main_window():
                            if len(Sense)>=27:
                                Bat = True
                                sense_aux(Sense)
-                               #battery(Sense, Lista)
-                               #sense_aux(Sense)
-
-                           #if len(Sense)>=27:
-                               #battery(Sense)
-                               
                        except:
                            pass
 
@@ -1211,36 +1198,100 @@ def main_window():
            def battery():
                global Bat, Sense, Lista, L20, L30, L40
                if Bat == True:
-                   Bat = open("Battery_level.txt","r+")
-                   Bat.seek(0)
+                   Car_state = open("Car state.txt","r+")
+                   Car_state.seek(0)
+                   Battery_Levels = open("Battery_Levels.txt", "r+")
+                   BL = Battery_Levels.readlines()
                    try:
                        L_Bat = level_bat(Sense[3:], Lista, "")
-                       if L_Bat == "20":
+                       if L_Bat == "0":
+                           B0 = loadImg(BL[0][:6])
+                           C_car.create_image(1105, 185, image=B0, anchor=NW, state=NORMAL)
+                           C_car.itemconfig(Battery, text=L_Bat + "%")
+                           print("0% de bateria")
+                           Car_state.write("Descargado")
+                           Car_state.close()
+                           
+                       elif L_Bat == "10":
+                           B10 = loadImg(BL[1][:7])
+                           C_car.create_image(1105, 185, image=B10, anchor=NW, state=NORMAL)
+                           C_car.itemconfig(Battery, text=L_Bat + "%")
+                           print("10% de bateria")
+                           Car_state.write("Descargado")
+                           Car_state.close()
+
+                       elif L_Bat == "20":
+                           B20 = loadImg(BL[2][:7])
+                           C_car.create_image(1105, 185, image=B20, anchor=NW, state=NORMAL)
+                           C_car.itemconfig(Battery, text=L_Bat + "%")
                            print("20% de bateria")
-                           C_car.itemconfig(LB20, text="20%")
-                           C_car.itemconfig(LB30, text="")
-                           C_car.itemconfig(LB40, text="")
-                           Bat.write("Descargado")
-                           Bat.close()
+                           Car_state.write("Descargado")
+                           Car_state.close()
 
                        elif L_Bat == "30":
+                           B30 = loadImg(BL[3][:7])
+                           C_car.create_image(1105, 185, image=B30, anchor=NW, state=NORMAL)
+                           C_car.itemconfig(Battery, text=L_Bat + "%")
                            print("30% de bateria")
-                           LB30 = C_car.create_text(500, 500, font=("Agency", 16), anchor=NW, fill="white", text="30%")
-                           C_car.itemconfig(LB30, text="30%")
-                           C_car.itemconfig(LB20, text="")
-                           C_car.itemconfig(LB40, text="")
-                           Bat.write("Descargado")
-                           Bat.close()
+                           Car_state.write("Descargado")
+                           Car_state.close()
 
                        elif L_Bat == "40":
+                           B40 = loadImg(BL[4][:7])
+                           C_car.create_image(1105, 185, image=B40, anchor=NW, state=NORMAL)
+                           C_car.itemconfig(Battery, text=L_Bat + "%")
                            print("40% de bateria")
-                           LB40 = C_car.create_text(500, 500, font=("Agency", 16), anchor=NW, fill="white", text="40%")
-                           C_car.itemconfig(LB40, text="40%")
-                           C_car.itemconfig(LB20, text="")
-                           C_car.itemconfig(LB30, text="")
-                           Bat.write("Descargado")
-                           Bat.close()
+                           Car_state.write("Descargado")
+                           Car_state.close()
 
+                       elif L_Bat == "50":
+                           B50 = loadImg(BL[5][:7])
+                           C_car.create_image(1105, 185, image=B50, anchor=NW, state=NORMAL)
+                           C_car.itemconfig(Battery, text=L_Bat + "%")
+                           print("50% de bateria")
+                           Car_state.write("Descargado")
+                           Car_state.close()
+
+                       elif L_Bat == "60":
+                           B60 = loadImg(BL[6][:7])
+                           C_car.create_image(1105, 185, image=B60, anchor=NW, state=NORMAL)
+                           C_car.itemconfig(Battery, text=L_Bat + "%")
+                           print("60% de bateria")
+                           Car_state.write("Disponible")
+                           Car_state.close()
+
+                       elif L_Bat == "70":
+                           B70 = loadImg(BL[7][:7])
+                           C_car.create_image(1105, 185, image=B70, anchor=NW, state=NORMAL)
+                           C_car.itemconfig(Battery, text=L_Bat + "%")
+                           print("70% de bateria")
+                           Car_state.write("Disponible")
+                           Car_state.close()
+
+                       elif L_Bat == "80":
+                           B80 = loadImg(BL[8][:7])
+                           C_car.create_image(1105, 185, image=B80, anchor=NW, state=NORMAL)
+                           C_car.itemconfig(Battery, text=L_Bat + "%")
+                           print("80% de bateria")
+                           Car_state.write("Disponible")
+                           Car_state.close()
+
+                       elif L_Bat == "90":
+                           B90 = loadImg(BL[9][:7])
+                           C_car.create_image(1105, 185, image=B90, anchor=NW, state=NORMAL)
+                           C_car.itemconfig(Battery, text=L_Bat + "%")
+                           print("90% de bateria")
+                           Car_state.write("Disponible")
+                           Car_state.close()
+
+                       elif L_Bat == "100":
+                           B100 = loadImg(BL[10][:8])
+                           C_car.create_image(1105, 185, image=B100, anchor=NW, state=NORMAL)
+                           C_car.itemconfig(Battery, text=L_Bat + "%")
+                           print("100% de bateria")
+                           Car_state.write("Disponible")
+                           Car_state.close()
+                           
                        else:
                            pass
                    except:
@@ -1249,7 +1300,7 @@ def main_window():
                    pass
 
                Bat = False
-               time.sleep(1.5)
+               time.sleep(2.0)
                return battery()
 
            def level_bat(Sense, Lista, L_Bat):
