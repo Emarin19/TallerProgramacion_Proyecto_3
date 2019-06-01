@@ -240,6 +240,8 @@ def positions_table():
     Auto9 = loadImg(lista_autos[8][:8])
     Auto10 = loadImg(lista_autos[9][:8])
 
+    Edit_F = loadImg("Fondo.png")
+    
 #Configuración del Fondo
     Fondo_Pilotos = loadImg("Fondo Tabla Pilotos.png")
     C_positionsP.create_image(0,0,image=Fondo_Pilotos, anchor=NW,state=NORMAL)
@@ -276,7 +278,7 @@ def positions_table():
         y = 75
         for i in range(0,10):
             C_positionsA.create_text(180,y,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_autos[i][8:nombres(lista_autos[i])])
-            C_positionsA.create_text(280,y,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_autos[i][edad_a(lista_autos[i])[0]:edad_a(lista_autos[i])[1]])
+            C_positionsA.create_text(380,y,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_autos[i][edad_a(lista_autos[i])[0]:edad_a(lista_autos[i])[1]])
             C_positionsA.create_text(500,y,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_autos[i][edad_a(lista_autos[i])[1]:])
 
             y+=55
@@ -303,12 +305,14 @@ def positions_table():
 
         
     def edit_textP(y,Elegir,i):
+        positions.attributes('-disabled', True)
         edit=Toplevel()
         edit.title("Edit")
         edit.minsize(650,100)
         edit.resizable(width=NO, height=NO)
         C_edit=Canvas(edit, width=650,height=650, bg='light blue')
         C_edit.place(x=0,y=0)
+        C_edit.create_image(0,0,image=Edit_F, anchor=NW,state=NORMAL)
         Lista = 0
         arch = 0
         if Elegir == 0:
@@ -317,13 +321,21 @@ def positions_table():
         if Elegir == 1:    
             arch = open("Tabla de posiciones Pilotos.txt","r+")
             Lista = arch.readlines()
-            
+        if Elegir == 1:    
+            C_edit.create_text(5,70,font=("Arial", 12, "bold"), anchor=NW,tags=("pilot"),fill="white", text="Nombre:")
+            C_edit.create_text(200,80,font=("Arial", 9, "bold"), anchor=NW,tags=("pilot"),fill="white", text="Edad Nacionalidad Temporada")
+            C_edit.create_text(380,80,font=("Arial",9,"bold"),anchor=NW,tags=("pilot"),fill="white",text="Compet. RGP REP")
+        if Elegir == 0:
+            C_edit.create_text(5,70,font=("Arial", 12, "bold"), anchor=NW,tags=("pilot"),fill="white", text="Marca:")
+            C_edit.create_text(200,80,font=("Arial", 9, "bold"), anchor=NW,tags=("pilot"),fill="white", text="Modelo Temp.")
+            C_edit.create_text(380,80,font=("Arial",9,"bold"),anchor=NW,tags=("pilot"),fill="white",text="Eficiencia") 
+        
         E_name = Entry(C_edit,text="hola",width=25,font=("Agency FB",14))
-        E_name.place(x=0,y=50)
+        E_name.place(x=0,y=100)
         E_age = Entry(C_edit,text="texto",width=20,font=("Agency FB",14))
-        E_age.place(x=210,y=50)
+        E_age.place(x=210,y=100)
         E_rest = Entry(C_edit,width=15,font=("Agency FB",14))
-        E_rest.place(x=380,y=50)
+        E_rest.place(x=380,y=100)
         def mod_entry(y,i,n,Elegir):
             if Elegir == 1:
                 if y == 75:
@@ -373,6 +385,7 @@ def positions_table():
             E_age.delete(0, END)
             E_rest.delete(0,END)
             arch.close()
+            positions.attributes('-disabled', False)
             edit.destroy()
             positions.destroy()
             positions_table()
@@ -381,6 +394,7 @@ def positions_table():
             E_age.delete(0, END)
             E_rest.delete(0,END)
             arch.close()
+            positions.attributes('-disabled', False)
             edit.destroy()
         edit.protocol("WM_DELETE_WINDOW", disable_event)
         Btn_back = Button(edit, text="Confirmar cambio", command=lambda: cambiar(i,Lista,Elegir), bg="light blue", fg='black')
