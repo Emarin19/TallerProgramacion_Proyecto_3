@@ -31,6 +31,7 @@ import winsound                     # Playsound
 import os                           # ruta = os.path.join('')
 import time                         # time.sleep(x)
 
+from Validaciones import *
 #Biblioteca para el Carro
 from WiFiClient import NodeMCU
 
@@ -45,8 +46,8 @@ def loadImg(name):
 
 #MANEJO DEL CARRO
 global Forward, Back, PWM, Stoped
-Forward = 700
-Back = -700
+Forward = 400
+Back = -400
 PWM = 0
 
 #LUCES
@@ -57,8 +58,16 @@ Lleft = False
 Lright = False
 
 #INTERFAZ
-global F_arrow, B_arrow, L_arrow, R_arrow, Front_img, Back_img, Left_img, Right_img, Piloto
+global F_arrow, B_arrow, L_arrow, R_arrow, Front_img, Back_img, Left_img, Right_img, Piloto, Sense, Lista, Bat
 Piloto = ""
+Sense = ["60;"]
+Lista = ["0","1","2","3","4","5","6","7","8","9"]
+Bat = False
+
+global LB0, LB10, LB20
+LB0 = ""
+LB10 = ""
+LB20 = ""
 
 
 
@@ -119,7 +128,6 @@ def main_window():
         Estado = loadImg(Bat_level[0])
         C_main.create_text(1080, 80, font=("Agency", 16, "bold"), anchor=NW, fill="white", text="CAR STATE") 
         C_main.create_image(1110, 110, image=Estado, anchor=NW, state=NORMAL)
-
         
         C_main.create_text(200, 80, font=("Agency", 16, "bold"), anchor=NW, fill="white", text="ESCUDERIA")
 
@@ -150,7 +158,6 @@ def main_window():
         return move_logo_aux(Logo,x,y)
 
     def move_logo_aux(Logo,x,y):
-        print("Hey")
         try:
             while x<=0:
                 if x!=-100:
@@ -374,36 +381,491 @@ def main_window():
         about.minsize(800,600)
         about.resizable(width=NO, height=NO)
 
-        C_about = Canvas(about, width=800, height=600, bg="white")
+        C_about = Canvas(about, width=800, height=600, bg="black")
         C_about.place(x=0, y=0)
 
+        fondo = loadImg("about.gif")
+
+        L_fondo = Label(C_about,bg='black')
+        L_fondo.place(x=0,y=0)
+        L_fondo.config(image=fondo)
+        
         def back():
             about.destroy()
             main.deiconify()
 
         Btn_back = Button(about, text="Back", command=back, bg="light blue", fg='black')
-        Btn_back.place(x=10,y=10)
+        Btn_back.place(x=10,y=570)
 
         main.mainloop()
 
     def positions_table():
         #Esconder ventana principal
         main.withdraw()
-        #Ventana de testeo del carro y sus atributos
+        #Ventana de posisiones
         positions=Toplevel()
         positions.title("Positions Table")
-        positions.minsize(800,600)
+        positions.minsize(800,650)
         positions.resizable(width=NO, height=NO)
 
-        C_positions = Canvas(positions, width=800, height=600, bg="white")
-        C_positions.place(x=0, y=0)
+        #Código para las pestañas    
+        tab_control = ttk.Notebook(positions)
+        tab1 = ttk.Frame(tab_control) 
+        tab2 = ttk.Frame(tab_control)
+        tab_control.add(tab1, text='Pilotos')
+        tab_control.add(tab2, text='Autos')
 
+        C_positionsP = Canvas(tab1, width=800, height=650)
+        C_positionsP.place(x=0, y=0)
+    
+        C_positionsA = Canvas(tab2, width=800, height=650)
+        C_positionsA.place(x=0, y=0)
+
+        #Abrir documento de pilotos y autos  
+        arch_pilotos = open("Tabla de posiciones Pilotos.txt","r+")
+        lista_pilotos = arch_pilotos.readlines()
+
+        arch_autos = open("Tabla de posiciones Autos.txt","r+")
+        lista_autos = arch_autos.readlines()
+
+        #Imágenes a usar
+        Piloto1 = loadImg(lista_pilotos[0][:9])
+        Piloto2 = loadImg(lista_pilotos[1][:9])
+        Piloto3 = loadImg(lista_pilotos[2][:9])
+        Piloto4 = loadImg(lista_pilotos[3][:9])
+        Piloto5 = loadImg(lista_pilotos[4][:9])
+        Piloto6 = loadImg(lista_pilotos[5][:9])
+        Piloto7 = loadImg(lista_pilotos[6][:9])
+        Piloto8 = loadImg(lista_pilotos[7][:9])
+        Piloto9 = loadImg(lista_pilotos[8][:9])
+        Piloto10 = loadImg(lista_pilotos[9][:9])
+
+        Auto1 = loadImg(lista_autos[0][:8])
+        Auto2 = loadImg(lista_autos[1][:8])
+        Auto3 = loadImg(lista_autos[2][:8])
+        Auto4 = loadImg(lista_autos[3][:8])
+        Auto5 = loadImg(lista_autos[4][:8])
+        Auto6 = loadImg(lista_autos[5][:8])
+        Auto7 = loadImg(lista_autos[6][:8])
+        Auto8 = loadImg(lista_autos[7][:8])
+        Auto9 = loadImg(lista_autos[8][:8])
+        Auto10 = loadImg(lista_autos[9][:8])
+
+        Edit_F = loadImg("Fondo.png")
+
+        #Configuración del Fondo
+        Fondo_Pilotos = loadImg("Fondo Tabla Pilotos.png")
+        C_positionsP.create_image(0,0,image=Fondo_Pilotos, anchor=NW,state=NORMAL)
+
+        Fondo_Autos = loadImg("Fondo Tabla Autos.png")
+        C_positionsA.create_image(0,0,image=Fondo_Autos, anchor=NW,state=NORMAL)
+
+        #Imágenes y textos de pilotos
+        def carg_pilotos():
+            y = 75
+            for i in range(0,10):
+                C_positionsP.create_text(120,y,font=("Arial", 10, "bold"), anchor=NW,tags=("pilot"),fill="white", text=lista_pilotos[i][10:nombres(lista_pilotos[i])])
+                C_positionsP.create_text(405,y,font=("Arial", 10, "bold"), anchor=NW,tags=("pilot"),fill="white", text=lista_pilotos[i][edad(lista_pilotos[i])[0]:edad(lista_pilotos[i])[1]]) #Edad y nacionalidad
+                C_positionsP.create_text(528,y,font=("Arial", 10, "bold"), anchor=NW,tags=("pilot"),fill="white", text=lista_pilotos[i][edad(lista_pilotos[i])[1]:edad(lista_pilotos[i])[2]])
+                C_positionsP.create_text(592,y,font=("Arial", 10, "bold"), anchor=NW,tags=("pilot"),fill="white", text=lista_pilotos[i][edad(lista_pilotos[i])[2]:])
+            
+                y+=55
+            
+            C_positionsP.create_image(65,55,image=Piloto1, anchor=NW,tags=("pilot"),state=NORMAL)           
+            C_positionsP.create_image(65,105,image=Piloto2, anchor=NW,tags=("pilot"),state=NORMAL)
+            C_positionsP.create_image(65,159,image=Piloto3, anchor=NW,tags=("pilot"),state=NORMAL)
+            C_positionsP.create_image(65,212,image=Piloto4, anchor=NW,tags=("pilot"),state=NORMAL)
+            C_positionsP.create_image(65,265,image=Piloto5, anchor=NW,tags=("pilot"),state=NORMAL)
+            C_positionsP.create_image(65,317,image=Piloto6, anchor=NW,tags=("pilot"),state=NORMAL)
+            C_positionsP.create_image(65,368,image=Piloto7, anchor=NW,tags=("pilot"),state=NORMAL)
+            C_positionsP.create_image(65,422,image=Piloto8, anchor=NW,tags=("pilot"),state=NORMAL)
+            C_positionsP.create_image(65,475,image=Piloto9, anchor=NW,tags=("pilot"),state=NORMAL)    
+            C_positionsP.create_image(65,527,image=Piloto10, anchor=NW,tags=("pilot"),state=NORMAL)
+        
+        carg_pilotos()
+
+        #Labels de Autos
+        def carg_autos():
+            y = 75
+            for i in range(0,10):
+                C_positionsA.create_text(180,y,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_autos[i][8:nombres(lista_autos[i])])
+                C_positionsA.create_text(380,y,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_autos[i][edad_a(lista_autos[i])[0]:edad_a(lista_autos[i])[1]])
+                C_positionsA.create_text(500,y,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_autos[i][edad_a(lista_autos[i])[1]:])
+
+                y+=55
+            
+            C_positionsA.create_image(65,65,image=Auto1, anchor=NW,state=NORMAL)
+            C_positionsA.create_image(65,115,image=Auto2, anchor=NW,state=NORMAL)
+            C_positionsA.create_image(65,169,image=Auto3, anchor=NW,state=NORMAL)
+            C_positionsA.create_image(65,227,image=Auto4, anchor=NW,state=NORMAL)
+            C_positionsA.create_image(65,280,image=Auto5, anchor=NW,state=NORMAL)
+            C_positionsA.create_image(65,337,image=Auto6, anchor=NW,state=NORMAL)
+            C_positionsA.create_image(65,383,image=Auto7, anchor=NW,state=NORMAL)
+            C_positionsA.create_image(65,437,image=Auto8, anchor=NW,state=NORMAL)
+            C_positionsA.create_image(65,485,image=Auto9, anchor=NW,state=NORMAL)
+            C_positionsA.create_image(65,542,image=Auto10, anchor=NW,state=NORMAL)
+            
+        carg_autos()
+        tab_control.pack(expand=1, fill='both')
+
+        #Funciones de botones
         def back():
+            arch_autos.close()
+            arch_pilotos.close()
             positions.destroy()
             main.deiconify()
 
+        def edit_textP(y,Elegir,i):
+            positions.attributes('-disabled', True)
+            edit=Toplevel()
+            edit.title("Edit")
+            edit.minsize(650,100)
+            edit.resizable(width=NO, height=NO)
+            C_edit=Canvas(edit, width=650,height=650, bg='light blue')
+            C_edit.place(x=0,y=0)
+            C_edit.create_image(0,0,image=Edit_F, anchor=NW,state=NORMAL)
+            Lista = 0
+            arch = 0
+            if Elegir == 0:
+                arch = open("Tabla de posiciones Autos.txt","r+")
+                Lista = arch.readlines()
+            if Elegir == 1:    
+                arch = open("Tabla de posiciones Pilotos.txt","r+")
+                Lista = arch.readlines()
+            if Elegir == 1:    
+                C_edit.create_text(5,70,font=("Arial", 12, "bold"), anchor=NW,tags=("pilot"),fill="white", text="Nombre:")
+                C_edit.create_text(200,80,font=("Arial", 9, "bold"), anchor=NW,tags=("pilot"),fill="white", text="Edad Nacionalidad Temporada")
+                C_edit.create_text(380,80,font=("Arial",9,"bold"),anchor=NW,tags=("pilot"),fill="white",text="Compet. RGP REP")
+            if Elegir == 0:
+                C_edit.create_text(5,70,font=("Arial", 12, "bold"), anchor=NW,tags=("pilot"),fill="white", text="Marca:")
+                C_edit.create_text(200,80,font=("Arial", 9, "bold"), anchor=NW,tags=("pilot"),fill="white", text="Modelo Temp.")
+                C_edit.create_text(380,80,font=("Arial",9,"bold"),anchor=NW,tags=("pilot"),fill="white",text="Eficiencia") 
+        
+            E_name = Entry(C_edit,text="hola",width=25,font=("Agency FB",14))
+            E_name.place(x=0,y=100)
+            E_age = Entry(C_edit,text="texto",width=20,font=("Agency FB",14))
+            E_age.place(x=210,y=100)
+            E_rest = Entry(C_edit,width=15,font=("Agency FB",14))
+            E_rest.place(x=380,y=100)
+            def mod_entry(y,i,n,Elegir):
+                if Elegir == 1:
+                    if y == 75:
+                        E_name.insert(END,Lista[0][9:nombres(Lista[0])]) #This works
+                        E_age.insert(0,Lista[0][edad(lista_pilotos[0])[0]:edad(lista_pilotos[0])[2]])
+                        E_rest.insert(0,Lista[0][edad(lista_pilotos[0])[2]:])
+                        return
+                    if y == n:
+                        E_name.insert(END,Lista[i][9:nombres(Lista[i])])
+                        E_age.insert(0,Lista[i][edad(lista_pilotos[i])[0]:edad(lista_pilotos[i])[2]])
+                        E_rest.insert(0,Lista[0][edad(lista_pilotos[i])[2]:])
+                        return
+                    else:
+                        return mod_entry(y,i+1,n+55,Elegir)
+                elif Elegir == 0:
+                    if y == 75:
+                        E_name.insert(END,Lista[0][9:nombres(Lista[0])]) #This works
+                        E_age.insert(0,Lista[0][edad_a(lista_autos[0])[0]:edad_a(lista_autos[0])[1]])
+                        E_rest.insert(0,Lista[0][edad_a(lista_autos[0])[1]:])
+                        return
+                    if y == n:
+                        E_name.insert(END,Lista[i][9:nombres(Lista[i])])
+                        E_age.insert(0,Lista[i][edad_a(lista_autos[i])[0]:edad_a(lista_autos[i])[1]])
+                        E_rest.insert(0,Lista[i][edad_a(lista_autos[i])[1]:])
+                        return
+                    else:
+                        return mod_entry(y,i+1,n+55,Elegir)
+            mod_entry(y,1,125,Elegir)
+            def cambiar(i,Lista,Elegir):
+                Nombre = str(E_name.get())
+                Datos1 = str(E_age.get())
+                Datos2 = str(E_rest.get())
+                AEscribir = Lista[i][:10]+str(E_name.get())+str(E_age.get())+" "+str(E_rest.get())
+            
+                Lista[i] = AEscribir
+                if Elegir == 0:
+                    arch = open("Tabla de posiciones Autos.txt","w")
+                    arch.writelines(Lista)
+                    arch.close
+
+                elif Elegir == 1:
+                    arch = open("Tabla de posiciones Pilotos.txt","w")
+                    arch.writelines(Lista)
+                    arch.close
+            
+                E_name.delete(0, END)
+                E_age.delete(0, END)
+                E_rest.delete(0,END)
+                arch.close()
+                positions.attributes('-disabled', False)
+                edit.destroy()
+                positions.destroy()
+                positions_table()
+            def disable_event():
+                E_name.delete(0, END)
+                E_age.delete(0, END)
+                E_rest.delete(0,END)
+                arch.close()
+                positions.attributes('-disabled', False)
+                edit.destroy()
+            edit.protocol("WM_DELETE_WINDOW", disable_event)
+            Btn_back = Button(edit, text="Confirmar cambio", command=lambda: cambiar(i,Lista,Elegir), bg="light blue", fg='black')
+            Btn_back.place(x=530,y=100)
+
+
+################  FUNCIONES ORDENAMIENTO AUTOS ##########################       
+        def descendenteA():
+            def seleccion(Lista):
+                return seleccion_aux(Lista,0,len(Lista),0)
+
+            def menor(Lista,j,n,Min):
+                if j == n:
+                    return Min
+                if Lista[j][-6:] > Lista[Min][-6:]:
+                    Min = j
+                return menor(Lista,j+1,n,Min)
+            
+            def seleccion_aux(Lista,i,n,ContadorRep):
+                if i == n:
+                    return Lista
+                Min = menor(Lista,i+1,n,i)
+                Tmp = Lista[i]
+                Lista[i] = Lista[Min]
+                Lista[Min] = Tmp
+                return seleccion_aux(Lista,i+1,n,ContadorRep+1)
+            TablaAutos = open("Tabla de posiciones Autos.txt","r+")
+            Lista = TablaAutos.readlines()
+            TablaAutos.seek(0)
+            TablaAutos.write(''.join(seleccion(Lista)))
+            TablaAutos.close()
+            positions.destroy()
+            positions_table()
+
+        def ascendenteA():
+            def seleccion(Lista):
+                return seleccion_aux(Lista,0,len(Lista),0)
+
+            def menor(Lista,j,n,Min):
+                if j == n:
+                    return Min
+                if Lista[j][-6:] < Lista[Min][-6:]:
+                    Min = j
+                return menor(Lista,j+1,n,Min)
+            
+            def seleccion_aux(Lista,i,n,ContadorRep):
+                if i == n:
+                    return Lista
+                Min = menor(Lista,i+1,n,i)
+                Tmp = Lista[i]
+                Lista[i] = Lista[Min]
+                Lista[Min] = Tmp
+                return seleccion_aux(Lista,i+1,n,ContadorRep+1)
+            TablaAutos = open("Tabla de posiciones Autos.txt","r+")
+            Lista = TablaAutos.readlines()
+            TablaAutos.seek(0)
+            TablaAutos.write(''.join(seleccion(Lista)))
+            positions.update
+            TablaAutos.close()
+            positions.update
+            positions.destroy()
+            positions_table()
+
+################  FUNCIONES ORDENAMIENTO PILOTOS ##########################
+        def descendenteP_REP():
+            def seleccion(Lista):
+                return seleccion_aux(Lista,0,len(Lista),0)
+
+            def menor(Lista,j,n,Min):
+                if j == n:
+                    return Min
+                if Lista[j][-6:] > Lista[Min][-6:]:
+                    Min = j
+                return menor(Lista,j+1,n,Min)
+            
+            def seleccion_aux(Lista,i,n,ContadorRep):
+                if i == n:
+                    return Lista
+                Min = menor(Lista,i+1,n,i)
+                Tmp = Lista[i]
+                Lista[i] = Lista[Min]
+                Lista[Min] = Tmp
+                return seleccion_aux(Lista,i+1,n,ContadorRep+1)
+            TablaAutos = open("Tabla de posiciones Pilotos.txt","r+")
+            Lista = TablaAutos.readlines()
+            TablaAutos.seek(0)
+            TablaAutos.write(''.join(seleccion(Lista)))
+            TablaAutos.close()
+            positions.destroy()
+            #positions.delete("pilot")
+            positions_table()
+
+        def ascendenteP_REP():
+            def seleccion(Lista):
+                return seleccion_aux(Lista,0,len(Lista),0)
+
+            def menor(Lista,j,n,Min):
+                if j == n:
+                    return Min
+                if Lista[j][-6:] < Lista[Min][-6:]:
+                    Min = j
+                return menor(Lista,j+1,n,Min)
+            
+            def seleccion_aux(Lista,i,n,ContadorRep):
+                if i == n:
+                    return Lista
+                Min = menor(Lista,i+1,n,i)
+                Tmp = Lista[i]
+                Lista[i] = Lista[Min]
+                Lista[Min] = Tmp
+                return seleccion_aux(Lista,i+1,n,ContadorRep+1)
+            TablaAutos = open("Tabla de posiciones Pilotos.txt","r+")
+            Lista = TablaAutos.readlines()
+            TablaAutos.seek(0)
+            TablaAutos.write(''.join(seleccion(Lista)))
+            TablaAutos.close()
+            positions.destroy()
+            positions_table()
+            
+###########################################################################
+        def descendenteP_RGP():
+            def seleccion(Lista):
+                return seleccion_aux(Lista,0,len(Lista),0)
+
+            def menor(Lista,j,n,Min):
+                if j == n:
+                    return Min
+                if Lista[j][-12:-6] > Lista[Min][-12:-6]:
+                    print(Lista[j][-12:-6])
+                    Min = j
+                return menor(Lista,j+1,n,Min)
+            
+            def seleccion_aux(Lista,i,n,ContadorRep):
+                if i == n:
+                    return Lista
+                Min = menor(Lista,i+1,n,i)
+                Tmp = Lista[i]
+                Lista[i] = Lista[Min]
+                Lista[Min] = Tmp
+                return seleccion_aux(Lista,i+1,n,ContadorRep+1)
+            TablaAutos = open("Tabla de posiciones Pilotos.txt","r+")
+            Lista = TablaAutos.readlines()
+            TablaAutos.seek(0)
+            TablaAutos.write(''.join(seleccion(Lista)))
+            TablaAutos.close()
+            positions.destroy()
+            positions_table()
+
+        def ascendenteP_RGP():
+            def seleccion(Lista):
+                return seleccion_aux(Lista,0,len(Lista),0)
+
+            def menor(Lista,j,n,Min):
+                if j == n:
+                    return Min
+                if Lista[j][-12:-6] < Lista[Min][-12:-6]:
+                    Min = j
+                return menor(Lista,j+1,n,Min)
+            
+            def seleccion_aux(Lista,i,n,ContadorRep):
+                if i == n:
+                    return Lista
+                Min = menor(Lista,i+1,n,i)
+                Tmp = Lista[i]
+                Lista[i] = Lista[Min]
+                Lista[Min] = Tmp
+                return seleccion_aux(Lista,i+1,n,ContadorRep+1)
+            TablaAutos = open("Tabla de posiciones Pilotos.txt","r+")
+            Lista = TablaAutos.readlines()
+            TablaAutos.seek(0)
+            TablaAutos.write(''.join(seleccion(Lista)))
+            TablaAutos.close()
+            positions.destroy()
+            positions_table()
+
+###########################################################################
+        #Botones de la ventana
         Btn_back = Button(positions, text="Back", command=back, bg="light blue", fg='black')
-        Btn_back.place(x=10,y=10)
+        Btn_back.place(x=750,y=615)
+
+        #Botones pestaña pilotos
+        Btn_Descendente =Button(tab1, text="Descendente REP", command=descendenteP_REP, bg="light blue", fg='black')
+        Btn_Descendente.place(x=270,y=592)
+    
+        Btn_Ascendente =Button(tab1, text="Ascendente REP", command=ascendenteP_REP, bg="light blue", fg='black')
+        Btn_Ascendente.place(x=380,y=592)
+
+        Btn_Descendente =Button(tab1, text="Descendente RGP", command=descendenteP_RGP, bg="light blue", fg='black')
+        Btn_Descendente.place(x=490,y=592)
+    
+        Btn_Ascendente =Button(tab1, text="Ascendente RGP", command=ascendenteP_RGP, bg="light blue", fg='black')
+        Btn_Ascendente.place(x=600,y=592)
+
+        #Botones de edición de texto
+        Btn_Edit =Button(tab1, text="Edit", command=lambda: edit_textP(75,1,0), bg="light blue", fg='black')
+        Btn_Edit.place(x=750,y=75)
+        
+        Btn_Edit =Button(tab1, text="Edit", command= lambda: edit_textP(125,1,1), bg="light blue", fg='black')
+        Btn_Edit.place(x=750,y=125)
+
+        Btn_Edit =Button(tab1, text="Edit", command=lambda: edit_textP(180,1,2), bg="light blue", fg='black')
+        Btn_Edit.place(x=750,y=180)
+
+        Btn_Edit =Button(tab1, text="Edit", command=lambda: edit_textP(235,1,3), bg="light blue", fg='black')
+        Btn_Edit.place(x=750,y=235)
+        
+        Btn_Edit =Button(tab1, text="Edit", command=lambda: edit_textP(290,1,4), bg="light blue", fg='black')
+        Btn_Edit.place(x=750,y=290)
+        
+        Btn_Edit =Button(tab1, text="Edit", command=lambda: edit_textP(345,1,5), bg="light blue", fg='black')
+        Btn_Edit.place(x=750,y=345)
+
+        Btn_Edit =Button(tab1, text="Edit", command=lambda: edit_textP(400,1,6), bg="light blue", fg='black')
+        Btn_Edit.place(x=750,y=400)
+
+        Btn_Edit =Button(tab1, text="Edit", command=lambda: edit_textP(455,1,7), bg="light blue", fg='black')
+        Btn_Edit.place(x=750,y=455)
+
+        Btn_Edit =Button(tab1, text="Edit", command=lambda: edit_textP(510,1,8), bg="light blue", fg='black')
+        Btn_Edit.place(x=750,y=510)
+
+        Btn_Edit =Button(tab1, text="Edit", command=lambda: edit_textP(565,1,9), bg="light blue", fg='black')
+        Btn_Edit.place(x=750,y=565)
+
+        #Botones pestaña autos
+        Btn_DescendenteA =Button(tab2, text="Descendente", command=descendenteA, bg="light blue", fg='black')
+        Btn_DescendenteA.place(x=500,y=587)
+        
+        Btn_AscendenteA =Button(tab2, text="Ascendente", command=ascendenteA, bg="light blue", fg='black')
+        Btn_AscendenteA.place(x=600,y=587)
+
+        Btn_Edit =Button(tab2, text="Edit", command=lambda: edit_textP(75,0,0), bg="light blue", fg='black')
+        Btn_Edit.place(x=750,y=75)
+        
+        Btn_Edit =Button(tab2, text="Edit", command= lambda: edit_textP(125,0,1), bg="light blue", fg='black')
+        Btn_Edit.place(x=750,y=125)
+
+        Btn_Edit =Button(tab2, text="Edit", command=lambda: edit_textP(180,0,2), bg="light blue", fg='black')
+        Btn_Edit.place(x=750,y=180)
+
+        Btn_Edit =Button(tab2, text="Edit", command=lambda: edit_textP(235,0,3), bg="light blue", fg='black')
+        Btn_Edit.place(x=750,y=235)
+        
+        Btn_Edit =Button(tab2, text="Edit", command=lambda: edit_textP(290,0,4), bg="light blue", fg='black')
+        Btn_Edit.place(x=750,y=290)
+        
+        Btn_Edit =Button(tab2, text="Edit", command=lambda: edit_textP(345,0,5), bg="light blue", fg='black')
+        Btn_Edit.place(x=750,y=345)
+
+        Btn_Edit =Button(tab2, text="Edit", command=lambda: edit_textP(400,0,6), bg="light blue", fg='black')
+        Btn_Edit.place(x=750,y=400)
+
+        Btn_Edit =Button(tab2, text="Edit", command=lambda: edit_textP(455,0,7), bg="light blue", fg='black')
+        Btn_Edit.place(x=750,y=455)
+
+        Btn_Edit =Button(tab2, text="Edit", command=lambda: edit_textP(510,0,8), bg="light blue", fg='black')
+        Btn_Edit.place(x=750,y=510)
+
+        Btn_Edit =Button(tab2, text="Edit", command=lambda: edit_textP(565,0,9), bg="light blue", fg='black')
+        Btn_Edit.place(x=750,y=565)
 
         main.mainloop()
 
@@ -599,7 +1061,6 @@ def main_window():
                messagebox.showwarning("Pilot selection", "No se ha seleccionado un piloto")
                
        def drive_car_aux():
-           #global Sense12
            test.withdraw()
            car=Toplevel()
            car.title("Driving Test")
@@ -608,42 +1069,21 @@ def main_window():
 
            C_car = Canvas(car, width=1200, height=675, bg="white")
            C_car.place(x=0, y=0)
-           
-           """global B0_level
-           B0 = loadImg("B50.png")
-           B0_level = Label(C_car)
-           B0_level.place(x=-1105, y=185)
-           B0_level.config(image=B0)
-           B0_level.lift()
-
-           global B10_level
-           B10 = loadImg("B10.png")
-           B10_level = Label(C_car)
-           B10_level.place(x=-1105, y=185)
-           B10_level.config(image=B10)
-           B10_level.lift()
-
-           global B20_level
-           B20 = loadImg("B20.png")
-           B20_level = Label(C_car)
-           B20_level.place(x=-1105, y=185)
-           B20_level.config(image=B20)
-           B20_level.lift()"""
+  
 
            def intro():
                BG = loadImg("FE.1.png")
-               C_car.create_image(0, 0, image=BG, anchor=NW, state=NORMAL)
+               Fondo_intro = C_car.create_image(0, 0, image=BG, anchor=NW, state=NORMAL)
                time.sleep(2.7)
-               C_car.create_image(0, 0, image=BG, anchor=NW, state=HIDDEN)
+               C_car.itemconfig(Fondo_intro, state=HIDDEN)
                
-
                global Car_Background1
                BG2 = loadImg("23.1E.png")
                Car_Background1 = C_car.create_image(0, 0, image=BG2, anchor=NW, state=NORMAL)
 
                global Car_Background2
                BG3 = loadImg("23.N.png")
-               Car_Background2 = C_car.create_image(-2000, 0, image=BG3, anchor=NW, state=HIDDEN)
+               Car_Background2 = C_car.create_image(0, 0, image=BG3, anchor=NW, state=HIDDEN)
 
                global Piloto
                C_car.create_text(840, 5, font=("Agency", 20, "bold"), anchor=NW, fill="white", text=Piloto[12:38])
@@ -693,8 +1133,18 @@ def main_window():
                FR = loadImg("FD.1E2.png")
                R_arrow = C_car.create_image(310, 185, image=FR, anchor=NW, state=HIDDEN)
 
+               #NIVEL DE BATERIA
+               global LB20
+               LB20 = C_car.create_text(500, 500, font=("Agency", 16), anchor=NW, fill="white", text="")
+
+               global LB30
+               LB30 = C_car.create_text(500, 500, font=("Agency", 16), anchor=NW, fill="white", text="")
+
+               global LB40
+               LB40 = C_car.create_text(500, 500, font=("Agency", 16), anchor=NW, fill="white", text="")
+
                Btn_back = Button(car, text="TERMINAR TEST", command=back, bg="#cb3234", fg="white")
-               Btn_back.place(x=0, y=0)
+               Btn_back.place(x=10, y=10)
 
                time.sleep(100000)
 
@@ -703,7 +1153,7 @@ def main_window():
            myCar.start()
 
            def get_log():
-               global Sense12
+               global Sense, Lista, Bat
                #Hilo que actualiza los Text cada vez que se agrega un nuevo mensaje al log de myCar
                indice = 0
                while(myCar.loop):
@@ -711,11 +1161,15 @@ def main_window():
                        mnsSend = "[{0}] cmd: {1}\n".format(indice,myCar.log[indice][0])
                        try:
                            mnsRecv = "[{0}] result: {1}\n".format(indice,myCar.log[indice][1])
-                           Sense12 = mnsRecv
-                           
-                           if len(Sense12)>=27:
-                               sense_aux(Sense12)
-                               battery(Sense12),sense_aux(Sense12)
+                           Sense = mnsRecv
+                           if len(Sense)>=27:
+                               Bat = True
+                               sense_aux(Sense)
+                               #battery(Sense, Lista)
+                               #sense_aux(Sense)
+
+                           #if len(Sense)>=27:
+                               #battery(Sense)
                                
                        except:
                            pass
@@ -729,51 +1183,96 @@ def main_window():
                time.sleep(2)
                return sense()
 
-           def sense_aux(Sense12):
-               print("Hey")
-               global Car_Backgroud1, Car_Background2
-               if Sense12[-4]=="1":
-                   Car_Background2.place(x=-2000, y=0)
-                   Car_Background1.place(x=0, y=0)
-                   drive_car.update()
-               elif Sense12[-4]=="0":
-                   Car_Background1.place(x=-2000, y=0)
-                   Car_Background2.place(x=0, y=0)
+           def sense_aux(Sense):
+               global Car_Background1, Car_Background2
+               if buscar(Sense)== "1":
+                   C_car.itemconfig(Car_Background1, state=NORMAL)
+                   C_car.itemconfig(Car_Background2, state=HIDDEN)
                    drive_car.update()
                    
-           def battery(Sense12):
-               global B0_level, B10_level, B20_level
-               print("HOLA")
-               print(Sense12[18])
-               Bat = open("Battery_level.txt","r+")
-               Bat.seek(0)
-               
-               if Sense12[17] or Sense12[18] or Sense12[19] == "0":
-                   B0_level.place(x=105, y=185)
-                   B10_level.place(x=-1105, y=185)
-                   B20_level.place(x=-1105, y=185)
-                   Bat.write("Descargado")
-                   Bat.close()
+               elif buscar(Sense) == "0":
+                   C_car.itemconfig(Car_Background1, state=HIDDEN)
+                   C_car.itemconfig(Car_Background2, state=NORMAL)
                    drive_car.update()
 
-               if Sense12[17] or Sense12[18] or Sense12[19] == "1":
-                   B0_level.place(x=-1105, y=185)
-                   B10_level.place(x=205, y=185)
-                   B20_level.place(x=-1105, y=185)
-                   Bat.write("Descargado")
-                   Bat.close()
-                   drive_car.update()
+               else:
+                   pass
 
-               if Sense12[17] or Sense12[18] or Sense12[19] == "2":
+           def buscar(Sense):
+               if Sense[-1] == "1":
+                   return "1"
 
-                   B0_level.place(x=-1105, y=185)
-                   B10_level.place(x=-1105, y=185)
-                   B20_level.place(x=305, y=185)
-                   Bat.write("Descargado")
-                   Bat.close()
-                   drive_car.update()
-                   
-                   
+               elif Sense[-1] == "0":
+                   return "0"
+
+               else:
+                   return buscar(Sense[:-1])
+
+           def battery():
+               global Bat, Sense, Lista, L20, L30, L40
+               if Bat == True:
+                   Bat = open("Battery_level.txt","r+")
+                   Bat.seek(0)
+                   try:
+                       L_Bat = level_bat(Sense[3:], Lista, "")
+                       if L_Bat == "20":
+                           print("20% de bateria")
+                           C_car.itemconfig(LB20, text="20%")
+                           C_car.itemconfig(LB30, text="")
+                           C_car.itemconfig(LB40, text="")
+                           Bat.write("Descargado")
+                           Bat.close()
+
+                       elif L_Bat == "30":
+                           print("30% de bateria")
+                           LB30 = C_car.create_text(500, 500, font=("Agency", 16), anchor=NW, fill="white", text="30%")
+                           C_car.itemconfig(LB30, text="30%")
+                           C_car.itemconfig(LB20, text="")
+                           C_car.itemconfig(LB40, text="")
+                           Bat.write("Descargado")
+                           Bat.close()
+
+                       elif L_Bat == "40":
+                           print("40% de bateria")
+                           LB40 = C_car.create_text(500, 500, font=("Agency", 16), anchor=NW, fill="white", text="40%")
+                           C_car.itemconfig(LB40, text="40%")
+                           C_car.itemconfig(LB20, text="")
+                           C_car.itemconfig(LB30, text="")
+                           Bat.write("Descargado")
+                           Bat.close()
+
+                       else:
+                           pass
+                   except:
+                       pass
+               else:
+                   pass
+
+               Bat = False
+               time.sleep(1.5)
+               return battery()
+
+           def level_bat(Sense, Lista, L_Bat):
+               if Sense[0]==";":
+                   return L_Bat
+
+               elif buscar_level(Sense[0],Lista)==True:
+                   L_Bat = L_Bat + Sense[0]
+                   return level_bat(Sense[1:], Lista, L_Bat)
+
+               else:
+                   return level_bat(Sense[1:], Lista, L_Bat)
+
+           def buscar_level(Ele, Lista):
+               if Lista == []:
+                   return False
+
+               elif Ele == Lista[0]:
+                   return True
+
+               else:
+                   return buscar_level(Ele, Lista[1:])
+                            
            def lights(event):
                global Lfront, Lback, Lleft, Lright, Front_img, Back_img, Left_img, Right_img
                if event.char == "f":
@@ -833,6 +1332,7 @@ def main_window():
                if Forward <1023:
                    Forward+=1
                    mns = "pwm:" + str(Forward) + ";"
+                   print(mns)
                    myCar.send(mns)
                    C_car.itemconfig(L_PWM_aux, text=str(Forward))
                    time.sleep(0.01)
@@ -852,6 +1352,7 @@ def main_window():
                if Back>-1023:
                    Back-=1
                    mns = "pwm:" + str(Back) + ";"
+                   print(mns)
                    myCar.send(mns)
                    C_car.itemconfig(L_PWM_aux, text=str(Back))
                    time.sleep(0.01)
@@ -955,6 +1456,7 @@ def main_window():
            p=Thread(target=intro,args=()).start()
            p = Thread(target=get_log).start()
            p = Thread(target=sense).start()
+           p = Thread(target=battery).start()
            main.mainloop()
 
        def back():
