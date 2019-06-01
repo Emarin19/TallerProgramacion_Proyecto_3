@@ -412,18 +412,21 @@ def main_window():
     def test_drive():
        #Esconder ventana principal
        main.withdraw()
-       #Ventana de testeo del carro y sus atributos
+       #Ventana de para ek manejo del carro y sus atributos
        test=Toplevel()
        test.title("Driving Test")
        test.minsize(450, 625)
        test.resizable(width=NO, height=NO)
 
+       #Canvas de la ventana de testeo
        C_test = Canvas(test, width=450, height=625, bg="white")
        C_test.place(x=0, y=0)
 
-       BG1 = loadImg("T.2.png")
+       #Fondo principal
+       BG1 = loadImg("Test.png")
        C_test.create_image(0, 0, image=BG1, anchor=NW, state=NORMAL)
 
+       #Se abre el archivo que contiene el estado actual del carro y se coloca una imagen representativa del mismo
        Bat = open("Battery_level.txt","r+")
        Bat_level = Bat.readlines()
        Estado = loadImg(Bat_level[0])
@@ -431,95 +434,158 @@ def main_window():
        C_test.create_image(345, 50, image=Estado, anchor=NW, state=NORMAL)
 
        def select_pilot():
+           #Entradas: Ninguna
+           #Salida: Guarda los datos del piloto que el usuario ha seleccionado para realizar el test
+           #Restricciones: Deben haber a lo sumo dos pilotos de la Temporada 2019, el usuario debe seleccionar
+           #un piloto, de lo contrario no podrá realizar el test
+           
+           #Descripción: Función que muestra en pantalla todos los datos (Foto, nombre, nacionalidad,
+           #Temporada, RGP, REP, entre otros) de los pilotos de la Temporada 2019 para que el usuario pueda
+           #seleccionar uno de los dos. Una vez hecha la selección del piloto, todos los datos de este se
+           #almacenaran en una variable global para ponerlos en pantalla una vez iniciado el test
+
+           #Ventana para la selección del piloto y sus atributos
            pilot=Toplevel()
            pilot.title("Selección de piloto")
            pilot.minsize(900, 300)
            pilot.resizable(width=NO, height=NO)
 
+           #Canvas de la ventana de selección
            C_pilot = Canvas(pilot, width=900, height=300, bg="white")
            C_pilot.place(x=0, y=0)
-           
+
+           #Se abre el txt con la información de todos los pilotos de Temporadas pasadas y la Temporada 2019
            Pilotos_FE = open("Tabla de posiciones Pilotos.txt","r+")
            Pilotos_2019 = Pilotos_FE.readlines()
 
            def buscarA(Pilotos_2019,i,PA):
-               if Pilotos_2019[i][:9]==PA:
+               #Entradas: Lista de todos los pilotos de la Escuderia, un indice para ir buscando al Piloto A de
+               #la Temporada 2019 y una variable que contiene al Piloto que se desea encontrar
+               #Salida: Piloto A de la Temporada 2019 
+               #Restricciones: Debe haber a lo sumo dos pilotos de la Temporada 2019
+
+               #Descripción: Función recursiva que busca al Piloto A de la Temporada 2019 dentro de la lista de todos los
+               #pilotos de la Escuderia y una vez que lo encuentra, todos su datos se almacenan en una variable con el fin
+               #de ponerlos en la ventana para que el usuario pueda verlos y así selecconarlo o no para hacer el test
+               
+               if Pilotos_2019[i][:9]==PA:#Condición de finalización
                    return Pilotos_2019[i]
 
                else:
+                   #Llamada recursiva
                    return buscarA(Pilotos_2019,i+1,PA)
 
            def buscarB(Pilotos_2019,i,PB):
-               if Pilotos_2019[i][:9]==PB:
+               #Entradas: Lista de todos los pilotos de la Escuderia, un indice para ir buscando al Piloto B de
+               #la Temporada 2019 y una variable que contiene al Piloto que se desea encontrar
+               #Salida: Piloto B de la Temporada 2019 
+               #Restricciones: Debe haber a lo sumo dos pilotos de la Temporada 2019
+
+               #Descripción: Función recursiva que busca al Piloto B de la Temporada 2019 dentro de la lista de todos los
+               #pilotos de la Escuderia y una vez que lo encuentra, todos su datos se almacenan en una variable con el fin
+               #de ponerlos en la ventana para que el usuario pueda verlos y así selecconarlo o no para hacer el test
+               
+               if Pilotos_2019[i][:9]==PB:#Condición de finalización
                    return Pilotos_2019[i]
 
                else:
+                   #Llamada recursiva
                    return buscarB(Pilotos_2019,i+1,PB)
 
+           #Variable que contiene todos los datos del Piloto A de la Temporada 2019
            PilotoA = buscarA(Pilotos_2019,0,"2019A.png")
+           #Variable que contiene todos los datos del Piloto B de la Temporada 2019
            PilotoB = buscarB(Pilotos_2019,0,"2019B.png")
+
+
+           #INTERFAZ PARA LA SELECCIÓN DEL PILOTO
            
+           #Se carga la imagen del Piloto A
            PilotoA_img = loadImg(PilotoA[0:9])
            C_pilot.create_image(10, 80, image=PilotoA_img, anchor=NW, state=NORMAL)
 
+           #Se carga la imagen del Piloto B
            PilotoB_img = loadImg(PilotoB[0:9])
            C_pilot.create_image(10, 180, image=PilotoB_img, anchor=NW, state=NORMAL)
 
+           #Variable que almacena el valor de la selección de uno de los dos pilotos
            Selected = IntVar()
 
+           #Indicador de selección del Piloto: Si el valor de selección es 1, significa que el usuario ha
+           #seleccionado al Piloto A y si el valor de selección es 2, significa que el usuario ha seleccionado
+           #al Piloto B
            rad1 = Radiobutton(pilot,text="Piloto 1", value=1, variable=Selected)
            rad2 = Radiobutton(pilot,text="Piloto 2", value=2, variable=Selected)
 
+           #Nombres de los Pilotos
            C_pilot.create_text(320, 10, font=("Agency", 16, "bold"), anchor=NW, fill="black", text="PILOTOS TEMPORADA 2019")
            C_pilot.create_text(150, 50, font=("Agency", 16, "bold"), anchor=NW, fill="black", text="Nombre")
            C_pilot.create_text(70, 110, font=("Agency", 12), anchor=NW, fill="black", text=PilotoA[12:38])
            C_pilot.create_text(70, 210, font=("Agency", 12), anchor=NW, fill="black", text=PilotoB[12:38])
-           
+
+           #Edad de los Pilotos
            C_pilot.create_text(280, 50, font=("Agency", 16, "bold"), anchor=NW, fill="black", text="Edad")
            C_pilot.create_text(290, 110, font=("Agency", 12), anchor=NW, fill="black", text=PilotoA[41:44])
            C_pilot.create_text(290, 210, font=("Agency", 12), anchor=NW, fill="black", text=PilotoB[41:44])
 
+           #Nacionalidad de los Pilotos
            C_pilot.create_text(350, 50, font=("Agency", 16, "bold"), anchor=NW, fill="black", text="Nacionalidad")
            C_pilot.create_text(360, 110, font=("Agency", 12), anchor=NW, fill="black", text=PilotoA[48:65])
            C_pilot.create_text(360, 210, font=("Agency", 12), anchor=NW, fill="black", text=PilotoB[48:65])
-           
+
+           #Temporada, en este caso será la del 2019
            C_pilot.create_text(500, 50, font=("Agency", 16, "bold"), anchor=NW, fill="black", text="Temporada")
            C_pilot.create_text(530, 110, font=("Agency", 12), anchor=NW, fill="black", text=PilotoA[65:70])
            C_pilot.create_text(530, 210, font=("Agency", 12), anchor=NW, fill="black", text=PilotoB[65:70])
-           
+
+           #Número de competiciones de ambos pilotos
            C_pilot.create_text(620, 50, font=("Agency", 16, "bold"), anchor=NW, fill="black", text="Competencias")
            C_pilot.create_text(680, 110, font=("Agency", 12), anchor=NW, fill="black", text=PilotoA[76:81])
            C_pilot.create_text(680, 210, font=("Agency", 12), anchor=NW, fill="black", text=PilotoB[76:81])
 
+           #Rendimiento global de los Pilotos
            C_pilot.create_text(790, 50, font=("Agency", 16, "bold"), anchor=NW, fill="black", text="RGP")
            C_pilot.create_text(795, 110, font=("Agency", 12), anchor=NW, fill="black", text=PilotoA[93:97])
            C_pilot.create_text(795, 210, font=("Agency", 12), anchor=NW, fill="black", text=PilotoB[93:97])
-           
+
+           #Rendimiento específico de los Pilotos
            C_pilot.create_text(850, 50, font=("Agency", 16, "bold"), anchor=NW, fill="black", text="REP")
            C_pilot.create_text(855, 110, font=("Agency", 12), anchor=NW, fill="black", text=PilotoA[97:])
            C_pilot.create_text(855, 210, font=("Agency", 12), anchor=NW, fill="black", text=PilotoB[97:])
 
-
            def back():
+               #Entradas: Ninguna
+               #Salida: Datos del Piloto seleccionado por el usuario
+               #Restricciones: Se recomienda seleccionar uno de los dos Pilotos, de los contrario no se podrá realizar el test 
+
+               #Descripción: Función que almacena en una variable todos los datos del Piloto seleccionado por el usuario
                global Piloto
+               #Se obtiene el valor (1 o 2) de la selección del usuario
                Seleccion = Selected.get()
-               print(Seleccion)
+               #Si el valor de selección es 1, significa que el usuario seleccionó al Piloto A, por lo tanto se almacenarán todos
+               #sus datos para ponerlos en la ventana del test
                if Seleccion == 1:
                    Piloto = PilotoA
+               #Si el valor de selección es 2, significa que el usuario seleccionó al Piloto B, por lo tanto se almacenarán todos
+               #sus datos para ponerlos en la ventana del test
                elif Seleccion == 2:
                    Piloto = PilotoB
+               #Si el usuario no hace ninguna selección, se imprimirá el siguiente mensaje
                else:
                    print("Piloto no ha sido seleccionado")
 
+               #Se destuye la ventana de selección del Piloto
                pilot.destroy()
+               #Se retorna a la ventana de test_drive
                test.deiconify()
 
+           #Botones de selección de los Pilotos
            rad1.place(x=130, y=130)
            rad2.place(x=130, y=230)
-           
+
+           #Botón para confirmar la selección del Piloto y almacenar los datos del mismo
            Btn_back = Button(pilot, text="Seleccionar", command=back, bg="#cb3234", fg="white")
            Btn_back.place(x=430, y=250)
-
 
            main.mainloop()
 
@@ -542,23 +608,7 @@ def main_window():
 
            C_car = Canvas(car, width=1200, height=675, bg="white")
            C_car.place(x=0, y=0)
-
-           """global Piloto
-           L_Name = Label(C_car, text=Piloto[12:38], font=("Agency",20), bg="#2cb1a9", fg="white")
-           L_Name.place(x=860, y=5)
-
-           L_Nacionality = Label(C_car, text=Piloto[48:65], font=("Agency",22), bg="#2cb1a9", fg="white")
-           L_Nacionality.place(x=1000, y=45)
-
-           Logo_Escuderia = Logos = open("Team information.txt", "r+")
-           Logo = Logo_Escuderia.readlines()
-           L_Escuderia = Label(C_car, text=Logo[0][7:22], font=("Agency",16), bg="#2cb1a9", fg="white")
-           L_Escuderia.place(x=10, y=250)"""
            
-           
-           
-
-    
            """global B0_level
            B0 = loadImg("B50.png")
            B0_level = Label(C_car)
@@ -579,14 +629,6 @@ def main_window():
            B20_level.place(x=-1105, y=185)
            B20_level.config(image=B20)
            B20_level.lift()"""
-           
-           #L_PWM = Label(C_car, text="PWM", font=("Agency",22), bg="#2cb1a9", fg="white")
-           #L_PWM.place(x=560, y=400)
-
-           #global L_PWM_aux
-           #L_PWM_aux = Label(C_car, text=str(PWM), font=("Agency",18), bg="#2cb1a9", fg="white")
-           #L_PWM_aux.place(x=592, y=462)
-
 
            def intro():
                BG = loadImg("FE.1.png")
