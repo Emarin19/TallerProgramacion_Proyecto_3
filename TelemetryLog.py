@@ -1139,10 +1139,6 @@ def main_window():
                FB = loadImg("B.png")
                B_arrow = C_car.create_image(0, 0, image=FB, anchor=NW, state=HIDDEN)
 
-               #global Stoped
-               #ST = loadImg("S.1E2.png")
-               #Stoped = C_car.create_image(255, 190, image=ST, anchor=NW, state=HIDDEN)
-
                global L_PWM_aux
                C_car.create_text(560, 400, font=("Agency", 22), anchor=NW, fill="white", text="PWM")
                L_PWM_aux = C_car.create_text(592, 462, font=("Agency", 28), anchor=NW, fill="white", text="0")
@@ -1161,6 +1157,12 @@ def main_window():
 
                Btn_back = Button(car, text="TERMINAR TEST", command=back, bg="#cb3234", fg="white")
                Btn_back.place(x=10, y=10)
+
+               Btn_back = Button(car, text="CELEBRACIÓN", command=celebration, bg="#cb3234", fg="white")
+               Btn_back.place(x=1100, y=550)
+
+               Btn_back = Button(car, text="MOV. ESPECIAL", command=special_movement, bg="#cb3234", fg="white")
+               Btn_back.place(x=1100, y=575)
 
                time.sleep(100000)
 
@@ -1229,7 +1231,17 @@ def main_window():
                        L_Bat = level_bat(Sense[6:], Lista, "")
                        if L_Bat == "0":
                            B0 = loadImg(BL[0][:6])
-                           C_car.create_image(1105, 185, image=B0, anchor=NW, state=NORMAL)
+                           """C_car.create_image(1105, 185, image=B0, anchor=NW, state=NORMAL)
+                           C_car.create_image(1105, 185, image=B10, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B20, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B30, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B40, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B50, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B60, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B70, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B80, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B90, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B100, anchor=NW, state=HIDDEN)"""
                            C_car.itemconfig(Battery, text=L_Bat + "%")
                            print("0% de bateria")
                            Car_state.write("Descargado")
@@ -1237,8 +1249,17 @@ def main_window():
                            
                        elif L_Bat == "10":
                            B10 = loadImg(BL[1][:7])
-                           C_car.create_image(1105, 185, image=B0, anchor=NW, state=HIDDEN)
+                           """C_car.create_image(1105, 185, image=B0, anchor=NW, state=HIDDEN)
                            C_car.create_image(1105, 185, image=B10, anchor=NW, state=NORMAL)
+                           C_car.create_image(1105, 185, image=B20, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B30, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B40, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B50, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B60, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B70, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B80, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B90, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B100, anchor=NW, state=HIDDEN)"""
                            C_car.itemconfig(Battery, text=L_Bat + "%")
                            print("10% de bateria")
                            Car_state.write("Descargado")
@@ -1246,9 +1267,17 @@ def main_window():
 
                        elif L_Bat == "20":
                            B20 = loadImg(BL[2][:7])
-                           C_car.create_image(1105, 185, image=B0, anchor=NW, state=HIDDEN)
+                           """C_car.create_image(1105, 185, image=B0, anchor=NW, state=HIDDEN)
                            C_car.create_image(1105, 185, image=B10, anchor=NW, state=HIDDEN)
                            C_car.create_image(1105, 185, image=B20, anchor=NW, state=NORMAL)
+                           C_car.create_image(1105, 185, image=B30, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B40, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B50, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B60, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B70, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B80, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B90, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B100, anchor=NW, state=HIDDEN)"""
                            C_car.itemconfig(Battery, text=L_Bat + "%")
                            print("20% de bateria")
                            Car_state.write("Descargado")
@@ -1256,7 +1285,17 @@ def main_window():
 
                        elif L_Bat == "30":
                            B30 = loadImg(BL[3][:7])
+                           """C_car.create_image(1105, 185, image=B0, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B10, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B20, anchor=NW, state=HIDDEN)
                            C_car.create_image(1105, 185, image=B30, anchor=NW, state=NORMAL)
+                           C_car.create_image(1105, 185, image=B40, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B50, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B60, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B70, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B80, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B90, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B100, anchor=NW, state=HIDDEN)"""
                            C_car.itemconfig(Battery, text=L_Bat + "%")
                            print("30% de bateria")
                            Car_state.write("Descargado")
@@ -1264,7 +1303,17 @@ def main_window():
 
                        elif L_Bat == "40":
                            B40 = loadImg(BL[4][:7])
+                           """C_car.create_image(1105, 185, image=B0, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B10, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B20, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B30, anchor=NW, state=HIDDEN)
                            C_car.create_image(1105, 185, image=B40, anchor=NW, state=NORMAL)
+                           C_car.create_image(1105, 185, image=B50, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B60, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B70, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B80, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B90, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B100, anchor=NW, state=HIDDEN)"""
                            C_car.itemconfig(Battery, text=L_Bat + "%")
                            print("40% de bateria")
                            Car_state.write("Descargado")
@@ -1272,7 +1321,17 @@ def main_window():
 
                        elif L_Bat == "50":
                            B50 = loadImg(BL[5][:7])
+                           """C_car.create_image(1105, 185, image=B0, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B10, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B20, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B30, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B40, anchor=NW, state=HIDDEN)
                            C_car.create_image(1105, 185, image=B50, anchor=NW, state=NORMAL)
+                           C_car.create_image(1105, 185, image=B60, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B70, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B80, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B90, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B100, anchor=NW, state=HIDDEN)"""
                            C_car.itemconfig(Battery, text=L_Bat + "%")
                            print("50% de bateria")
                            Car_state.write("Descargado")
@@ -1280,7 +1339,17 @@ def main_window():
 
                        elif L_Bat == "60":
                            B60 = loadImg(BL[6][:7])
+                           """C_car.create_image(1105, 185, image=B0, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B10, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B20, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B30, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B40, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B50, anchor=NW, state=HIDDEN)
                            C_car.create_image(1105, 185, image=B60, anchor=NW, state=NORMAL)
+                           C_car.create_image(1105, 185, image=B70, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B80, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B90, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B100, anchor=NW, state=HIDDEN)"""
                            C_car.itemconfig(Battery, text=L_Bat + "%")
                            print("60% de bateria")
                            Car_state.write("Disponible")
@@ -1288,7 +1357,17 @@ def main_window():
 
                        elif L_Bat == "70":
                            B70 = loadImg(BL[7][:7])
+                           """C_car.create_image(1105, 185, image=B0, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B10, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B20, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B30, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B40, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B50, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B60, anchor=NW, state=HIDDEN)
                            C_car.create_image(1105, 185, image=B70, anchor=NW, state=NORMAL)
+                           C_car.create_image(1105, 185, image=B80, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B90, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B100, anchor=NW, state=HIDDEN)"""
                            C_car.itemconfig(Battery, text=L_Bat + "%")
                            print("70% de bateria")
                            Car_state.write("Disponible")
@@ -1296,7 +1375,17 @@ def main_window():
 
                        elif L_Bat == "80":
                            B80 = loadImg(BL[8][:7])
+                           """C_car.create_image(1105, 185, image=B0, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B10, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B20, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B30, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B40, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B50, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B60, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B70, anchor=NW, state=HIDDEN)
                            C_car.create_image(1105, 185, image=B80, anchor=NW, state=NORMAL)
+                           C_car.create_image(1105, 185, image=B90, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B100, anchor=NW, state=HIDDEN)"""
                            C_car.itemconfig(Battery, text=L_Bat + "%")
                            print("80% de bateria")
                            Car_state.write("Disponible")
@@ -1304,7 +1393,17 @@ def main_window():
 
                        elif L_Bat == "90":
                            B90 = loadImg(BL[9][:7])
+                           """C_car.create_image(1105, 185, image=B0, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B10, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B20, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B30, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B40, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B50, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B60, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B70, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B80, anchor=NW, state=HIDDEN)
                            C_car.create_image(1105, 185, image=B90, anchor=NW, state=NORMAL)
+                           C_car.create_image(1105, 185, image=B100, anchor=NW, state=HIDDEN)"""
                            C_car.itemconfig(Battery, text=L_Bat + "%")
                            print("90% de bateria")
                            Car_state.write("Disponible")
@@ -1312,7 +1411,17 @@ def main_window():
 
                        elif L_Bat == "100":
                            B100 = loadImg(BL[10][:8])
-                           C_car.create_image(1105, 185, image=B100, anchor=NW, state=NORMAL)
+                           """C_car.create_image(1105, 185, image=B0, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B10, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B20, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B30, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B40, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B50, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B60, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B70, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B80, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B90, anchor=NW, state=HIDDEN)
+                           C_car.create_image(1105, 185, image=B100, anchor=NW, state=NORMAL)"""
                            C_car.itemconfig(Battery, text=L_Bat + "%")
                            print("100% de bateria")
                            Car_state.write("Disponible")
@@ -1403,7 +1512,6 @@ def main_window():
            def move_forward(event):
                global Forward, Back, L_PWM_aux, F_arrow, B_arrow, Stoped
                Back = -700
-               #C_car.itemconfig(Stoped, state=HIDDEN)
                C_car.itemconfig(F_arrow, state=NORMAL)
                C_car.itemconfig(B_arrow, state=HIDDEN)
                if Forward <1023:
@@ -1423,7 +1531,6 @@ def main_window():
            def move_back(event):
                global Forward, Back, L_PWM_aux, F_arrow, B_arrow, Stoped
                Forward = 700
-               #C_car.itemconfig(Stoped, state=HIDDEN)
                C_car.itemconfig(F_arrow, state=HIDDEN)
                C_car.itemconfig(B_arrow, state=NORMAL)
                if Back>-1023:
@@ -1445,7 +1552,6 @@ def main_window():
                Forward = 700
                Back = -700
                Velocidad = 0
-               #C_car.itemconfig(Stoped, state=NORMAL)
                C_car.itemconfig(F_arrow, state=HIDDEN)
                C_car.itemconfig(B_arrow, state=HIDDEN)
                C_car.itemconfig(R_arrow, state=HIDDEN)
@@ -1506,6 +1612,52 @@ def main_window():
                mns = "dir:0;"
                myCar.send(mns)
 
+           def special_movement():
+               mns = "katarsys:;"
+               myCar.send(mns)
+
+           def celebration():
+               p=Thread(target=celebration_aux,args=()).start()
+
+           def celebration_aux():
+               global Piloto
+               if Piloto[0:9]=="2019A.png":
+                   print ("Celebración Piloto A")
+                   myCar.send("lf:1;")
+                   time.sleep(0.5)
+                   myCar.send("lf:0;")
+                   time.sleep(0.5)
+                   myCar.send("lf:1;")
+                   time.sleep(0.5)
+                   myCar.send("lf:0;")
+                   time.sleep(0.5)
+                   myCar.send("pwm:750;")
+                   time.sleep(2)
+                   myCar.send("pwm:-1000;")
+                   time.sleep(2)
+                   myCar.send("pwm:0;")
+               else:
+                   print("Celebración Piloto B")
+                   myCar.send("lr:1;")
+                   myCar.send("dir:1;")
+                   time.sleep(2)
+                   myCar.send("lr:0;")
+                   myCar.send("ll:1;")
+                   myCar.send("dir:-1;")
+                   time.sleep(2)
+                   myCar.send("ll:0;")
+                   myCar.send("pwm:900;")
+                   myCar.send("dir:1;")
+                   time.sleep(2)
+                   myCar.send("dir:-1;")
+                   time.sleep(2)
+                   myCar.send("dir:1;")
+                   time.sleep(2)
+                   myCar.send("dir:-1;")
+                   time.sleep(2)
+                   myCar.send("pwm:0;")
+                   
+               
            def send (event):
                mns = str(E_Command.get())
                if(len(mns)>0 and mns[-1] == ";"):
