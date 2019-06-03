@@ -1,9 +1,9 @@
-2017.png Katarsys 2017 ABCD 100.0
-2018.png Katarsys 2018 ABCD 100.0
-2013.png Katarsys 2013 ABCD 100.0
+2016.png Katarsys2016  Q15    100.0
+2019.png Katarsys2019 ABCD  330.0
 2014.png Katarsys 2014 ABCD 100.0
-2016.png Katarsys 2016 ABCD 100.0
-2019.png Katarsys 2019 ABCD 100.0
+2013.png Katarsys 2013 ABCD 100.0
+2018.png Katarsys 2018 ABCD 100.0
+2017.png Katarsys 2017 ABCD 100.0
 2012.png Katarsys 2012 ABCD 120.0
 2015.png Katarsys 2015 ABCD 150.0
 2011.png Katarsys 2011 ABCD 170.0
