@@ -756,6 +756,69 @@ def main_window():
             Btn_back = Button(edit, text="Confirmar cambio", command=lambda: cambiar(i,Lista,Elegir), bg="light blue", fg='black')#Define el botón de confirmar cambio
             Btn_back.place(x=530,y=100)#Posiciona el botón de comfirmar cambio
 
+        def new_car():
+            """
+            Instituto Tecnológico de Costa Rica
+            Ingeniería en Computadores
+            Introducción a la programación
+            Profesor: Milton Villegas Lemus
+            Autor: Alejandro Vásquez Oviedo
+            Programa: new_car
+            Última fecha de modificación: 3/6/2019
+            Versión: 1.0
+            Lenguaje: Python 3.7.3
+            Entradas: ninguna
+            Restricciones: no hay
+            Salidas: muestra una ventana nueva, deshabilitando la de posiciones, en la cual se puede ingresar un nuevo auto para la temporada
+            Utiliza la función auxiliar:
+            -crear
+            """
+            positions.attributes('-disabled', True) #Comando que deshabilita todos los botones de la tabla de posiciones mientras se muestre la
+            #ventana de edición
+            new=Toplevel() #Crea la ventana
+            new.title("Add") #Da un nombre a la ventana
+            new.minsize(650,100) #Define el tamaño de la ventana
+            new.resizable(width=NO, height=NO) #Evita que se pueda modificar el tamaño de la ventana
+            C_new=Canvas(new, width=650,height=650, bg='light blue') #Crea un canvas en la ventana
+            C_new.place(x=0,y=0)#Posiciona el canvas en las coordenadas (0,0)
+            C_new.create_image(0,0,image=Edit_F, anchor=NW,state=NORMAL) #Define el fondo del canvas
+            
+            arch = open("Tabla de posiciones Autos.txt","r+")
+            Lista = arch.readlines()
+
+            E_new = Entry(C_new,text="",width=40, font="Agency FB",14)
+            E_new.place(x=0,y=100)
+
+            def crear():
+                """
+                Esta función se encarga de agregar el nuevo carro al archivo de texto
+                """
+                New_car = str(E_new.get())
+                AEscribir = New_car
+                Lista.insert(0,[AEscribir])
+
+                arch = open("Tabla de posiciones Autos.txt","w")#Abre el archivo para escribir
+                arch.writelines(Lista) #Inserta la lista modificada
+                arch.close #Cierra el archivo
+                
+                E_new.delete(0, END)#Elimina el texto de entry
+
+                #arch.close()#Cierra el archivo
+                positions.attributes('-disabled', False)#Habilita nuevamente los botones de la ventana de posiciones
+                new.destroy()#Destruye la ventana de edición
+                positions.destroy()#Destruye la ventana de posiciones
+                positions_table()#Crea nuevamente la ventana de posiciones
+                
+            def disable_event(): #Función en caso de que se presione la "x" en la ventana
+                E_new.delete(0, END)#Elimina el texto de entry
+                arch.close()#Cierra el archivo
+                positions.attributes('-disabled', False)#Habilita nuevamente los botones de la ventana de posiciones
+                new.destroy()#Destruye la ventana de edición
+                new.protocol("WM_DELETE_WINDOW", disable_event)#Llama a la función que indica qué debe hacer la "x"
+            Btn_back = Button(new, text="Agregar nuevo carro", command=crear, bg="light blue", fg='black')#Define el botón de agregar nuevo carro
+            Btn_back.place(x=530,y=100)#Posiciona el botón de comfirmar cambio
+
+
 ############################### FUNCIONES ORDENAMIENTO AUTOS #############################      
         def descendenteA():
             """
@@ -1079,6 +1142,10 @@ def main_window():
         
         Btn_AscendenteA =Button(tab2, text="Ascendente", command=ascendenteA, bg="light blue", fg='black')#Botón de ordenamiento por eficiencia de los autos ascendente
         Btn_AscendenteA.place(x=600,y=587)
+
+        Btn_Crear =Button(tab2, text="Añadir auto", command=new_car, bg="light blue", fg='black')#Botón de ordenamiento por eficiencia de los autos ascendente
+        Btn_Crear.place(x=400,y=587)
+        
 
         #Botones de edición de la pestaña de autos
         #Se utiliza lambda en los commands para evitar que se ejecuten de manera instantánea ya que poseen argumentos
