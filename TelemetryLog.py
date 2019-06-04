@@ -683,20 +683,51 @@ Restricciones: La Escudería debe tener al menos un patrocinador"""
         main.mainloop()
 
     def positions_table():
+        """
+        Instituto Tecnológico de Costa Rica
+        Ingeniería en Computadores
+        Introducción a la programación
+        Profesor: Milton Villegas Lemus
+        Autor: Alejandro Vásquez Oviedo
+        Programa: positions_table
+        Última fecha de modificación: 2/6/2019
+        Versión: 1.0
+        Lenguaje: Python 3.7.3
+        Entradas: Ninguna
+        Restricciones: No tiene
+        Salidas: Muestra la ventana que posee la tabla de posiciones de autos y pilotos, muestra además
+        los datos solititados para los pilotos y los autos, además permite su ordenamiento según el REP,
+        RGP o eficiencia en caso de los carros. Además permite la edición en su totalidad de los datos de
+        ambas tablas. Utiliza para esta tarea distintas funciones auxiliares tales como:
+        -carg_pilotos
+        -carg_autos
+        -edit_textP
+        -cambiar
+        -mod_entry
+        -descendenteA
+        -descendenteP_REP
+        -descendenteP_RGP
+        -ascendenteA
+        -ascendenteP_REP
+        -ascendenteP_RGP
+        Si desea información específica de cada función por favor utilice el método correspondiente utilizando print.
+
+        Llama además las función del archivo Validaciones que permiten mostrar los datos en una posición adecuada.
+        """
         #Esconder ventana principal
         main.withdraw()
         #Ventana de posisiones
         positions=Toplevel()
-        positions.title("Positions Table")
-        positions.minsize(800,650)
-        positions.resizable(width=NO, height=NO)
+        positions.title("Positions Table")#Nombre de la ventana
+        positions.minsize(800,650)#Tamaño de la ventana
+        positions.resizable(width=NO, height=NO)#Evita que se pueda modificar el tamaño de la ventana
 
         #Código para las pestañas    
-        tab_control = ttk.Notebook(positions)
-        tab1 = ttk.Frame(tab_control) 
-        tab2 = ttk.Frame(tab_control)
-        tab_control.add(tab1, text='Pilotos')
-        tab_control.add(tab2, text='Autos')
+        tab_control = ttk.Notebook(positions)#Habilita el método de pestañas
+        tab1 = ttk.Frame(tab_control)#Crea la primera pestaña
+        tab2 = ttk.Frame(tab_control)#Crea la segunda pestaña
+        tab_control.add(tab1, text='Pilotos')#Asigna nombre a la pestaña
+        tab_control.add(tab2, text='Autos')#Asigna nombre a la pestaña
 
         C_positionsP = Canvas(tab1, width=800, height=650)
         C_positionsP.place(x=0, y=0)
@@ -705,11 +736,11 @@ Restricciones: La Escudería debe tener al menos un patrocinador"""
         C_positionsA.place(x=0, y=0)
 
         #Abrir documento de pilotos y autos  
-        arch_pilotos = open("Tabla de posiciones Pilotos.txt","r+")
-        lista_pilotos = arch_pilotos.readlines()
+        arch_pilotos = open("Tabla de posiciones Pilotos.txt","r+")#Abre el documento de pilotos
+        lista_pilotos = arch_pilotos.readlines()#Lo transforma a una lista
 
-        arch_autos = open("Tabla de posiciones Autos.txt","r+")
-        lista_autos = arch_autos.readlines()
+        arch_autos = open("Tabla de posiciones Autos.txt","r+")#Abre el documento de autos
+        lista_autos = arch_autos.readlines()#Lo transforma a lista
 
         #Imágenes a usar
         Piloto1 = loadImg(lista_pilotos[0][:9])
@@ -745,14 +776,31 @@ Restricciones: La Escudería debe tener al menos un patrocinador"""
 
         #Imágenes y textos de pilotos
         def carg_pilotos():
+            """
+            Instituto Tecnológico de Costa Rica
+            Ingeniería en Computadores
+            Introducción a la programación
+            Profesor: Milton Villegas Lemus
+            Autor: Alejandro Vásquez Oviedo
+            Programa: carg_pilotos
+            Última fecha de modificación: 2/6/2019
+            Versión: 1.0
+            Lenguaje: Python 3.7.3
+            Entradas: ninguna
+            Restricciones: no hay
+            Salidas: mostrar en pantalla los distintos textos e imágenes de todos los pilotos según su posición en el archivo txt
+            del cual se obtienen los datos. Esto a través de una for que recorre todas las filas del documento por medio de un range
+            con lo cual siempre muestra todos los datos. La idea de utilizar un for para simplificar el código fue dada por el
+            compañero David Solís, gracias a esta idea se creó el código utilizado.
+            """
             y = 75
-            for i in range(0,10):
+            for i in range(0,10):#Indica que la primera posición es a los 75 pixeles en el eje y
                 C_positionsP.create_text(120,y,font=("Arial", 10, "bold"), anchor=NW,tags=("pilot"),fill="white", text=lista_pilotos[i][10:nombres(lista_pilotos[i])])
                 C_positionsP.create_text(405,y,font=("Arial", 10, "bold"), anchor=NW,tags=("pilot"),fill="white", text=lista_pilotos[i][edad(lista_pilotos[i])[0]:edad(lista_pilotos[i])[1]]) #Edad y nacionalidad
                 C_positionsP.create_text(528,y,font=("Arial", 10, "bold"), anchor=NW,tags=("pilot"),fill="white", text=lista_pilotos[i][edad(lista_pilotos[i])[1]:edad(lista_pilotos[i])[2]])
                 C_positionsP.create_text(592,y,font=("Arial", 10, "bold"), anchor=NW,tags=("pilot"),fill="white", text=lista_pilotos[i][edad(lista_pilotos[i])[2]:])
             
-                y+=55
+                y+=55#Aumenta la posición en y del nuevo texto en 55 pixeles
             
             C_positionsP.create_image(65,55,image=Piloto1, anchor=NW,tags=("pilot"),state=NORMAL)           
             C_positionsP.create_image(65,105,image=Piloto2, anchor=NW,tags=("pilot"),state=NORMAL)
@@ -765,323 +813,563 @@ Restricciones: La Escudería debe tener al menos un patrocinador"""
             C_positionsP.create_image(65,475,image=Piloto9, anchor=NW,tags=("pilot"),state=NORMAL)    
             C_positionsP.create_image(65,527,image=Piloto10, anchor=NW,tags=("pilot"),state=NORMAL)
         
-        carg_pilotos()
+        carg_pilotos()#Llama a la función encargada de cargar los datos e imágenes de los pilotos
 
-        #Labels de Autos
+        #Datos e imágenes de Autos
         def carg_autos():
-            y = 75
+            """
+            Instituto Tecnológico de Costa Rica
+            Ingeniería en Computadores
+            Introducción a la programación
+            Profesor: Milton Villegas Lemus
+            Autor: Alejandro Vásquez Oviedo
+            Programa: carg_autos
+            Última fecha de modificación: 2/6/2019
+            Versión: 1.0
+            Lenguaje: Python 3.7.3
+            Entradas: ninguna
+            Restricciones: no hay
+            Salidas: mostrar en pantalla los distintos textos e imágenes de todos los autos según su posición en el archivo txt
+            del cual se obtienen los datos. Esto a través de una for que recorre todas las filas del documento por medio de un range
+            con lo cual siempre muestra todos los datos. La idea de utilizar un for para simplificar el código fue dada por el
+            compañero David Solís, gracias a esta idea se creó el código utilizado.
+            """
+            y = 75#Indica que la primera posición es a los 75 pixeles en el eje y 
             for i in range(0,10):
                 C_positionsA.create_text(180,y,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_autos[i][8:nombres(lista_autos[i])])
                 C_positionsA.create_text(380,y,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_autos[i][edad_a(lista_autos[i])[0]:edad_a(lista_autos[i])[1]])
                 C_positionsA.create_text(500,y,font=("Arial", 10, "bold"), anchor=NW,fill="white", text=lista_autos[i][edad_a(lista_autos[i])[1]:])
 
-                y+=55
+                y+=55#Aumenta la posición en y del nuevo texto en 55 pixeles
             
-            C_positionsA.create_image(65,65,image=Auto1, anchor=NW,state=NORMAL)
-            C_positionsA.create_image(65,115,image=Auto2, anchor=NW,state=NORMAL)
-            C_positionsA.create_image(65,169,image=Auto3, anchor=NW,state=NORMAL)
-            C_positionsA.create_image(65,227,image=Auto4, anchor=NW,state=NORMAL)
-            C_positionsA.create_image(65,280,image=Auto5, anchor=NW,state=NORMAL)
-            C_positionsA.create_image(65,337,image=Auto6, anchor=NW,state=NORMAL)
-            C_positionsA.create_image(65,383,image=Auto7, anchor=NW,state=NORMAL)
-            C_positionsA.create_image(65,437,image=Auto8, anchor=NW,state=NORMAL)
-            C_positionsA.create_image(65,485,image=Auto9, anchor=NW,state=NORMAL)
-            C_positionsA.create_image(65,542,image=Auto10, anchor=NW,state=NORMAL)
+            C_positionsA.create_image(65,65,image=Auto1, anchor=NW,state=NORMAL)#Imagen del piloto
+            C_positionsA.create_image(65,115,image=Auto2, anchor=NW,state=NORMAL)#Imagen del piloto
+            C_positionsA.create_image(65,169,image=Auto3, anchor=NW,state=NORMAL)#Imagen del piloto
+            C_positionsA.create_image(65,227,image=Auto4, anchor=NW,state=NORMAL)#Imagen del piloto
+            C_positionsA.create_image(65,280,image=Auto5, anchor=NW,state=NORMAL)#Imagen del piloto
+            C_positionsA.create_image(65,337,image=Auto6, anchor=NW,state=NORMAL)#Imagen del piloto
+            C_positionsA.create_image(65,383,image=Auto7, anchor=NW,state=NORMAL)#Imagen del piloto
+            C_positionsA.create_image(65,437,image=Auto8, anchor=NW,state=NORMAL)#Imagen del piloto
+            C_positionsA.create_image(65,485,image=Auto9, anchor=NW,state=NORMAL)#Imagen del piloto
+            C_positionsA.create_image(65,542,image=Auto10, anchor=NW,state=NORMAL)#Imagen del piloto
             
-        carg_autos()
-        tab_control.pack(expand=1, fill='both')
+        carg_autos()#Llama a la función que carga toda la información e imágenes de los autos
+        tab_control.pack(expand=1, fill='both')#Línea que termina la creación correcta de las pestañas
 
         #Funciones de botones
-        def back():
+        def back():#Función que permite regresar a la ventana principal
             arch_autos.close()
             arch_pilotos.close()
             positions.destroy()
             main.deiconify()
 
         def edit_textP(y,Elegir,i):
-            positions.attributes('-disabled', True)
-            edit=Toplevel()
-            edit.title("Edit")
-            edit.minsize(650,100)
-            edit.resizable(width=NO, height=NO)
-            C_edit=Canvas(edit, width=650,height=650, bg='light blue')
-            C_edit.place(x=0,y=0)
-            C_edit.create_image(0,0,image=Edit_F, anchor=NW,state=NORMAL)
-            Lista = 0
-            arch = 0
-            if Elegir == 0:
-                arch = open("Tabla de posiciones Autos.txt","r+")
-                Lista = arch.readlines()
-            if Elegir == 1:    
-                arch = open("Tabla de posiciones Pilotos.txt","r+")
-                Lista = arch.readlines()
-            if Elegir == 1:    
+            """
+            Instituto Tecnológico de Costa Rica
+            Ingeniería en Computadores
+            Introducción a la programación
+            Profesor: Milton Villegas Lemus
+            Autor: Alejandro Vásquez Oviedo
+            Programa: edit_textP
+            Última fecha de modificación: 2/6/2019
+            Versión: 1.0
+            Lenguaje: Python 3.7.3
+            Entradas: la coordenada en y del botón seleccionado, el indicador de si es un botón de autos o pilotos, y un contador
+            que permite identificar la fila debe mostrarse para edición en los Entrys.
+            Restricciones: no hay
+            Salidas: muestra una ventana nueva, deshabilitando la de posiciones, donde se muestra al usuario tres entrys que le permiten editar
+            los distintos aspectos de los autos o los pilotos y es la función encargada de reescribir la información y actualizar la ventana para
+            mosrar los cambios. Esto gracias a las funciones auxiliares como:
+            -cambiar
+            -mod_entry
+            Y las funciones que se encuentran en el archivo Validación.py
+            """
+            positions.attributes('-disabled', True)#Comando que deshabilita todos los botones de la tabla de posiciones mientras se muestre la
+            #ventana de edición
+            edit=Toplevel()#Crea la ventana
+            edit.title("Edit")#Da un nombre a la ventana
+            edit.minsize(650,100)#Define el tamaño de la ventana
+            edit.resizable(width=NO, height=NO)#Evita que se pueda modificar el tamaño de la ventana
+            C_edit=Canvas(edit, width=650,height=650, bg='light blue')#Crea un canvas en la ventana
+            C_edit.place(x=0,y=0)#Posiciona el canvas en las coordenadas (0,0)
+            C_edit.create_image(0,0,image=Edit_F, anchor=NW,state=NORMAL)#Define el fondo del canvas
+            Lista = 0#Define la variable que contendrá a la lista del archivo
+            arch = 0#Defina la variable donde se guardará el archivo
+            
+            if Elegir == 0:#Si es 0 indica que se presionó un botón de autos y abre este archivo
+                arch = open("Tabla de posiciones Autos.txt","r+")#Asigna el archivo a la variable
+                Lista = arch.readlines()#Asigna la lista del archivo a la variable
+                
+            if Elegir == 1:#Si es 1 indica que se presionó un botón de pilotos y abre este archivo    
+                arch = open("Tabla de posiciones Pilotos.txt","r+")#Asigna el archivo a la variable
+                Lista = arch.readlines()#Asigna la lista del archivo a la variable
+                
+            if Elegir == 1:#Si es 1 muestra el texto con los datos que se muestran en esta pestaña de los pilotos   
                 C_edit.create_text(5,70,font=("Arial", 12, "bold"), anchor=NW,tags=("pilot"),fill="white", text="Nombre:")
                 C_edit.create_text(200,80,font=("Arial", 9, "bold"), anchor=NW,tags=("pilot"),fill="white", text="Edad Nacionalidad Temporada")
                 C_edit.create_text(380,80,font=("Arial",9,"bold"),anchor=NW,tags=("pilot"),fill="white",text="Compet. RGP REP")
-            if Elegir == 0:
+                
+            if Elegir == 0:#Si es 0 muestra el texto con los datos que se muestran en esta pestaña de los autos
                 C_edit.create_text(5,70,font=("Arial", 12, "bold"), anchor=NW,tags=("pilot"),fill="white", text="Marca:")
                 C_edit.create_text(200,80,font=("Arial", 9, "bold"), anchor=NW,tags=("pilot"),fill="white", text="Temp. Modelo")
                 C_edit.create_text(380,80,font=("Arial",9,"bold"),anchor=NW,tags=("pilot"),fill="white",text="Eficiencia") 
         
-            E_name = Entry(C_edit,text="hola",width=25,font=("Agency FB",14))
-            E_name.place(x=0,y=100)
-            E_age = Entry(C_edit,text="texto",width=20,font=("Agency FB",14))
-            E_age.place(x=210,y=100)
-            E_rest = Entry(C_edit,width=15,font=("Agency FB",14))
-            E_rest.place(x=380,y=100)
+            E_name = Entry(C_edit,text="hola",width=25,font=("Agency FB",14))#Se crea el primer entry
+            E_name.place(x=0,y=100)#Se coloca el primer entry
+            E_age = Entry(C_edit,text="texto",width=20,font=("Agency FB",14))#Se crea el segundo entry
+            E_age.place(x=210,y=100)#Se posiciona el segundo entry
+            E_rest = Entry(C_edit,width=15,font=("Agency FB",14))#Se crea el tercer entry
+            E_rest.place(x=380,y=100)#Se posiciona el segundo entry
             def mod_entry(y,i,n,Elegir):
-                if Elegir == 1:
-                    if y == 75:
-                        E_name.insert(END,Lista[0][9:nombres(Lista[0])]) 
-                        E_age.insert(0,Lista[0][edad(lista_pilotos[0])[0]:edad(lista_pilotos[0])[2]])
-                        E_rest.insert(0,Lista[0][edad(lista_pilotos[0])[2]:])
+                """
+                Instituto Tecnológico de Costa Rica
+                Ingeniería en Computadores
+                Introducción a la programación
+                Profesor: Milton Villegas Lemus
+                Autor: Alejandro Vásquez Oviedo
+                Programa: mod_entry
+                Última fecha de modificación: 2/6/2019
+                Versión: 1.0
+                Lenguaje: Python 3.7.3
+                Entradas: coordenada dle botón, indicador de fila, comparador de la coordenada con la fila y el valor que indica si
+                auto o piloto.
+                Restricciones: no hay
+                Salidas: es la función encargada de mostrar en los distintos entrys los datos correspondientes según sea el botón
+                que se presione
+                """
+                if Elegir == 1:#Se eligieron pilotos
+                    if y == 75: #Quiere decir que es desde el botón de la primera fila
+                        E_name.insert(END,Lista[0][9:nombres(Lista[0])])#Inserta el nombre
+                        E_age.insert(0,Lista[0][edad(lista_pilotos[0])[0]:edad(lista_pilotos[0])[2]])#Inserta la edad, la temporada
+                        E_rest.insert(0,Lista[0][edad(lista_pilotos[0])[2]:])#Inserta el número de competencias, REP y RGP
+                        return#Sale de la función
+                    if y == n:#Entra aquí una vez se encuentre la fila para cual coincide la coordenada del botón enviada
+                        E_name.insert(END,Lista[i][9:nombres(Lista[i])])#Inserta el nombre
+                        E_age.insert(0,Lista[i][edad(lista_pilotos[i])[0]:edad(lista_pilotos[i])[2]])#Inserta la edad y la temporada
+                        E_rest.insert(0,Lista[0][edad(lista_pilotos[i])[2]:])#Inserta el número de competencias, REP y RGP
+                        return#Sale de la función
+                    else:
+                        return mod_entry(y,i+1,n+55,Elegir)#En caso de no ser la primera fila y no coincidir la y con la n se hará una
+                                                            #llamada recursiva aumentnado la n en 55 y la i en 1 para poder revisar si
+                                                            #ahora sí corresponde a la y enviada y cargar esa fila.
+                elif Elegir == 0:#Se eligieron autos
+                    if y == 75:#Quiere decir que es desde el botón de la primera fila
+                        E_name.insert(END,Lista[0][9:nombres(Lista[0])])#Inserta la marca
+                        E_age.insert(0,Lista[0][edad_a(lista_autos[0])[0]:edad_a(lista_autos[0])[1]])#Inserta la temporada y el modelo
+                        E_rest.insert(0,Lista[0][edad_a(lista_autos[0])[1]:])#Inserta la eficiencia
                         return
-                    if y == n:
-                        E_name.insert(END,Lista[i][9:nombres(Lista[i])])
-                        E_age.insert(0,Lista[i][edad(lista_pilotos[i])[0]:edad(lista_pilotos[i])[2]])
-                        E_rest.insert(0,Lista[0][edad(lista_pilotos[i])[2]:])
+                    if y == n:#Entra aquí una vez se encuentre la fila para cual coincide la coordenada del botón enviada
+                        E_name.insert(END,Lista[i][9:nombres(Lista[i])])#Inserta la marca
+                        E_age.insert(0,Lista[i][edad_a(lista_autos[i])[0]:edad_a(lista_autos[i])[1]])#Inserta la temporada y el modelo
+                        E_rest.insert(0,Lista[i][edad_a(lista_autos[i])[1]:])#Inserta la eficiencia
                         return
                     else:
-                        return mod_entry(y,i+1,n+55,Elegir)
-                elif Elegir == 0:
-                    if y == 75:
-                        E_name.insert(END,Lista[0][9:nombres(Lista[0])]) 
-                        E_age.insert(0,Lista[0][edad_a(lista_autos[0])[0]:edad_a(lista_autos[0])[1]])
-                        E_rest.insert(0,Lista[0][edad_a(lista_autos[0])[1]:])
-                        return
-                    if y == n:
-                        E_name.insert(END,Lista[i][9:nombres(Lista[i])])
-                        E_age.insert(0,Lista[i][edad_a(lista_autos[i])[0]:edad_a(lista_autos[i])[1]])
-                        E_rest.insert(0,Lista[i][edad_a(lista_autos[i])[1]:])
-                        return
-                    else:
-                        return mod_entry(y,i+1,n+55,Elegir)
-            mod_entry(y,1,125,Elegir)
+                        return mod_entry(y,i+1,n+55,Elegir)#En caso de no ser la primera fila y no coincidir la y con la n se hará una
+                                                            #llamada recursiva aumentnado la n en 55 y la i en 1 para poder revisar si
+                                                            #ahora sí corresponde a la y enviada y cargar esa fila.
+                    
+            mod_entry(y,1,125,Elegir)#Llama a la función que se encarga de mostrar los datos en los entrys
             def cambiar(i,Lista,Elegir):
-                Nombre = str(E_name.get())
-                Datos1 = str(E_age.get())
-                Datos2 = str(E_rest.get())
-                AEscribir = Lista[i][:9]+str(E_name.get())+str(E_age.get())+" "+str(E_rest.get())
+                """
+                Instituto Tecnológico de Costa Rica
+                Ingeniería en Computadores
+                Introducción a la programación
+                Profesor: Milton Villegas Lemus
+                Autor: Alejandro Vásquez Oviedo
+                Programa: cambiar
+                Última fecha de modificación: 2/6/2019
+                Versión: 1.0
+                Lenguaje: Python 3.7.3
+                Entradas: indicador de la fila, la lista del documento, y el indicador de si es la lista de pilotos o autos
+                Restricciones: no hay
+                Salidas: función cuya labor es tomar los textos de los entrys, unirlos en un solo string, y cargarlo en la posición
+                i correspondiente para luego reescribir esta lista en el txt ahora modificado por el usuario
+                """
+                Nombre = str(E_name.get())#Toma el texto del primer entry
+                Datos1 = str(E_age.get())#Toma el texto del segundo entry
+                Datos2 = str(E_rest.get())#Toma el texto del tercer entry
+                AEscribir = Lista[i][:9]+str(E_name.get())+str(E_age.get())+" "+str(E_rest.get())#Une los tres entrys en una sola variable de tipo string
             
-                Lista[i] = AEscribir
-                if Elegir == 0:
-                    arch = open("Tabla de posiciones Autos.txt","w")
-                    arch.writelines(Lista)
-                    arch.close
+                Lista[i] = AEscribir#Inserta la nueva información en la columna correspondiente
+                if Elegir == 0:#Indica que se debe escribir en el archivo de autos
+                    arch = open("Tabla de posiciones Autos.txt","w")#Abre el archivo para escribir
+                    arch.writelines(Lista)#Inserta ahora la lista modificada
+                    arch.close#Cierra el archivo
 
-                elif Elegir == 1:
-                    arch = open("Tabla de posiciones Pilotos.txt","w")
-                    arch.writelines(Lista)
-                    arch.close
+                elif Elegir == 1:#Indica que se debe escribir en el archivo de pilotos
+                    arch = open("Tabla de posiciones Pilotos.txt","w")#Abre el archivo para escribir
+                    arch.writelines(Lista)#Inserta ahora la lista modificada
+                    arch.close#Cierra el archivo
             
-                E_name.delete(0, END)
-                E_age.delete(0, END)
-                E_rest.delete(0,END)
-                arch.close()
-                positions.attributes('-disabled', False)
-                edit.destroy()
-                positions.destroy()
-                positions_table()
-            def disable_event():
-                E_name.delete(0, END)
-                E_age.delete(0, END)
-                E_rest.delete(0,END)
-                arch.close()
-                positions.attributes('-disabled', False)
-                edit.destroy()
-            edit.protocol("WM_DELETE_WINDOW", disable_event)
-            Btn_back = Button(edit, text="Confirmar cambio", command=lambda: cambiar(i,Lista,Elegir), bg="light blue", fg='black')
-            Btn_back.place(x=530,y=100)
+                E_name.delete(0, END)#Elimina el texto de entry
+                E_age.delete(0, END)#Elimina el texto de entry
+                E_rest.delete(0,END)#Elimina el texto de entry
+                arch.close()#Cierra el archivo
+                positions.attributes('-disabled', False)#Habilita nuevamente los botones de la ventana de posiciones
+                edit.destroy()#Destruye la ventana de edición
+                positions.destroy()#Destruye la ventana de posiciones
+                positions_table()#Crea nuevamente la ventana de posiciones
+            def disable_event():#Función en caso de que se presione la "x" en la ventana
+                E_name.delete(0, END)#Elimina el texto de entry
+                E_age.delete(0, END)#Elimina el texto de entry
+                E_rest.delete(0,END)#Elimina el texto de entry
+                arch.close()#Cierra el archivo
+                positions.attributes('-disabled', False)#Habilita nuevamente los botones de la ventana de posiciones
+                edit.destroy()#Destruye la ventana de edición
+            edit.protocol("WM_DELETE_WINDOW", disable_event)#Llama a la función que indica qué debe hacer la "x"
+            Btn_back = Button(edit, text="Confirmar cambio", command=lambda: cambiar(i,Lista,Elegir), bg="light blue", fg='black')#Define el botón de confirmar cambio
+            Btn_back.place(x=530,y=100)#Posiciona el botón de comfirmar cambio
+
+        def new_car():
+            """
+            Instituto Tecnológico de Costa Rica
+            Ingeniería en Computadores
+            Introducción a la programación
+            Profesor: Milton Villegas Lemus
+            Autor: Alejandro Vásquez Oviedo
+            Programa: new_car
+            Última fecha de modificación: 3/6/2019
+            Versión: 1.0
+            Lenguaje: Python 3.7.3
+            Entradas: ninguna
+            Restricciones: no hay
+            Salidas: muestra una ventana nueva, deshabilitando la de posiciones, en la cual se puede ingresar un nuevo auto para la temporada
+            Utiliza la función auxiliar:
+            -crear
+            """
+            positions.attributes('-disabled', True) #Comando que deshabilita todos los botones de la tabla de posiciones mientras se muestre la
+            #ventana de edición
+            new=Toplevel() #Crea la ventana
+            new.title("Add") #Da un nombre a la ventana
+            new.minsize(650,100) #Define el tamaño de la ventana
+            new.resizable(width=NO, height=NO) #Evita que se pueda modificar el tamaño de la ventana
+            C_new=Canvas(new, width=650,height=650, bg='light blue') #Crea un canvas en la ventana
+            C_new.place(x=0,y=0)#Posiciona el canvas en las coordenadas (0,0)
+            C_new.create_image(0,0,image=Edit_F, anchor=NW,state=NORMAL) #Define el fondo del canvas
+
+            arch = open("Tabla de posiciones Autos.txt","r+")
+            Lista = arch.readlines()
+
+            E_new = Entry(C_new,text="",width=40, font=("Agency FB",14))
+            E_new.place(x=0,y=100)
+
+            def crear():
+                """
+                Esta función se encarga de agregar el nuevo carro al archivo de texto
+                """
+                New_car = str(E_new.get())
+                AEscribir = New_car
+                Lista.insert(0,[AEscribir])
+
+                arch = open("Tabla de posiciones Autos.txt","w")#Abre el archivo para escribir
+                arch.writelines(Lista) #Inserta la lista modificada
+                arch.close #Cierra el archivo
+                
+                E_new.delete(0, END)#Elimina el texto de entry
+
+                #arch.close()#Cierra el archivo
+                positions.attributes('-disabled', False)#Habilita nuevamente los botones de la ventana de posiciones
+                new.destroy()#Destruye la ventana de edición
+                positions.destroy()#Destruye la ventana de posiciones
+                positions_table()#Crea nuevamente la ventana de posiciones
+                
+            def disable_event(): #Función en caso de que se presione la "x" en la ventana
+                E_new.delete(0, END)#Elimina el texto de entry
+                arch.close()#Cierra el archivo
+                positions.attributes('-disabled', False)#Habilita nuevamente los botones de la ventana de posiciones
+                new.destroy()#Destruye la ventana de edición
+                new.protocol("WM_DELETE_WINDOW", disable_event)#Llama a la función que indica qué debe hacer la "x"
+            Btn_back = Button(new, text="Agregar nuevo carro", command=crear, bg="light blue", fg='black')#Define el botón de agregar nuevo carro
+            Btn_back.place(x=530,y=100)#Posiciona el botón de comfirmar cambio
 
 ############################### FUNCIONES ORDENAMIENTO AUTOS #############################      
         def descendenteA():
+            """
+            Instituto Tecnológico de Costa Rica
+            Ingeniería en Computadores
+            Introducción a la programación
+            Profesor: Milton Villegas Lemus
+            Autor: Alejandro Vásquez Oviedo
+            Programa: descendenteA
+            Última fecha de modificación: 2/6/2019
+            Versión: 1.0
+            Lenguaje: Python 3.7.3
+            Entradas: ninguna
+            Restricciones: no hay
+            Salidas: es la función encargada del ordenamiento por eficiencia de los carros, de forma
+            descendente, utilizando el método de ordenamiento por selección cuyo código fue dado por
+            el profesor Milton Villegas Lemus, se adaptó de manera que cumpliera con la función
+            requerida. 
+            """
             def seleccion(Lista):
-                return seleccion_aux(Lista,0,len(Lista),0)
+                return seleccion_aux(Lista,0,len(Lista),0)#Llama la función auxiliar
 
             def menor(Lista,j,n,Min):
                 if j == n:
                     return Min
-                if Lista[j][-6:] > Lista[Min][-6:]:
+                if Lista[j][-6:] > Lista[Min][-6:]:#Compara los últimos elementos de la fila actual y la fila menor
                     Min = j
-                return menor(Lista,j+1,n,Min)
+                return menor(Lista,j+1,n,Min)#Retorna la función con la siguiente fila a evaluar
             
             def seleccion_aux(Lista,i,n,ContadorRep):
-                if i == n:
+                if i == n:#Condición de parada
                     return Lista
-                Min = menor(Lista,i+1,n,i)
-                Tmp = Lista[i]
-                Lista[i] = Lista[Min]
-                Lista[Min] = Tmp
-                return seleccion_aux(Lista,i+1,n,ContadorRep+1)
+                Min = menor(Lista,i+1,n,i)#Llama a la función que calcula el elemento menor
+                Tmp = Lista[i]#Elemento temporal donde se guarda el elemento a cambiar
+                Lista[i] = Lista[Min]#Reemplazo de elementos
+                Lista[Min] = Tmp#Se utiliza la variable temportal
+                return seleccion_aux(Lista,i+1,n,ContadorRep+1)#Llamada recursiva
             TablaAutos = open("Tabla de posiciones Autos.txt","r+")
             Lista = TablaAutos.readlines()
             TablaAutos.seek(0)
-            TablaAutos.write(''.join(seleccion(Lista)))
+            TablaAutos.write(''.join(seleccion(Lista)))#Escribe la nueva lista ordenada según se solicitó
             TablaAutos.close()
-            positions.destroy()
-            positions_table()
+            positions.destroy()#Cierra la ventana
+            positions_table()#La vuelve a crear con los datos actualizados 
 
         def ascendenteA():
+            """
+            Instituto Tecnológico de Costa Rica
+            Ingeniería en Computadores
+            Introducción a la programación
+            Profesor: Milton Villegas Lemus
+            Autor: Alejandro Vásquez Oviedo
+            Programa: carg_autos
+            Última fecha de modificación: 2/6/2019
+            Versión: 1.0
+            Lenguaje: Python 3.7.3
+            Entradas: ninguna
+            Restricciones: es la función encargada del ordenamiento por eficiencia de los carros, de forma
+            ascendente, utilizando el método de ordenamiento por selección cuyo código fue dado por
+            el profesor Milton Villegas Lemus, se adaptó de manera que cumpliera con la función
+            requerida.
+            """
             def seleccion(Lista):
-                return seleccion_aux(Lista,0,len(Lista),0)
+                return seleccion_aux(Lista,0,len(Lista),0)#Llama la función auxiliar
 
             def menor(Lista,j,n,Min):
                 if j == n:
                     return Min
-                if Lista[j][-6:] < Lista[Min][-6:]:
+                if Lista[j][-6:] < Lista[Min][-6:]:#Compara los últimos elementos de la fila actual y la fila menor
                     Min = j
-                return menor(Lista,j+1,n,Min)
+                return menor(Lista,j+1,n,Min)#Retorna la función con la siguiente fila a evaluar
             
             def seleccion_aux(Lista,i,n,ContadorRep):
-                if i == n:
+                if i == n:#Condición de parada
                     return Lista
-                Min = menor(Lista,i+1,n,i)
-                Tmp = Lista[i]
-                Lista[i] = Lista[Min]
-                Lista[Min] = Tmp
-                return seleccion_aux(Lista,i+1,n,ContadorRep+1)
+                Min = menor(Lista,i+1,n,i)#Llama a la función que calcula el elemento menor 
+                Tmp = Lista[i]#Elemento temporal donde se guarda el elemento a cambiar
+                Lista[i] = Lista[Min]#Reemplazo de elementos
+                Lista[Min] = Tmp#Se utiliza la variable temportal
+                return seleccion_aux(Lista,i+1,n,ContadorRep+1)#Llamada recursiva
             TablaAutos = open("Tabla de posiciones Autos.txt","r+")
             Lista = TablaAutos.readlines()
             TablaAutos.seek(0)
-            TablaAutos.write(''.join(seleccion(Lista)))
+            TablaAutos.write(''.join(seleccion(Lista)))#Escribe la lista modificada
             positions.update
             TablaAutos.close()
             positions.update
-            positions.destroy()
-            positions_table()
+            positions.destroy()#Cierra la ventana
+            positions_table()#La muestra nuevamente pero con los datos actualizados
 
 ############################## FUNCIONES ORDENAMIENTO PILOTOS ##########################
         def descendenteP_REP():
+            """
+            Instituto Tecnológico de Costa Rica
+            Ingeniería en Computadores
+            Introducción a la programación
+            Profesor: Milton Villegas Lemus
+            Autor: Alejandro Vásquez Oviedo
+            Programa: carg_autos
+            Última fecha de modificación: 2/6/2019
+            Versión: 1.0
+            Lenguaje: Python 3.7.3
+            Entradas: ninguna
+            Restricciones: no hay
+            Salidas: es la función encargada del ordenamiento por REP de los autos, de forma
+            descendente, utilizando el método de ordenamiento por selección cuyo código fue dado por
+            el profesor Milton Villegas Lemus, se adaptó de manera que cumpliera con la función
+            requerida.
+            """
             def seleccion(Lista):
-                return seleccion_aux(Lista,0,len(Lista),0)
+                return seleccion_aux(Lista,0,len(Lista),0)#Llama a la función auxiliar
 
             def menor(Lista,j,n,Min):
                 if j == n:
                     return Min
-                if Lista[j][-6:] > Lista[Min][-6:]:
+                if Lista[j][-6:] > Lista[Min][-6:]:#Compara el elemento actual con el elemento menor
                     Min = j
-                return menor(Lista,j+1,n,Min)
+                return menor(Lista,j+1,n,Min)#Llamada recurisiva con la siguiente fila a evaluar
             
             def seleccion_aux(Lista,i,n,ContadorRep):
-                if i == n:
+                if i == n:#Condición de parada
                     return Lista
-                Min = menor(Lista,i+1,n,i)
-                Tmp = Lista[i]
-                Lista[i] = Lista[Min]
+                Min = menor(Lista,i+1,n,i)#Llama a la función que calcula el mayor más pequeño
+                Tmp = Lista[i]#Variable temporal
+                Lista[i] = Lista[Min]#Reasigna valores 
                 Lista[Min] = Tmp
-                return seleccion_aux(Lista,i+1,n,ContadorRep+1)
+                return seleccion_aux(Lista,i+1,n,ContadorRep+1)#Llamada recursiva
             TablaAutos = open("Tabla de posiciones Pilotos.txt","r+")
             Lista = TablaAutos.readlines()
             TablaAutos.seek(0)
-            TablaAutos.write(''.join(seleccion(Lista)))
+            TablaAutos.write(''.join(seleccion(Lista)))#Escribe la nueva lista modificada
             TablaAutos.close()
-            positions.destroy()
-            #positions.delete("pilot")
-            positions_table()
+            positions.destroy()#Cierra la ventana
+            positions_table()#Vuelve a crearla con los datos actualizados
 
         def ascendenteP_REP():
+            """
+            Instituto Tecnológico de Costa Rica
+            Ingeniería en Computadores
+            Introducción a la programación
+            Profesor: Milton Villegas Lemus
+            Autor: Alejandro Vásquez Oviedo
+            Programa: carg_autos
+            Última fecha de modificación: 2/6/2019
+            Versión: 1.0
+            Lenguaje: Python 3.7.3
+            Entradas: ninguna
+            Restricciones: es la función encargada del ordenamiento por REP de los pilotos, de forma
+            ascendente, utilizando el método de ordenamiento por selección cuyo código fue dado por
+            el profesor Milton Villegas Lemus, se adaptó de manera que cumpliera con la función
+            requerida.
+            """
             def seleccion(Lista):
-                return seleccion_aux(Lista,0,len(Lista),0)
+                return seleccion_aux(Lista,0,len(Lista),0)#Llama a la función auxiliar
 
             def menor(Lista,j,n,Min):
                 if j == n:
                     return Min
-                if Lista[j][-6:] < Lista[Min][-6:]:
+                if Lista[j][-6:] < Lista[Min][-6:]:#Compara el elemento actual con el menor
                     Min = j
-                return menor(Lista,j+1,n,Min)
+                return menor(Lista,j+1,n,Min)#Llama la función con la siguiente fila a evaluar
             
             def seleccion_aux(Lista,i,n,ContadorRep):
                 if i == n:
                     return Lista
-                Min = menor(Lista,i+1,n,i)
-                Tmp = Lista[i]
+                Min = menor(Lista,i+1,n,i)#Llama a la función que calcula el menor
+                Tmp = Lista[i]#Variable temporal donde se guarda el dato
                 Lista[i] = Lista[Min]
                 Lista[Min] = Tmp
                 return seleccion_aux(Lista,i+1,n,ContadorRep+1)
             TablaAutos = open("Tabla de posiciones Pilotos.txt","r+")
             Lista = TablaAutos.readlines()
             TablaAutos.seek(0)
-            TablaAutos.write(''.join(seleccion(Lista)))
+            TablaAutos.write(''.join(seleccion(Lista)))#Escribe la lista ya modificada
             TablaAutos.close()
-            positions.destroy()
-            positions_table()
+            positions.destroy()#Cierra la ventana
+            positions_table()#La vuelve a mostrar pero con datos actualizados
             
 ###########################################################################
         def descendenteP_RGP():
+            """
+            Instituto Tecnológico de Costa Rica
+            Ingeniería en Computadores
+            Introducción a la programación
+            Profesor: Milton Villegas Lemus
+            Autor: Alejandro Vásquez Oviedo
+            Programa: carg_autos
+            Última fecha de modificación: 2/6/2019
+            Versión: 1.0
+            Lenguaje: Python 3.7.3
+            Entradas: ninguna
+            Restricciones: no hay
+            Salidas: es la función encargada del ordenamiento por RGP de los pilotos, de forma
+            descendente, utilizando el método de ordenamiento por selección cuyo código fue dado por
+            el profesor Milton Villegas Lemus, se adaptó de manera que cumpliera con la función
+            requerida.
+            """
             def seleccion(Lista):
-                return seleccion_aux(Lista,0,len(Lista),0)
+                return seleccion_aux(Lista,0,len(Lista),0)#Llama a la función auxiliar
 
             def menor(Lista,j,n,Min):
                 if j == n:
                     return Min
-                if Lista[j][-12:-6] > Lista[Min][-12:-6]:
+                if Lista[j][-12:-6] > Lista[Min][-12:-6]:#Compara para saber cuál es el elemento menor
                     print(Lista[j][-12:-6])
                     Min = j
-                return menor(Lista,j+1,n,Min)
+                return menor(Lista,j+1,n,Min)#Llama a la función con la siguiente fila a evaluar
             
             def seleccion_aux(Lista,i,n,ContadorRep):
-                if i == n:
+                if i == n:#Condición de parada
                     return Lista
-                Min = menor(Lista,i+1,n,i)
-                Tmp = Lista[i]
-                Lista[i] = Lista[Min]
+                Min = menor(Lista,i+1,n,i)#Llama a la función que calcula el elemento menor
+                Tmp = Lista[i]#Variable temporal donde se almacena el elemento
+                Lista[i] = Lista[Min]#Reasignación de variables
                 Lista[Min] = Tmp
                 return seleccion_aux(Lista,i+1,n,ContadorRep+1)
             TablaAutos = open("Tabla de posiciones Pilotos.txt","r+")
             Lista = TablaAutos.readlines()
             TablaAutos.seek(0)
-            TablaAutos.write(''.join(seleccion(Lista)))
+            TablaAutos.write(''.join(seleccion(Lista)))#Escribe la nueva lista modificada en el txt
             TablaAutos.close()
-            positions.destroy()
-            positions_table()
+            positions.destroy()#Destruye la ventana 
+            positions_table()#Crea la ventana con los datos actualizados
 
         def ascendenteP_RGP():
+            """
+            Instituto Tecnológico de Costa Rica
+            Ingeniería en Computadores
+            Introducción a la programación
+            Profesor: Milton Villegas Lemus
+            Autor: Alejandro Vásquez Oviedo
+            Programa: carg_autos
+            Última fecha de modificación: 2/6/2019
+            Versión: 1.0
+            Lenguaje: Python 3.7.3
+            Entradas: ninguna
+            Restricciones: no hay
+            Salidas: es la función encargada del ordenamiento por RGP de los pilotos, de forma
+            ascendente, utilizando el método de ordenamiento por selección cuyo código fue dado por
+            el profesor Milton Villegas Lemus, se adaptó de manera que cumpliera con la función
+            requerida.
+            """
             def seleccion(Lista):
-                return seleccion_aux(Lista,0,len(Lista),0)
+                return seleccion_aux(Lista,0,len(Lista),0)#Llama a la función auxiliar
 
             def menor(Lista,j,n,Min):
                 if j == n:
                     return Min
-                if Lista[j][-12:-6] < Lista[Min][-12:-6]:
+                if Lista[j][-12:-6] < Lista[Min][-12:-6]:#Compara el elemento actual con el menor
                     Min = j
-                return menor(Lista,j+1,n,Min)
+                return menor(Lista,j+1,n,Min)#Llama a la función para evaluar la siguiente fila
             
             def seleccion_aux(Lista,i,n,ContadorRep):
-                if i == n:
+                if i == n:#Condición de parada
                     return Lista
-                Min = menor(Lista,i+1,n,i)
-                Tmp = Lista[i]
-                Lista[i] = Lista[Min]
+                Min = menor(Lista,i+1,n,i)#Llama a la función que calcula el mínimo 
+                Tmp = Lista[i]#Usa una variable temporal para almacenar el dato
+                Lista[i] = Lista[Min]#Reasigna valores
                 Lista[Min] = Tmp
                 return seleccion_aux(Lista,i+1,n,ContadorRep+1)
             TablaAutos = open("Tabla de posiciones Pilotos.txt","r+")
             Lista = TablaAutos.readlines()
             TablaAutos.seek(0)
-            TablaAutos.write(''.join(seleccion(Lista)))
+            TablaAutos.write(''.join(seleccion(Lista)))#Reescribe la lista en el documento txt
             TablaAutos.close()
-            positions.destroy()
-            positions_table()
+            positions.destroy()#Destruye la ventana
+            positions_table()#Crea la ventana con los datos actualizados
 
 ###########################################################################
         #Botones de la ventana
-        Btn_back = Button(positions, text="Back", command=back, bg="light blue", fg='black')
+        Btn_back = Button(positions, text="Back", command=back, bg="light blue", fg='black')#Botón para regresar a la ventana principal
         Btn_back.place(x=750,y=615)
 
         #Botones pestaña pilotos
-        Btn_Descendente =Button(tab1, text="Descendente REP", command=descendenteP_REP, bg="light blue", fg='black')
+        Btn_Descendente =Button(tab1, text="Descendente REP", command=descendenteP_REP, bg="light blue", fg='black')#Botón de ordenamiento por REP de los pilotos descendente
         Btn_Descendente.place(x=270,y=592)
     
-        Btn_Ascendente =Button(tab1, text="Ascendente REP", command=ascendenteP_REP, bg="light blue", fg='black')
+        Btn_Ascendente =Button(tab1, text="Ascendente REP", command=ascendenteP_REP, bg="light blue", fg='black')#Botón de ordenamiento por REP de los pilotos ascendente
         Btn_Ascendente.place(x=380,y=592)
 
-        Btn_Descendente =Button(tab1, text="Descendente RGP", command=descendenteP_RGP, bg="light blue", fg='black')
+        Btn_Descendente =Button(tab1, text="Descendente RGP", command=descendenteP_RGP, bg="light blue", fg='black')#Botón de ordenamiento por RGP de los pilotos descendente
         Btn_Descendente.place(x=490,y=592)
     
-        Btn_Ascendente =Button(tab1, text="Ascendente RGP", command=ascendenteP_RGP, bg="light blue", fg='black')
+        Btn_Ascendente =Button(tab1, text="Ascendente RGP", command=ascendenteP_RGP, bg="light blue", fg='black')#Botón de ordenamiento por RGP de los pilotos ascendente
         Btn_Ascendente.place(x=600,y=592)
 
-        #Botones de edición de texto
+        #Botones de edición de texto de la pestaña de pilotos
+        #Se utiliza lambda en los commands para evitar que se ejecuten de manera instantánea ya que poseen argumentos
         Btn_Edit =Button(tab1, text="Edit", command=lambda: edit_textP(75,1,0), bg="light blue", fg='black')
         Btn_Edit.place(x=750,y=75)
         
@@ -1119,6 +1407,12 @@ Restricciones: La Escudería debe tener al menos un patrocinador"""
         Btn_AscendenteA =Button(tab2, text="Ascendente", command=ascendenteA, bg="light blue", fg='black')
         Btn_AscendenteA.place(x=600,y=587)
 
+        Btn_Crear =Button(tab2, text="Añadir auto", command=new_car, bg="light blue", fg='black')#Botón de ordenamiento por eficiencia de los autos ascendente
+        Btn_Crear.place(x=400,y=587)
+
+        
+        #Botones de edición de la pestaña de autos
+        #Se utiliza lambda en los commands para evitar que se ejecuten de manera instantánea ya que poseen argumentos
         Btn_Edit =Button(tab2, text="Edit", command=lambda: edit_textP(75,0,0), bg="light blue", fg='black')
         Btn_Edit.place(x=750,y=75)
         
