@@ -62,8 +62,30 @@ Bat = False
 
 #           _____________________________________________________
 #__________/ VENTANA PRINCIPAL
-
 def main_window():
+    """                      Instituto Tecnológico de Costa Rica
+
+                          Ingeniería en Computadores
+
+
+                          
+Curso: Introducción a la Programación
+Grupo: 2
+Profesor: Ing. Milton Villegas Lemus
+Lenguaje: Python 3.7.1
+Versión: v1.0
+País de producción: Costa Rica
+Fecha última modificación: 3/6/2019
+Autor: Emanuel Antonio Marín Gutiérrez
+Carné: 2019067500
+
+Programa: main_window()
+Descripción: Ventana que contiene a las demas ventanas con sus respectivas subventanas.
+
+Entrada: Ninguna
+Salida: Acceso a la ventana de información de la Escuderia, a la tabla de posiciones de autos y pilotos, a la ventana
+Test Drive y la ventana de About, ver el Estado del carro, reproducir y silenciar la canción de fondo.
+Restricciones: No presenta"""
     #Creación ventana principal y sus atributos
     main=Tk()
     main.title("Formula E")#Título de la ventana
@@ -75,85 +97,168 @@ def main_window():
     C_main.place(x=0, y=0)
 
     def intro():
-        #Se corren los Threads del movimiento del fondo de introducción y el sonido de acelaración respectivamente 
+        """                      Instituto Tecnológico de Costa Rica
+
+                          Ingeniería en Computadores
+
+
+                          
+Curso: Introducción a la Programación
+Grupo: 2
+Profesor: Ing. Milton Villegas Lemus
+Lenguaje: Python 3.7.1
+Versión: v1.0
+País de producción: Costa Rica
+Fecha última modificación: 3/6/2019
+Autor: Emanuel Antonio Marín Gutiérrez
+Carné: 2019067500
+
+Programa: intro()
+Descripción: Función que realiza la animación de la interfaz la cual tiene una duración de 2.7 segundos, una vez terminada
+#la animación se muestran en pantalla el fondo principal, se corre la música de fondo, se muestra los botones para los
+#accesos a las demás ventanas y se muestra el estado actual del carro.
+
+Entrada: Ninguna
+Salida: Animación inicial de la interfaz, luego de que concluya la animación, se muestra el fondo de la ventana principal,
+acceso a las demás ventanas
+Restricciones: No presenta"""
+        #Se corren los Threads del movimiento del fondo de animación y el sonido de acelaración respectivamente 
         p=Thread(target=move_logo,args=()).start()
         p=Thread(target=song_intro,args=()).start()
 
-        #Fondo de Introducción
+        #Fondo de animación incial
         BG = loadImg("FormulaE.png")
         C_main.create_image(0, 0, image=BG, anchor=NW, state=NORMAL)
+        
+        #Tiempo de duración de la animación inicial de 2.7 segundos con el fin de llamar la atención del usuario por
+        #la interfaz
         time.sleep(2.7)
         
-        #Luego de 2.7 segundos la introducción termina y se establece el fondo principal de la interfaz, la música
-        #los botones, entre otros.
+        #Luego de los 2.7 segundos, la animación termina y se establece el fondo principal de la interfaz, la música
+        #los botones para el acceso a las demás ventana, entre otros.
         C_main.create_image(0, 0, image=BG, anchor=NW, state=HIDDEN)
-        
+
+        #Fonde de la ventana principal
         BG2 = loadImg("MainBG.png")
         C_main.create_image(0, 0, image=BG2, anchor=NW, state=NORMAL)
 
+        #Se corre el Thread para la música de Fondo de la interfaz, se configura para que se reproduzca infinitamente
+        #hasta que el usario decida silenciarla o volcerla a reproducir desde el inicio.
         p=Thread(target=song_main,args=()).start()
 
+        #Botón para reproducir la canción de Fondo
         Music=loadImg("Music.png")
         Btn_song = Button(C_main, command=song_main, fg="black", bg="light blue")
         Btn_song.place(x=10, y=10)
         Btn_song.config(image=Music)
 
+        #Botón para silenciar la canción de Fondo
         Mute=loadImg("Mute.png")
         Btn_mute=Button(C_main, command=mute, fg="black",bg="light blue")
         Btn_mute.place(x=10, y=40)
         Btn_mute.config(image=Mute)
 
+        #Botón para acceder a la ventana de About
         Btn_About = Button(C_main, text="ABOUT", command=w_description, bg="#cb3234", fg="white", font=("Agency FB",16))
         Btn_About.place(x=1145,y=6)
 
+        #Botón para acceder a la tabla de posiciones de los pilotos y los autos de la Escudería
         Btn_PT = Button(C_main, text="Positions Table", command=positions_table, bg="#cb3234", fg="white", font=("Agency FB",16))
         Btn_PT.place(x=130,y=500)
 
+        #Botón para acceder a la ventana previa a realizar el Test Drive
         Btn_TD = Button(C_main, text="Test Drive", command=test_drive, bg="#cb3234", fg="white", font=("Agency FB",16))
         Btn_TD.place(x=1000,y=500)
 
+        #Desde un txt se lee el estado del carro desde la última vez que se utilizó para realizar el Test Drive; si el estado del
+        #carro es "Disponible" se pondrá una imagen que represente que el estado está cargado, si el txt dice "Descargado", se pondrá
+        #una imagen que represente que en efecto el carro está descargado. Esto es muy importante porque más adelante si el usuario
+        #desea realizar el Test Drive, el estado previo del carro será fundamental para habilitar o no realizarlo
         Bat = open("Car state.txt","r+")
         Bat_level = Bat.readlines()
         Estado = loadImg(Bat_level[0])
         C_main.create_text(1080, 80, font=("Agency", 16, "bold"), anchor=NW, fill="white", text="CAR STATE") 
         C_main.create_image(1110, 110, image=Estado, anchor=NW, state=NORMAL)
-        
+
         C_main.create_text(200, 80, font=("Agency", 16, "bold"), anchor=NW, fill="white", text="ESCUDERIA")
 
+        #Se carga el logo de la Escudería que el usuario cambió o no, la última vez que usó la interfaz
         Logo_Escuderia = Logos = open("Team information.txt", "r+")
         Logo = Logo_Escuderia.readlines()
         Team_logo = loadImg(Logo[0][:6])
         C_main.create_image(160, 120, image=Team_logo, anchor=NW, state=NORMAL)
-        
+
+        #Bóton para la ventana de Información de la Escudería, aquí el usuario puede ver tanto la información de la Escudería
+        #como cambiar el logo y agregar o quitar los patrocinadores de la misma
         Btn_Info = Button(C_main, text="Información", command=information, bg="#cb3234", fg="white", font=("Agency FB",16))
         Btn_Info.place(x=160,y=350)
 
+        #Se establece un amplio tiempo para que el usuario pueda usar la interfaz
         time.sleep(1000000)
 
     def song_intro():
+        #Descripción: Función que corre durante el tiempo establecido para la animación incial de la interfaz (2.7 segundos).
+        #Consiste en el sonido de un carro de carreras acelerando
+        
+        #Entrada: Ninguna
+        #Salida: Sonido de aceleración
+        #Restrición: El sonido debe estar formato .WAV
         winsound.PlaySound("Intro", winsound.SND_ASYNC)
 
     def song_main():
+        #Descripción: Función que corre indefinidamente una canción de Fondo para la interfaz de Formula E, una vez que ha
+        #concluido la animación inicial
+
+        #Entrada: Ninguna
+        #Salida: Canción de Fondo para la interfaz
+        #Restrición: La canción debe estar en formato .WAV
         winsound.PlaySound("Cars", winsound.SND_LOOP + winsound.SND_ASYNC)
 
     def mute():
+        #Descripción: Función que detiene (silencia) la canción de Fondo de la interfaz
+
+        #Entrada: Ninguna
+        #Salida: Detiene y reinicia la canción de Fondo de la interfaz
+        #Restrición: La canción debe estar en formato .WAV
         winsound.PlaySound(None, winsound.SND_ASYNC)
 
     def move_logo():
-        BGL = loadImg("FormulaE2.png")
+        #Descripción: Función principal para mover el logo de Formula E en el tiempo establecido de la animación incial, desde
+        #aquí se carga el fondo del logo y se configura las posiciones iniciales para que desde una función auxiliar empiece a
+        #moverse
+
+        #Entrada: Ninguna
+        #Salida: Llamada a la función auxiliar para mover el logo previamente cargado
+        #Restrición: Ninguna
+        BGL = loadImg("FormulaE2.png")#Logo Fórmula E
         Logo = C_main.create_image(-1000, 244, image=BGL, anchor=NW, state=NORMAL)
+        #Posiciones iniciales del logo
         x=-1100
         y=244
+        #Llamada a la función auxiliar
         return move_logo_aux(Logo,x,y)
 
     def move_logo_aux(Logo,x,y):
+        #Descripción: Función auxiliar encargado de mover el logo de Formula E mediante un estatuto while, se podría realizar
+        #recursivamente pero se podría presentar el incoveniente de que la pila del sistema se llene
+
+        #Entrada: Logo y posicones inciales del mismo
+        #Salida: Movimiento del Logo para el efecto de animación inicial de la interfaz
+        #Restrición: Ninguna
+        
+        #Se capta cualquier excepción que se pueda generar considerando que al establecerce un tiempo de 2.7 segundos para la
+        #animación, se pueda o no interrumpir el Thread, afectando el ejecucuón del programa
         try:
+            #Condición de finalización
             while x<=0:
+                #Mientras el logo no se encuentre en la posición establecida se irá movimiendo en el eje x
                 if x!=-100:
                     C_main.move(Logo,20,0)
                     x=x+20
                     y=y
                     time.sleep(0.001)
+                #Una vez que el logo llega a la posición establecida, este se mantendrá en el mismo punto del eje x
+                #hasta que se cumpla el tiempo de 2.7 segundos
                 else:
                     C_main.move(Logo,0,0)
                     time.sleep(0.0001)  
@@ -161,63 +266,141 @@ def main_window():
             return    
 
     def information():
-        main.withdraw()
-        info=Toplevel()
-        info.title("Team Information")
-        info.minsize(1200,300)
-        info.resizable(width=NO, height=NO)
+        """                      Instituto Tecnológico de Costa Rica
 
+                          Ingeniería en Computadores
+
+
+                          
+Curso: Introducción a la Programación
+Grupo: 2
+Profesor: Ing. Milton Villegas Lemus
+Lenguaje: Python 3.7.1
+Versión: v1.0
+País de producción: Costa Rica
+Fecha última modificación: 3/6/2019
+Autor: Emanuel Antonio Marín Gutiérrez
+Carné: 2019067500
+
+Programa: information()
+Descripción: Ventana que contiene toda la información de la Escudería (nombre, ubicación, índice ganador, patrocinadores y
+acceso a la lista de pilotos y autos de la misma), tambien permite cambiar el logo y su vez la información general de la
+#Escudería y también permite editar (agregar o quitar) los patrocinadores.
+
+Entrada: Ninguna
+Salida: Acceso a la ventana de las posiciones de los pilotos y autos, información de la Escudería y poder editar tanto el
+logo como los patrocinadores de la misma.
+Restricciones: No escribir tantos patrocinadores, ni tampoco quitarlos todos."""
+        #Se esconde la ventana principal
+        main.withdraw()
+        #Se crea la ventana de información con sus respectivos atributos
+        info=Toplevel() 
+        info.title("Team Information")#Título de la ventana
+        info.minsize(1200,300)#Tamaño de la ventana
+        info.resizable(width=NO, height=NO)#Se deshabilita poder editar el tamaño de la ventana
+
+        #Canvas de la ventana de información de la Escudería
         C_info = Canvas(info, width=1200, height=300, bg="white")
         C_info.place(x=0, y=0)
 
         #Background = loadImg("
         #C_info.create_image(25, 95, image=Logo, anchor=NW, state=NORMAL)
-        
+
+        #Se abre el txt que contiene toda la información de la Escudería y se le asigana a una variable (patro)
+        #todos los patrocinadores actuales de la Escudería para ponerlos en la ventana
         Escuderia = open("Team information.txt","r+")
         Escuderia_info = Escuderia.readlines()
         Patro = Escuderia_info[0][37:]
 
         #Logo de la escuderia
         Logo = loadImg(Escuderia_info[0][:6])
-        
         C_info.create_text(100, 50, font=("Agency", 18, "bold"), anchor=NW, fill="#009186", text="Logo")
         C_info.create_image(25, 95, image=Logo, anchor=NW, state=NORMAL)
-        
+
+        #Nombre de la Escudería 
         C_info.create_text(300, 50, font=("Agency", 18, "bold"), anchor=NW, fill="#009186", text="Nombre")
         C_info.create_text(300, 150, font=("Agency", 12, "bold"), anchor=NW, fill="black", text=Escuderia_info[0][7:22])
-        
+
+        #Ubicación de la Escudería
         C_info.create_text(430, 50, font=("Agency", 18, "bold"), anchor=NW, fill="#009186", text="Ubicación")
         C_info.create_text(450, 150, font=("Agency", 12, "bold"), anchor=NW, fill="black", text=Escuderia_info[0][22:32])
-        
+
+        #Índice ganador de la Escudería
         C_info.create_text(570, 50, font=("Agency", 18, "bold"), anchor=NW, fill="#009186", text="IGE")
         C_info.create_text(570, 150, font=("Agency", 12, "bold"), anchor=NW, fill="black", text=Escuderia_info[0][32:37])
-        
+
+        #Pilotos y autos de la Escudería 
         C_info.create_text(640, 50, font=("Agency", 18, "bold"), anchor=NW, fill="#009186", text="Pilotos y Autos")
-        
+
+        #Patrocinadores de la Escudería
         C_info.create_text(860, 50, font=("Agency", 18, "bold"), anchor=NW, fill="#009186", text="Patrocinadores")
 
         def patrocinio(Patro,Patrocinador, x, y):
+            #Descripción: Función que lee cada uno de los patrocinadores actuales de la Escudería y los coloca verticalmente
+            #en la ventana de información de la Escudería
+
+            #Entradas: Patrocinadores actuales de la Escudería, variable para almacenar cada Patrocinador (se establece que
+            #cada patrocinador está diferenciado por una coma), coordenadas para ir colocando cada patrocinador verticalmente
+            #sobre la ventana
+            #Salida: Despliegue vertical de todos los patrocinadores actuales de la Escudería
+            #Restricciones: Debe haber al menos un patrocinador
+
+            #Condición de finalización, es cuando ya se han leido y puesto en la ventana todos los patrocinadores de la Escudería
             if Patro=="":
                 C_info.create_text(x, y, font=("Agency", 12, "bold"), anchor=NW, fill="black", text=Patrocinador)
 
+            #Diferenciador entre un patrocinador y otro de la Escuderia, mientras no se encuentre, se irá almacenado poco a poco
+            #en la variable Patrocinador
             elif Patro[0]!=",":
                 Patrocinador=Patrocinador+Patro[0]
                 return patrocinio(Patro[1:],Patrocinador,x,y)
-
+            
+            #Cuando se encuentra el diferenciador entre un patrocinador y otro sabe que la variable Patrocinador ya ha almacenado
+            #a equis patrocinador y es por esto que inmediantamente lo coloca en la ventana para almacenar al siguiente patrocinador
+            #y asi sucesivamente
             else:
                 C_info.create_text(x, y, font=("Agency", 12, "bold"), anchor=NW, fill="black", text=Patrocinador)
                 return patrocinio(Patro[1:], "", x, y+20)
 
         def chance_logo():
-            info.withdraw()
-            logo=Toplevel()
-            logo.title("Cambiar Logo")
-            logo.minsize(1200,620)
-            logo.resizable(width=NO, height=NO)
+            """                      Instituto Tecnológico de Costa Rica
 
+                          Ingeniería en Computadores
+
+
+                          
+Curso: Introducción a la Programación
+Grupo: 2
+Profesor: Ing. Milton Villegas Lemus
+Lenguaje: Python 3.7.1
+Versión: v1.0
+País de producción: Costa Rica
+Fecha última modificación: 3/6/2019
+Autor: Emanuel Antonio Marín Gutiérrez
+Carné: 2019067500
+
+Programa: chance_logo()
+Descripción: Ventana en la cual el usuario puede cambiar el logo de la Escuderia, y con ello la información (nombre y
+#ubicación de la misma, tener acceso a la ventana de los pilotos y los autos y editar (quitar o agregar) los patrocinadores.
+
+Entrada: Ninguna
+Salida: Modificación del logo y la información, siempre que el usuario lo cambie, acceso a la ventana de posiciones de
+#pilotos y autos, y edición de los patrocinadores de la Escudería.
+Restricciones: El usuario no puede quitar todos los patrocinadores de la Escudería"""
+            #Se esconde la ventana de información de la Escudería
+            info.withdraw()
+            #Se crea una ventana para mostrar en pantalla ocho logos para que el usuario pueda seleccionar o no uno de ellos
+            logo=Toplevel()
+            logo.title("Cambiar Logo")#Título de la ventana
+            logo.minsize(1200,620)#Tamaño mímimo de la ventana
+            logo.resizable(width=NO, height=NO)#Se deshabilita poder editar el tamaño de la ventana
+
+            #Canvas de la ventana de selección del logo
             C_logo = Canvas(logo, width=1200, height=620, bg="white")
             C_logo.place(x=0, y=0)
 
+            #Se cargan desde un txt todas las imágenes de los ocho pricipales logos que compiten en Formula E para que el
+            #usuario tenga la opciónn de seleccionar uno de ellos.
             Logos_Escuderia = Logos = open("Logos.txt", "r+")
             Logos = Logos_Escuderia.readlines()
 
@@ -240,8 +423,10 @@ def main_window():
             C_logo.create_image(660, 340, image=Logo7, anchor=NW, state=NORMAL)
             C_logo.create_image(960, 340, image=Logo8, anchor=NW, state=NORMAL)
 
+            #Variable para que en conjunto con el método radio button pueda captar la selección del usuario
             Selected = IntVar()
 
+            #Radio buttons asociados a cada uno de los logos
             rad1 = Radiobutton(logo,text='Logo 1', value=1, variable=Selected)
             rad2 = Radiobutton(logo,text='Logo 2', value=2, variable=Selected)
             rad3 = Radiobutton(logo,text="Logo 3", value=3, variable=Selected)
@@ -251,12 +436,21 @@ def main_window():
             rad7 = Radiobutton(logo,text="Logo 7", value=7, variable=Selected)
             rad8 = Radiobutton(logo,text="Logo 8", value=8, variable=Selected)
 
-            
-
             def back():
+                #Descripción: Función que una vez que el usuario ha seleccionado o no un nuevo logo, actuliza inmediatamente
+                #el logo seleccionado en la ventana y su respectiva información
+
+                #Entrada: Ninguna
+                #Salida: Actualización inmediata del nuevo logo seleccionado por el usuario
+                #Restriccione El usuario puede o no seleccionar un nuevo logo para la Escudería
+
+                #Se obtiene un valor específico asociado a la selección del logo seleccionado
                 Seleccion = Selected.get()
                 print(Seleccion)
+                
                 if Seleccion == 1:
+                    #Si el valor de la selección es 1, significa que el usuario ha seleccionado el logo de Mercedez-Benz
+                    #y con ello se modificará toda la información respectiva con esa Escudería
                     Logos_Escuderia = open("Team information.txt", "r+")
                     Logos = Logos_Escuderia.readlines()
                     Logos_Escuderia.seek(0)
@@ -264,6 +458,8 @@ def main_window():
                     Logos_Escuderia.close()
 
                 elif Seleccion == 2:
+                    #Si el valor de la selección es 2, significa que el usuario ha seleccionado el logo de Porshe
+                    #y con ello se modificará toda la información respectiva con esa Escudería
                     Logos_Escuderia = open("Team information.txt", "r+")
                     Logos = Logos_Escuderia.readlines()
                     Logos_Escuderia.seek(0)
@@ -271,6 +467,8 @@ def main_window():
                     Logos_Escuderia.close()
 
                 elif Seleccion == 3:
+                    #Si el valor de la selección es 3, significa que el usuario ha seleccionado el logo de Renault
+                    #y con ello se modificará toda la información respectiva con esa Escudería
                     Logos_Escuderia = open("Team information.txt", "r+")
                     Logos = Logos_Escuderia.readlines()
                     Logos_Escuderia.seek(0)
@@ -278,21 +476,27 @@ def main_window():
                     Logos_Escuderia.close()
 
                 elif Seleccion == 4:
+                    #Si el valor de la selección es 4, significa que el usuario ha seleccionado el logo de Audi y con
+                    #ello se modificará toda la información respectiva con esa Escudería
                     Logos_Escuderia = open("Team information.txt", "r+")
                     Logos = Logos_Escuderia.readlines()
                     Logos_Escuderia.seek(0)
                     Logos_Escuderia.write("L4.png Audi           Alemania"+Logos[0][30:])
                     Logos_Escuderia.close()
-                    
+    
                 elif Seleccion == 5:
+                    #Si el valor de la selección es 5, significa que el usuario ha seleccionado el logo de Jaguar y con
+                    #ello se modificará toda la información respectiva con esa Escudería
                     Logos_Escuderia = open("Team information.txt", "r+")
                     Logos = Logos_Escuderia.readlines()
                     Logos_Escuderia.seek(0)
                     Logos_Escuderia.write("L5.png Jaguar         UK      "+Logos[0][30:])
                     Logos_Escuderia.close()
                     print("Logo 5 Seleccionado")
-
+ 
                 elif Seleccion == 6:
+                    #Si el valor de la selección es 6, significa que el usuario ha seleccionado el logo de Mahindra y con
+                    #ello se modificará toda la información respectiva con esa Escudería
                     Logos_Escuderia = open("Team information.txt", "r+")
                     Logos = Logos_Escuderia.readlines()
                     Logos_Escuderia.seek(0)
@@ -300,6 +504,8 @@ def main_window():
                     Logos_Escuderia.close()
 
                 elif Seleccion == 7:
+                    #Si el valor de la selección es 7, significa que el usuario ha seleccionado el logo de BMW y con
+                    #ello se modificará toda la información respectiva con esa Escudería
                     Logos_Escuderia = open("Team information.txt", "r+")
                     Logos = Logos_Escuderia.readlines()
                     Logos_Escuderia.seek(0)
@@ -307,21 +513,27 @@ def main_window():
                     Logos_Escuderia.close()
 
                 elif Seleccion == 8:
+                    #Si el valor de la selección es 8, significa que el usuario ha seleccionado el logo de Nissan y con
+                    #ello se modificará toda la información respectiva con esa Escudería
                     Logos_Escuderia = open("Team information.txt", "r+")
                     Logos = Logos_Escuderia.readlines()
                     Logos_Escuderia.seek(0)
                     Logos_Escuderia.write("L8.png Nissan         Japon   "+Logos[0][30:])
                     Logos_Escuderia.close()
-                    
+                     
                 else:
+                    #Si el valor de la selección no es ninguno de los anteriores significa que el usuario no ha seleccionado
+                    #ningún logo y por lo tanto el txt con la información de la Escudería quedará intacto 
                     print("No chance")
                     
-                logo.destroy()
-                information()
+                logo.destroy()#Destruir la ventana de selección de logo
+                information()#Se vuelve a cargar la ventana para que se vea la
 
+            #Botón para confirmar cambio de la selección o no del logo
             Btn_back = Button(logo, text="Confirmar Cambio", command=back, bg="#cb3234", fg="white")
             Btn_back.place(x=540,y=590)
 
+            #Posición estratégica de los radio buttons para cada logo seleccionable por el usuario
             rad1.place(x=130, y=230)
             rad2.place(x=425, y=230)
             rad3.place(x=725, y=230)
@@ -333,64 +545,115 @@ def main_window():
 
             main.mainloop()
             
-
         def patrocinadores():
-            info.attributes('-disabled', True)
-            patro = Toplevel()
-            patro.title("Patrocinadores")
-            patro.minsize(650,100)
-            patro.resizable(width=NO, height=NO)
+            """                      Instituto Tecnológico de Costa Rica
 
+                          Ingeniería en Computadores
+
+
+                          
+Curso: Introducción a la Programación
+Grupo: 2
+Profesor: Ing. Milton Villegas Lemus
+Lenguaje: Python 3.7.1
+Versión: v1.0
+País de producción: Costa Rica
+Fecha última modificación: 3/6/2019
+Autor: Emanuel Antonio Marín Gutiérrez
+Carné: 2019067500
+
+Programa: patrocinadores()
+Descripción: Ventana para poder editar(agregar o quitar) los patrocinadores de la Escudería
+
+Entrada: Ninguna
+Salida: Lista actualizada de los patrocinadores cada vez que el usario decida editarla
+Restricciones: La Escudería debe tener al menos un patrocinador"""
+
+            #Se deshabilita los atributos de la ventana de información de la Escudería hasta que el usuario termine
+            #de editar los patrocinadores
+            info.attributes('-disabled', True)
+            #Se crea la ventana para la edición de los patrocinadores y sus atributos
+            patro = Toplevel()
+            patro.title("Patrocinadores")#Título de la ventana
+            patro.minsize(650,100)#Tamaño mímimo de la ventana
+            patro.resizable(width=NO, height=NO)#Se deshabilita poder editar el tamaño de la ventana
+
+            #Canvas de la ventana de patrocinadores
             C_patro = Canvas(patro, width=650, height=650, bg="white")
             C_patro.place(x=0, y=0)
 
+            #Entry para poner en la ventana todos los patrocinadores actuales de la Escudería
             E_patro = Entry(C_patro, text="hola", width=60,font=("Agency FB",14))
             E_patro.place(x=5, y=75)
-            
+
+            #Se abre el txt que contiene la información de la Escudería
             Logos_Escuderia = open("Team information.txt", "r+")
             Logos = Logos_Escuderia.readlines()
             Logos_Escuderia.seek(0)
 
+            #Se insertan sobre el Entry todos los patrocinadores actuales de la Escudería
             E_patro.insert(0, Logos[0][37:])
 
             def confirmar():
+                #Se almacena en una variable todo los patrocinadores que el usuario ha editado y los que previamente estaban
                 AEscribir = str(E_patro.get())
                 print(AEscribir)
+                #Se específica dónde escribir los patrocinadores en el txt que contiene la información general de la Escudería
                 Logos_Escuderia.seek(37)
+                #Se escribe en el txt en lugar previamente indicado
                 Logos_Escuderia.write(AEscribir)
+                #Se elimina el Entry
                 E_patro.delete(0, END)
+                #Se cierra el archivo txt para guardar los datos previamente modificados
                 Logos_Escuderia.close()
+                #Se deshabiltan los atributos para poder seguir usando la ventana de información, por si se requiere realizar
+                #o no otro cambio
                 info.attributes('-disabled', False)
-                patro.destroy()
-                info.destroy()
-                information()
-                
+                patro.destroy()#Se destruye la ventana de patrocinadores
+                info.destroy()#Se destruye la ventana de información
+                information()#Se vuelve a cargar la ventana de información para visualizar los cambios que el usuario ha hecho con
+                             #respecto a los patrocinadores de la Escudería
+
+            #Botón para confirmar los cambios hechos a los patrocinadores de la Escudería   
             Btn_confirmar = Button(patro, text="Confirmar cambios", command=confirmar, bg="light blue", fg='black')
             Btn_confirmar.place(x=300, y=100)
 
             main.mainloop()
             
-            
         def back():
-            info.destroy()
-            main.destroy()
-            main_window()
+            #Descripción: Función para cerrar la ventana de información una vez que el usuario ha podido visualizar y editar la
+            #información de la Escudería
 
+            #Entrada: Ninguna
+            #Salida: Actualización de todos los cambios hecho en la ventana de información de la Escudería 
+            #Restricción: El usuario no está obligado a cambiar la información de la Escudería
+            info.destroy()#Se destruye la ventana de información de la Escudería
+            main.destroy()#Se destruye la ventana principal 
+            main_window()#Se vuelva a cargar la ventana principal para actualizar posibles cambios que el usuario haya hecho
+                         #en la venatana de información de la Escudería
+
+        #Función para poner sobre la ventana de información de la Escudería todos los patrocinadores actuales de la misma
         patrocinio(Patro,"",900, 75)
+
+        #Botón para la ventana encargada de cambiar el logo de la Escudería y su respectiva información(nombre y ubicación)
         Btn_logo = Button(info, text="Cambiar Logo", command=chance_logo, bg="light blue", fg='black')
         Btn_logo.place(x=1055,y=90)
 
+        #Botón para la ventana encargada de editar(agregar o quitar) los patrocinadores de la Escudería
         Btn_patrocinadores = Button(info, text="Editar Patrocinadores", command=patrocinadores, bg="light blue", fg='black')
         Btn_patrocinadores.place(x=1050,y=200)
 
+        #Botón para ir a la ventana de tablas de posiciones de pilotos y autos
         Btn_Pilotos = Button(info, text="Lista Pilotos y Autos", command=positions_table, bg="light blue", fg='black')
         Btn_Pilotos.place(x=665,y=150)
-        
+
+        #Botón para regresar a la ventana principal
         Btn_back = Button(info, text="Back", command=back, bg="light blue", fg='black')
         Btn_back.place(x=10,y=10)
 
         main.mainloop()
-        
+
+    #Thread para iniciar la animación inicial de la interfaz  
     p=Thread(target=intro,args=()).start()
     
     def w_description():
@@ -891,13 +1154,38 @@ def main_window():
 #           _____________________________________________________
 #__________/ DRIVING TEST WINDOW
     def test_drive():
+       """                      Instituto Tecnológico de Costa Rica
+
+                          Ingeniería en Computadores
+
+
+                          
+Curso: Introducción a la Programación
+Grupo: 2
+Profesor: Ing. Milton Villegas Lemus
+Lenguaje: Python 3.7.1
+Versión: v1.0
+País de producción: Costa Rica
+Fecha última modificación: 3/6/2019
+Autor: Emanuel Antonio Marín Gutiérrez
+Carné: 2019067500
+
+Programa: test_drive()
+Descripción: Ventana para poder realizar el Test Drive al cumplirse que el usuario haya seleccionado primeramente un piloto
+de la Temporada actual y que el estado del carro es Disponible.
+
+Entrada: Ninguna
+Salida: Ventana auxiliar para realizar el Test del carro y ventana para la selección del piloto de la Temporada actual
+Restricciones: Para poder realizar el Test Drive el usuario debe seleccionar un piloto de la presente Temporada y el estado
+del carro deber ser Disponible, es decir, estar cargado."""
+       
        #Esconder ventana principal
        main.withdraw()
        #Ventana de para ek manejo del carro y sus atributos
        test=Toplevel()
-       test.title("Driving Test")
-       test.minsize(450, 625)
-       test.resizable(width=NO, height=NO)
+       test.title("Driving Test")#Título de la ventana de Test Drive
+       test.minsize(450, 625)#Tamaño mínimo de la ventana
+       test.resizable(width=NO, height=NO)#Se deshabilita poder editar el tamaño de la ventana
 
        #Canvas de la ventana de testeo
        C_test = Canvas(test, width=450, height=625, bg="white")
@@ -915,21 +1203,37 @@ def main_window():
        C_test.create_image(345, 50, image=Estado, anchor=NW, state=NORMAL)
 
        def select_pilot():
-           #Entradas: Ninguna
-           #Salida: Guarda los datos del piloto que el usuario ha seleccionado para realizar el test
-           #Restricciones: Deben haber a lo sumo dos pilotos de la Temporada 2019, el usuario debe seleccionar
-           #un piloto, de lo contrario no podrá realizar el test
-           
-           #Descripción: Función que muestra en pantalla todos los datos (Foto, nombre, nacionalidad,
-           #Temporada, RGP, REP, entre otros) de los pilotos de la Temporada 2019 para que el usuario pueda
-           #seleccionar uno de los dos. Una vez hecha la selección del piloto, todos los datos de este se
-           #almacenaran en una variable global para ponerlos en pantalla una vez iniciado el test
+           """                      Instituto Tecnológico de Costa Rica
 
+                          Ingeniería en Computadores
+
+
+                          
+Curso: Introducción a la Programación
+Grupo: 2
+Profesor: Ing. Milton Villegas Lemus
+Lenguaje: Python 3.7.1
+Versión: v1.0
+País de producción: Costa Rica
+Fecha última modificación: 3/6/2019
+Autor: Emanuel Antonio Marín Gutiérrez
+Carné: 2019067500
+
+Programa: test_drive()
+Descripción: Función que muestra en pantalla todos los datos (Foto, nombre, nacionalidad, Temporada, RGP, REP, entre otros)
+de los pilotos de la Temporada 2019 para que el usuario pueda seleccionar uno de los dos. Una vez hecha la selección del
+piloto, todos los datos de este se almacenaran en una variable global para ponerlos en pantalla una vez iniciado el test.
+
+Entrada: Ninguna
+Salida: Guarda los datos del piloto que el usuario ha seleccionado para realizar el test
+Restricciones: Deben haber a lo sumo dos pilotos de la Temporada 2019, el usuario debe seleccionar
+un piloto, de lo contrario no podrá realizar el test."""
+           
            #Ventana para la selección del piloto y sus atributos
            pilot=Toplevel()
-           pilot.title("Selección de piloto")
-           pilot.minsize(900, 300)
-           pilot.resizable(width=NO, height=NO)
+           pilot.title("Selección de piloto")#Título de la ventana
+           pilot.minsize(900, 300)#Tamaño mímimo de la ventana
+           pilot.resizable(width=NO, height=NO)#Se deshabilita poder editar el tamaño de la ventana
 
            #Canvas de la ventana de selección
            C_pilot = Canvas(pilot, width=900, height=300, bg="white")
@@ -1069,84 +1373,169 @@ def main_window():
            Btn_back.place(x=430, y=250)
 
            main.mainloop()
-
  
        def drive_car():
+           #Descripción: Funcón que verifica que el usuario haya seleccionado uno de los pilotos de la presente
+           #Temporada para que en conjunto con el Estado actual del carro, se pueda o no realizar el Test Drive
+
+           #Entrada: Ninguna
+           #Salida: Se llama a la ventana auxiliar para el manejo del carro en
+           #Restriciones: El usuario debe seleccionar uno de los pilotos si quiere realizar el Test Drive del carro
+
+           #Varable global que almacena el piloto seleccionado por el usuario para poner los datos en la ventana
+           #de Drive Car para manejar el carro
            global Piloto
+
+           #Si la variable no está vacía, significa que el usuario ya ha seleccionado uno de los dos pilotos y por
+           #lo tanto sí podra realizar el Drive Car, también considerando el estado actual del carro para tal efecto
            if Piloto!="":
                return drive_car_aux()
 
+           #Si la variable está vacía, significa que el usuario aún no ha seleccionado a ningún piloto para realizar
+           #el Drive Car. Considerando lo anterior, si el usuario desea iniciar el Drive Car, aparecerá un messagebox
+           #indicando que no puede realizar el Drive Car por tal motivo 
            else:
                messagebox.showwarning("Pilot selection", "No se ha seleccionado un piloto")
                
        def drive_car_aux():
-           test.withdraw()
-           car=Toplevel()
-           car.title("Driving Test")
-           car.minsize(1200, 675)
-           car.resizable(width=NO, height=NO)
+           """                      Instituto Tecnológico de Costa Rica
 
+                          Ingeniería en Computadores
+
+
+                          
+Curso: Introducción a la Programación
+Grupo: 2
+Profesor: Ing. Milton Villegas Lemus
+Lenguaje: Python 3.7.1
+Versión: v1.0
+País de producción: Costa Rica
+Fecha última modificación: 3/6/2019
+Autor: Emanuel Antonio Marín Gutiérrez
+Carné: 2019067500
+
+Programa: drive_car_aux()
+Descripción: Ventana para manejar el carro mediante teclas, poder visualizar cada acción que el usuario decide en
+la interfaz, ver el nombre y nacionalidad del piloto que el usuario decidió realizar el Drive Car, ver el nivel de
+batería, detectar el tiempo(día o noche), además poder visualizar el nombre de la escuderia, así como realizar la
+celebración característica del piloto y los comandos especiales del carro(Circle, Infinite, ZigZag y Katarsys)
+
+Entrada: Ninguna
+Salida: Manejo completo del carro, interfaz asociada a cada acción del mismo, celebraciones de los pilotos y
+movimientos especiales del carro de la Temporada actual
+Restricciones:."""
+
+           #Se esconde la ventana Test Drive
+           test.withdraw()
+           #Se crea la ventana de Drive Car y sus atributos
+           car=Toplevel()
+           car.title("Driving Test")#Título de la ventana
+           car.minsize(1200, 675)#Tamaño mínimo de la ventana
+           car.resizable(width=NO, height=NO)#Se deshabilita poder editar el tamaño de la ventana
+
+           #Canvas de la ventana Drive Car
            C_car = Canvas(car, width=1200, height=675, bg="white")
            C_car.place(x=0, y=0)
   
-
+        
            def intro():
+               """                      Instituto Tecnológico de Costa Rica
+
+                          Ingeniería en Computadores
+
+
+                          
+Curso: Introducción a la Programación
+Grupo: 2
+Profesor: Ing. Milton Villegas Lemus
+Lenguaje: Python 3.7.1
+Versión: v1.0
+País de producción: Costa Rica
+Fecha última modificación: 3/6/2019
+Autor: Emanuel Antonio Marín Gutiérrez
+Carné: 2019067500
+
+Programa: intro()
+Descripción: Función que realiza la animación de la interfaz la cual tiene una duración de 2.7 segundos, una vez terminada
+la animación se muestran en pantalla la interfaz completa para el manejo del carro, se muestra los botones para los comandos
+especiales de movimiento del carro y la celebración característica del Piloto seleccionado para realizar tal Test
+
+Entrada: Ninguna
+Salida: Animación inicial de la interfaz, luego de que concluya la animación, se muestra el fondo de la interfaz y los botones,
+para los comandos especiales y la celebración característica del piloto seleccionado.
+Restricciones: No presenta"""
+
+               #Fondo de la animación de la interfaz
                BG = loadImg("FE.1.png")
                Fondo_intro = C_car.create_image(0, 0, image=BG, anchor=NW, state=NORMAL)
                time.sleep(2.7)
                C_car.itemconfig(Fondo_intro, state=HIDDEN)
-               
+
+               #Fondo de la interfaz cuando es de día 
                global Car_Background1
                BG2 = loadImg("23.1E.png")
                Car_Background1 = C_car.create_image(0, 0, image=BG2, anchor=NW, state=NORMAL)
 
+               #Fondo de la interfaz cuando es de noche
                global Car_Background2
                BG3 = loadImg("23.N.png")
                Car_Background2 = C_car.create_image(0, 0, image=BG3, anchor=NW, state=HIDDEN)
 
+               #Fondo principal para el cambio en el manejo del carro y el encendido y apagado de las luces
                W = loadImg("Widgets.png")
                C_car.create_image(0, 0, image=W, anchor=NW, state=NORMAL)
 
+               #Se carga el nombre y la nacionalidad del piloto seleccionado por el usuario para realizar el Drive Car
                global Piloto
                C_car.create_text(890, 5, font=("Agency", 20, "bold"), anchor=NW, fill="white", text=Piloto[10:35])
                C_car.create_text(1000, 45, font=("Agency", 20, "bold"), anchor=NW, fill="white", text=Piloto[38:53])
 
+               #Se abre el txt con la información de la Escudería y se carga en pantalla el nombre de la misma
                Logo_Escuderia = Logos = open("Team information.txt", "r+")
                Logo = Logo_Escuderia.readlines()
                C_car.create_text(100, 250, font=("Agency", 22, "bold"), anchor=NW, fill="white", text=Logo[0][7:22])
-               
+
+               #Imagen para el encendido y apagado de las luces frontales del carro       
                global Front_img
                Front = loadImg("Frontales.png")
                Front_img = C_car.create_image(860, 180, image=Front, anchor=NW, state=HIDDEN)
 
+               #Imagen para el encendido y apagado de las luces traseras del carro
                global Back_img
                Back = loadImg("traseras.png")
                Back_img = C_car.create_image(860, 180, image=Back, anchor=NW, state=HIDDEN)
 
+               #Imagen para el encendido y apagado de las luz direccional izquierda del carro
                global Left_img
                Left = loadImg("di.png")
                Left_img = C_car.create_image(860, 180, image=Left, anchor=NW, state=HIDDEN)
 
+               #Imagen para el encendido y apagado de las luz direccional derecha del carro
                global Right_img
                Right = loadImg("dd.png")
                Right_img = C_car.create_image(860, 180, image=Right, anchor=NW, state=HIDDEN)
 
+               #Imagen para cuando el carro se mueve hacia adelante
                global F_arrow
                FA = loadImg("F.png")
                F_arrow = C_car.create_image(0, 0, image=FA, anchor=NW, state=HIDDEN)
 
+               #Imagen para cuando el carro se mueve hacia atras
                global B_arrow
                FB = loadImg("B.png")
                B_arrow = C_car.create_image(0, 0, image=FB, anchor=NW, state=HIDDEN)
 
+               #Se crea sobre el canvas un medio para visualizar en tiempo real la acelaración del carro
                global L_PWM_aux
                C_car.create_text(560, 400, font=("Agency", 22), anchor=NW, fill="white", text="PWM")
                L_PWM_aux = C_car.create_text(592, 462, font=("Agency", 28), anchor=NW, fill="white", text="0")
 
+               #Imagen para cuando el carro se mueve hacia la izquierda
                global L_arrow
                FL = loadImg("L.png")
                L_arrow = C_car.create_image(0, 0, image=FL, anchor=NW, state=HIDDEN)
 
+               #Imagen para cuando el carro se mueve hacia la derecha
                global R_arrow
                FR = loadImg("R.png")
                R_arrow = C_car.create_image(0, 0, image=FR, anchor=NW, state=HIDDEN)
@@ -1155,12 +1544,17 @@ def main_window():
                global Battery
                Battery = C_car.create_text(1108, 255, font=("Agency", 14), anchor=NW, fill="white", text="")
 
+               #BOTONES
+               #Botón para regresar a la ventana Test Drive y seleccionar otro piloto o bien para regresar a la
+               #ventana principal
                Btn_back = Button(car, text="TERMINAR TEST", command=back, bg="#cb3234", fg="white")
                Btn_back.place(x=10, y=10)
 
+               #Botón para la celebración del piloto
                Btn_back = Button(car, text="CELEBRACIÓN", command=celebration, bg="#cb3234", fg="white")
                Btn_back.place(x=1100, y=550)
 
+               #Botón para el movimiento especial(Katarsys) del carro
                Btn_back = Button(car, text="MOV. ESPECIAL", command=special_movement, bg="#cb3234", fg="white")
                Btn_back.place(x=1100, y=575)
 
@@ -1171,15 +1565,26 @@ def main_window():
            myCar.start()
 
            def get_log():
+               #Descripción: Función que sirve para captar el comando enviado y recibido
+
+               #Entradas: Ninguna
+               #Salida: Captura de la respuesta del comando Sense para el nivel de batería en pantalla y el tiempo(día y noche)
+               #Restricción: Ninguna 
                global Sense, Lista, Bat
                #Hilo que actualiza los Text cada vez que se agrega un nuevo mensaje al log de myCar
                indice = 0
                while(myCar.loop):
                    while(indice < len(myCar.log)):
+                       #Captura del comando enviado al carro
                        mnsSend = "[{0}] cmd: {1}\n".format(indice,myCar.log[indice][0])
                        try:
+                           #Captura del mensaje recibido 
                            mnsRecv = "[{0}] result: {1}\n".format(indice,myCar.log[indice][1])
+                           #Se almacena en una variable el mensaje recibido al enviar cualquier comando
                            Sense = mnsRecv
+                           #Si el mensaje recibido tiene una longitud de 27, significa que ese mensaje corresponde
+                           #a la respuesta del comando Sense que se envia cada dos segundos para no sobrecargar
+                           #la comunicación con el carro
                            if len(Sense)>=27:
                                Bat = True
                                sense_aux(Sense)
@@ -1190,18 +1595,38 @@ def main_window():
                    time.sleep(0.200)
                    
            def sense():
-               mns = "sense;"
+               #Descripción: Función recursiva que cada dos segundos manda el comando Sense para estar constantemente
+               #chequeando el estado del carro, el nivel de carga de la batería y el tiempo(día y noche)
+
+               #Entrada:Ninguna
+               #Salida: Comando Sense al NodeMCU
+               #Restricción: Ninguna
+               mns = "sense;"#Comando para ver chequear el nivel de bateria y el estado de sensor de luz
                myCar.send(mns)
                time.sleep(2)
+               #Llamada recursiva
                return sense()
 
            def sense_aux(Sense):
+               #Descripción: Función que dependiendo del valor de lectura del sensor de luz, pone una imagen representativa
+               #en la interfaz del Drive Car
+
+               #Entrada: Respuesta del comando sense
+               #Salida: Cambio de imagen principal para la interfaz dependiendo del valor de lectura del sensor de luz
+               #Restricción: Ninguna
+
+               #Imágenes principales para la interfaz del Drive Car
                global Car_Background1, Car_Background2
+
+               #Si el valor de lectura del sensor es uno, significa que es de día y por lo tanto en la interfaz se coloca
+               #la imagen que represente que es de día
                if buscar(Sense)== "1":
                    C_car.itemconfig(Car_Background1, state=NORMAL)
                    C_car.itemconfig(Car_Background2, state=HIDDEN)
                    drive_car.update()
-                   
+
+               #Si el valor de lectura del sensor es cero, significa que es de noche y por lo tanto en la interfaz se coloca
+               #la imagen que represente que es de noche
                elif buscar(Sense) == "0":
                    C_car.itemconfig(Car_Background1, state=HIDDEN)
                    C_car.itemconfig(Car_Background2, state=NORMAL)
@@ -1211,6 +1636,11 @@ def main_window():
                    pass
 
            def buscar(Sense):
+               #Descripción: Función encargada de buscar el valor de lectura(1 o 0) del sensor de luz
+
+               #Entrada: Respuesta del comando Sense
+               #Salida: 1 o 0 dependiendo del valor actual del sensor de luz
+               #Restricción: Ninguna
                if Sense[-1] == "1":
                    return "1"
 
@@ -1218,212 +1648,115 @@ def main_window():
                    return "0"
 
                else:
+                   #Llamada recursiva
                    return buscar(Sense[:-1])
 
            def battery():
-               global Bat, Sense, Lista, L20, L30, L40
+               #Descripción: Función que muestra en la interfaz del Drive Car el nivel de bateria actual del carro
+
+               #Entrada: Ninguna
+               #Salida: Porcentaje del nivel de batería en la interfaz de acuerdo al valor leido en la respuesta del
+               #comando Sense y escritura del estado del carro en el txt de acuerdo del mismo nivel leido
+               #Restricción: Ninguna
+               
+               #Variables globales para condicionar el nivel de batería sobre la interfaz 
+               global Bat, Sense, Lista
+               #Si el comando que ha recibido el NodeMCU es el del Sense, se realiza el chequeo del nivel de batería actual
+               #del carro para ponerlo en la interfaz, se abre y se escribe en el txt el estado actual del carro de acuerdo
+               #al mismo nivel de la batería
                if Bat == True:
+                   #Se abre el txt para escribir el estado del carro(Disponible o Descargado) de acuerdo al nivel de batería
+                   #actual del carro mientras se realiza el Drive Car
                    Car_state = open("Car state.txt","r+")
                    Car_state.seek(0)
-                   Battery_Levels = open("Battery_Levels.txt", "r+")
-                   BL = Battery_Levels.readlines()
                    try:
+                       #Se llama a la función para obtener el nivel de batería actual del carro
                        L_Bat = level_bat(Sense[6:], Lista, "")
+                       #Si el nivel de batería actual del carro es 0, se pondrá ese mismo porcentaje en la interfaz del Drive Car
+                       #Como el nivel de batería es 0, en el txt se escribe que el estado actual del carro es Descargado
                        if L_Bat == "0":
                            B0 = loadImg(BL[0][:6])
-                           """C_car.create_image(1105, 185, image=B0, anchor=NW, state=NORMAL)
-                           C_car.create_image(1105, 185, image=B10, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B20, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B30, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B40, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B50, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B60, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B70, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B80, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B90, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B100, anchor=NW, state=HIDDEN)"""
                            C_car.itemconfig(Battery, text=L_Bat + "%")
-                           print("0% de bateria")
                            Car_state.write("Descargado")
                            Car_state.close()
                            
+                       #Si el nivel de batería actual del carro es 10, se pondrá ese mismo porcentaje en la interfaz del Drive Car
+                       #Como el nivel de batería es 10, en el txt se escribe que el estado actual del carro es Descargado
                        elif L_Bat == "10":
                            B10 = loadImg(BL[1][:7])
-                           """C_car.create_image(1105, 185, image=B0, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B10, anchor=NW, state=NORMAL)
-                           C_car.create_image(1105, 185, image=B20, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B30, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B40, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B50, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B60, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B70, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B80, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B90, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B100, anchor=NW, state=HIDDEN)"""
                            C_car.itemconfig(Battery, text=L_Bat + "%")
-                           print("10% de bateria")
                            Car_state.write("Descargado")
                            Car_state.close()
-
+                           
+                       #Si el nivel de batería actual del carro es 20, se pondrá ese mismo porcentaje en la interfaz del Drive Car
+                       #Como el nivel de batería es 20, en el txt se escribe que el estado actual del carro es Descargado
                        elif L_Bat == "20":
                            B20 = loadImg(BL[2][:7])
-                           """C_car.create_image(1105, 185, image=B0, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B10, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B20, anchor=NW, state=NORMAL)
-                           C_car.create_image(1105, 185, image=B30, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B40, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B50, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B60, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B70, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B80, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B90, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B100, anchor=NW, state=HIDDEN)"""
                            C_car.itemconfig(Battery, text=L_Bat + "%")
-                           print("20% de bateria")
                            Car_state.write("Descargado")
                            Car_state.close()
-
+                           
+                       #Si el nivel de batería actual del carro es 30, se pondrá ese mismo porcentaje en la interfaz del Drive Car
+                       #Como el nivel de batería es 30, en el txt se escribe que el estado actual del carro es Descargado
                        elif L_Bat == "30":
                            B30 = loadImg(BL[3][:7])
-                           """C_car.create_image(1105, 185, image=B0, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B10, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B20, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B30, anchor=NW, state=NORMAL)
-                           C_car.create_image(1105, 185, image=B40, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B50, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B60, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B70, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B80, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B90, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B100, anchor=NW, state=HIDDEN)"""
                            C_car.itemconfig(Battery, text=L_Bat + "%")
-                           print("30% de bateria")
                            Car_state.write("Descargado")
                            Car_state.close()
 
+                       #Si el nivel de batería actual del carro es 40, se pondrá ese mismo porcentaje en la interfaz del Drive Car
+                       #Como el nivel de batería es 0, en el txt se escribe que el estado actual del carro es Descargado
                        elif L_Bat == "40":
                            B40 = loadImg(BL[4][:7])
-                           """C_car.create_image(1105, 185, image=B0, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B10, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B20, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B30, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B40, anchor=NW, state=NORMAL)
-                           C_car.create_image(1105, 185, image=B50, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B60, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B70, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B80, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B90, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B100, anchor=NW, state=HIDDEN)"""
                            C_car.itemconfig(Battery, text=L_Bat + "%")
-                           print("40% de bateria")
                            Car_state.write("Descargado")
                            Car_state.close()
 
+                       #Si el nivel de batería actual del carro es 50, se pondrá ese mismo porcentaje en la interfaz del Drive Car
+                       #Como el nivel de batería es 50, en el txt se escribe que el estado actual del carro es Descargado
                        elif L_Bat == "50":
                            B50 = loadImg(BL[5][:7])
-                           """C_car.create_image(1105, 185, image=B0, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B10, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B20, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B30, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B40, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B50, anchor=NW, state=NORMAL)
-                           C_car.create_image(1105, 185, image=B60, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B70, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B80, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B90, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B100, anchor=NW, state=HIDDEN)"""
                            C_car.itemconfig(Battery, text=L_Bat + "%")
-                           print("50% de bateria")
                            Car_state.write("Descargado")
                            Car_state.close()
 
+                       #Si el nivel de batería actual del carro es 60, se pondrá ese mismo porcentaje en la interfaz del Drive Car
+                       #Como el nivel de batería es 60, en el txt se escribe que el estado actual del carro es Disponible
                        elif L_Bat == "60":
                            B60 = loadImg(BL[6][:7])
-                           """C_car.create_image(1105, 185, image=B0, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B10, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B20, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B30, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B40, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B50, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B60, anchor=NW, state=NORMAL)
-                           C_car.create_image(1105, 185, image=B70, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B80, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B90, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B100, anchor=NW, state=HIDDEN)"""
                            C_car.itemconfig(Battery, text=L_Bat + "%")
-                           print("60% de bateria")
                            Car_state.write("Disponible")
                            Car_state.close()
 
+                       #Si el nivel de batería actual del carro es 70, se pondrá ese mismo porcentaje en la interfaz del Drive Car
+                       #Como el nivel de batería es 70, en el txt se escribe que el estado actual del carro es Disponible
                        elif L_Bat == "70":
                            B70 = loadImg(BL[7][:7])
-                           """C_car.create_image(1105, 185, image=B0, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B10, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B20, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B30, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B40, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B50, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B60, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B70, anchor=NW, state=NORMAL)
-                           C_car.create_image(1105, 185, image=B80, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B90, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B100, anchor=NW, state=HIDDEN)"""
                            C_car.itemconfig(Battery, text=L_Bat + "%")
-                           print("70% de bateria")
                            Car_state.write("Disponible")
                            Car_state.close()
 
+                       #Si el nivel de batería actual del carro es 80, se pondrá ese mismo porcentaje en la interfaz del Drive Car
+                       #Como el nivel de batería es 80, en el txt se escribe que el estado actual del carro es Disponible
                        elif L_Bat == "80":
                            B80 = loadImg(BL[8][:7])
-                           """C_car.create_image(1105, 185, image=B0, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B10, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B20, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B30, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B40, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B50, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B60, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B70, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B80, anchor=NW, state=NORMAL)
-                           C_car.create_image(1105, 185, image=B90, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B100, anchor=NW, state=HIDDEN)"""
                            C_car.itemconfig(Battery, text=L_Bat + "%")
-                           print("80% de bateria")
                            Car_state.write("Disponible")
                            Car_state.close()
 
+                       #Si el nivel de batería actual del carro es 90, se pondrá ese mismo porcentaje en la interfaz del Drive Car
+                       #Como el nivel de batería es 90, en el txt se escribe que el estado actual del carro es Disponible
                        elif L_Bat == "90":
                            B90 = loadImg(BL[9][:7])
-                           """C_car.create_image(1105, 185, image=B0, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B10, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B20, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B30, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B40, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B50, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B60, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B70, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B80, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B90, anchor=NW, state=NORMAL)
-                           C_car.create_image(1105, 185, image=B100, anchor=NW, state=HIDDEN)"""
                            C_car.itemconfig(Battery, text=L_Bat + "%")
-                           print("90% de bateria")
                            Car_state.write("Disponible")
                            Car_state.close()
 
+                       #Si el nivel de batería actual del carro es 100, se pondrá ese mismo porcentaje en la interfaz del Drive Car
+                       #Como el nivel de batería es 100, en el txt se escribe que el estado actual del carro es Disponible
                        elif L_Bat == "100":
                            B100 = loadImg(BL[10][:8])
-                           """C_car.create_image(1105, 185, image=B0, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B10, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B20, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B30, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B40, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B50, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B60, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B70, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B80, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B90, anchor=NW, state=HIDDEN)
-                           C_car.create_image(1105, 185, image=B100, anchor=NW, state=NORMAL)"""
                            C_car.itemconfig(Battery, text=L_Bat + "%")
-                           print("100% de bateria")
                            Car_state.write("Disponible")
                            Car_state.close()
                            
@@ -1436,31 +1769,65 @@ def main_window():
 
                Bat = False
                time.sleep(2.0)
+               #Llamada recursiva
                return battery()
 
            def level_bat(Sense, Lista, L_Bat):
+               #Descripción: Función recursiva que recorre la respuesta del comando Sense en busca del nivel de batería que este mismo
+               #retorna
+
+               #Entradas: Respuesta del comando Sense, Lista para comparar strings numéricos(posibles niveles de batería)
+               #y una variable para almacenar el nivel de batería del sensor
+               #Salida: Variable con el nivel de bateria actual del carro
+               #Restricción: Ninguna
+
+               #Condición de finalización
                if Sense[0]==";":
                    return L_Bat
 
+               #Si se encuentra un string numérico este forma parte del nivel de batería del carro y se almacena en la variable
+               #anteriormente mencionada
                elif buscar_level(Sense[0],Lista)==True:
                    L_Bat = L_Bat + Sense[0]
                    return level_bat(Sense[1:], Lista, L_Bat)
 
+               #Si no se encuentra ninguna string numérico, simplemente se vuelve a llamar a la función para analizar el siguiente
+               #elemento de la respuesta almacenada en la variable Sense
                else:
                    return level_bat(Sense[1:], Lista, L_Bat)
 
            def buscar_level(Ele, Lista):
+               #Descripción: Función recursiva encargada de encontrar strings numéricos pertenecientes al nivel de la batería que
+               #contiene la variable Sense
+
+               #Entradas: String de la variable Sense y lista de todos los posibles strings numéricos pertenecientes al nivel de la batería
+               #Salida: True o False dependiendo si el String pertenece o no a uno de los strings numéricos que contiene la lista
+               #Restriccioón: Ninguna
+
+               #Condiciónn de finalización
                if Lista == []:
                    return False
 
+               #Si el string específico de la variable sense está en la lista, se retorna True
                elif Ele == Lista[0]:
                    return True
 
+               #Si el string específico de la variable sense no está en la lista, se retorna False
                else:
                    return buscar_level(Ele, Lista[1:])
                             
            def lights(event):
+               #Descripción: Función encargada del encendido y apagado de las luces delanteras traseras y direccionales del carro
+               #tanto la acción física sobre el carro como en la interfaz
+
+               #Entrada: Tecla específica para cada luz
+               #Salida: Encendido y apagado de las luces del carro
+               #Restricción: Ninguna
+
+               #Variables globales para el manejo del carro en la parte física y en la interfaz
                global Lfront, Lback, Lleft, Lright, Front_img, Back_img, Left_img, Right_img
+               #Si se presiona la tecla f se podrán encender o apagar las luces frontales del carro, esa acción también se reflejaran
+               #en la interfaz del Drive Car
                if event.char == "f":
                    if Lfront == False:
                        C_car.itemconfig(Front_img, state=NORMAL)
@@ -1472,7 +1839,9 @@ def main_window():
                        mns="lf:0;"
                        myCar.send(mns)
                        Lfront = False
-                    
+                       
+               #Si se presiona la tecla b se podrán encender o apagar las luces traseras del carro, esa acción también se reflejaran
+               #en la interfaz del Drive Car 
                if event.char == "b":
                    if Lback == False:
                        C_car.itemconfig(Back_img, state=NORMAL)
@@ -1485,6 +1854,8 @@ def main_window():
                        myCar.send(mns)
                        Lback = False
 
+               #Si se presiona la tecla l se podrá encender o apagar las luz direccional izquierda del carro, esa acción también se reflejará
+               #en la interfaz del Drive Car
                if event.char == "l":
                    if Lleft == False:
                        C_car.itemconfig(Left_img, state=NORMAL)
@@ -1497,6 +1868,8 @@ def main_window():
                        myCar.send(mns)
                        Lleft = False
 
+               #Si se presiona la tecla r se podrá encender o apagar las luz direccional izquierda del carro, esa acción también se reflejará
+               #en la interfaz del Drive Car
                if event.char == "r":
                    if Lright == False:
                        C_car.itemconfig(Right_img, state=NORMAL)
@@ -1510,10 +1883,20 @@ def main_window():
                        Lright = False  
                
            def move_forward(event):
+               #Descripción: Función encargada de mover el carro hacia adelante tanto físicamente como en la interfaz
+
+               #Entrada: Flecha hacia arriba del teclado
+               #Salida: Movimiento del carro hacia adelante, imagén que refleja que el carro se está moviendo hacia adelante,
+               #así como la actualización inmediata de la aceleración del carro en el PWM en la interfaz
+               #Restricción: No se puede sobrepasar el PWM de 1023
+
+               #Variables globales para el movimiento del carro
                global Forward, Back, L_PWM_aux, F_arrow, B_arrow, Stoped
                Back = -700
                C_car.itemconfig(F_arrow, state=NORMAL)
                C_car.itemconfig(B_arrow, state=HIDDEN)
+               #Si el carro aún no alcanza el máximo valor del pwm permitido(1023) se aumenta en uno el valor del mismo, ese cambio se
+               #se refleja en la aceleración del carro y en el pwm de la interfaz
                if Forward <1023:
                    Forward+=1
                    mns = "pwm:" + str(Forward) + ";"
@@ -1521,6 +1904,9 @@ def main_window():
                    myCar.send(mns)
                    C_car.itemconfig(L_PWM_aux, text=str(Forward))
                    time.sleep(0.001)
+
+               #Cuando el carro alcanza el valor máximo de pwm permitido, apesar de que el usuario siga presionando para acelerar, no se
+               #se reflejará ningún cambio en la aceleración del carro ni en el pwm de la interfaz 
                else:
                    Forward = 1023
                    mns = "pwm:" + str(Forward) + ";"
@@ -1529,10 +1915,20 @@ def main_window():
                    time.sleep(0.001)
 
            def move_back(event):
+               #Descripción: Función encargada de mover el carro hacia atras tanto físicamente como en la interfaz
+
+               #Entrada: Flecha hacia abajo del teclado
+               #Salida: Movimiento del carro hacia atras, imagén que refleja que el carro se está moviendo hacia atras,
+               #así como la actualización inmediata de la aceleración del carro en el PWM en la interfaz
+               #Restricción: No se puede sobrepasar el PWM de -1023
+
+               #Variables globales para el movimiento del carro
                global Forward, Back, L_PWM_aux, F_arrow, B_arrow, Stoped
                Forward = 700
                C_car.itemconfig(F_arrow, state=HIDDEN)
                C_car.itemconfig(B_arrow, state=NORMAL)
+               #Si el carro aún no alcanza el máximo valor del pwm permitido(-1023) se aumenta en uno el valor del mismo, ese cambio se
+               #se refleja en la aceleración del carro y en el pwm de la interfaz
                if Back>-1023:
                    Back-=1
                    mns = "pwm:" + str(Back) + ";"
@@ -1540,6 +1936,9 @@ def main_window():
                    myCar.send(mns)
                    C_car.itemconfig(L_PWM_aux, text=str(Back))
                    time.sleep(0.001)
+
+               #Cuando el carro alcanza el valor máximo de pwm permitido, apesar de que el usuario siga presionando para acelerar, no se
+               #se reflejará ningún cambio en la aceleración del carro ni en el pwm de la interfaz 
                else:
                    Back = -1023
                    mns = "pwm:" + str(Back) + ";"
@@ -1548,27 +1947,56 @@ def main_window():
                    time.sleep(0.001)
 
            def stop(event):
+               #Descripción: Función encargada de detener por completo el carro
+
+               #Entrada: Tecla p de parar
+               #Salida: El carro deja de moverse y desaparecen las direccionales y las flechas de movimiento hacia adelante y atras
+               #del carro en la interfaz del Drive Car
+               #Restricción: Ninguna
+
+               #Variables globales para detener el movimiento del carro
                global Forward, Back, L_PWM_aux, F_arrow, B_arrow, L_arrow, R_arrow, Stoped
+               #Se restablecen los valores inciales del movimiento del carro ya sea hacia adelante o hacia atras
                Forward = 700
                Back = -700
                Velocidad = 0
+               #Desaparecen todas las imágenes de movimiento y luces en la interfaz del Drive Car 
                C_car.itemconfig(F_arrow, state=HIDDEN)
                C_car.itemconfig(B_arrow, state=HIDDEN)
                C_car.itemconfig(R_arrow, state=HIDDEN)
                C_car.itemconfig(L_arrow, state=HIDDEN)
+               #Se manda el comando para detener por completo el carro
                mns = "pwm:" + str(Velocidad) + ";"
                myCar.send(mns)
+               #Se pone en la interfaz un PWM igual cero indicando que el carro está completamente detenido
                C_car.itemconfig(L_PWM_aux, text=str(Velocidad))
 
            def move_left(event):
+               #Descripción: Función encargada de mover el carro hacia la izquierda físicamente y que pone sobre
+               #la interfaz un flecha indicando tal efecto
+
+               #Entrada: Flecha hacia la izquierda del Teclado
+               #Salida: Mvimiento del carro hacia la izquierda y flecha hacia la izquierda sobre la interfaz del Drive Car
+               #Restricción: Ninguna
                global L_arrow, R_arrow
                C_car.itemconfig(R_arrow, state=HIDDEN)
                C_car.itemconfig(L_arrow, state=NORMAL)
+               #Se inicia el Thread para encender y apagar la luz direccional izquierda para dar el efecto de que
+               #se ha decidido girar hacia la izquierda
                p=Thread(target=move_left_aux,args=()).start()
+               #Se envia el comando para girar el carro hacia la izquierda
                mns = "dir:-1;"
                myCar.send(mns)
 
            def move_left_aux():
+               #Descripción: Función que enciende y apaga las luz direccional izquierda dando el efecto de que el piloto
+               #ha decidido girar hacia la izquierda
+
+               #Entrada: Ninguna
+               #Salidas: Efecto de giro hacia la izquierda con la luz direccional
+               #Restricción: Ninguna
+
+               #Se encienden y apagan las luz direccional izquierda tres veces para lograr tal efecto
                mns1 = "ll:1;"
                mns2 = "ll:0;"
                myCar.send(mns1)
@@ -1584,14 +2012,31 @@ def main_window():
                myCar.send(mns2)
 	        
            def move_right(event):
+               #Descripción: Función encargada de mover el carro hacia la izquierda físicamente y que pone sobre
+               #la interfaz un flecha indicando tal efecto
+
+               #Entrada: Flecha hacia la derecha del Teclado
+               #Salida: Mvimiento del carro hacia la derecha y flecha hacia la derecha sobre la interfaz del Drive Car
+               #Restricción: Ninguna
                global L_arror, R_arrow
                C_car.itemconfig(R_arrow, state=NORMAL)
                C_car.itemconfig(L_arrow, state=HIDDEN)
+               #Se inicia el Thread para encender y apagar la luz direccional derecha para dar el efecto de que
+               #se ha decidido girar hacia la derecha
                p=Thread(target=move_right_aux,args=()).start()
+               #Se envia el comando para girar el carro hacia la derecha
                mns = "dir:1;"
                myCar.send(mns)
 
            def move_right_aux():
+               #Descripción: Función que enciende y apaga las luz direccional derecha dando el efecto de que el piloto
+               #ha decidido girar hacia la derecha
+
+               #Entrada: Ninguna
+               #Salidas: Efecto de giro hacia la derecah con la luz direccional
+               #Restricción: Ninguna
+
+               #Se encienden y apagan las luz direccional derecha tres veces para lograr tal efecto
                mns1 = "lr:1;"
                mns2 = "lr:0;"
                myCar.send(mns1)
@@ -1607,72 +2052,153 @@ def main_window():
                myCar.send(mns2)
 
            def move_direct(event):
+               #Descripción: Función para que el carro se mueva en linea recta
+
+               #Entrada: Tecla "d" del Teclado
+               #Salida: Movimiento recto del carro, desaparición de las flechas direccionales sobre la interfaz
+               #Restricción: Ninguna
+
+               #Desaparecen las luces direccionales
                C_car.itemconfig(R_arrow, state=HIDDEN)
                C_car.itemconfig(L_arrow, state=HIDDEN)
+               #Se envia el comando para que el carro se mueva en línea recta
                mns = "dir:0;"
                myCar.send(mns)
 
            def special_movement():
+               #Descripción: Función que realiza el comando especial creado en la primera parte del proyecto
+
+               #Entrada: Ninguna
+               #Salida: Movimiento especial(Katarsys) del carro
+               #Restricción: Ninguna
+
+               #Se envia el comando especial del carro al NodeMCU para que este lo ejecute
                mns = "katarsys:;"
                myCar.send(mns)
 
            def celebration():
+               #Descripción: Función que inicia el Thread para realizar la celebración característica del piloto seleccionado
+               #por el usuario para realizar el Drive Car
+
+               #Entrada: Ninguna
+               #Salida: Inicio del Thread de celebración del piloto
+               #Restricción: Ninguna
+
+               #Se inicia el Thread para la celebración del piloto en el Drive Car
                p=Thread(target=celebration_aux,args=()).start()
 
            def celebration_aux():
+               #Descripción: Función que de acuerdo a la selección del piloto que hizo el usario para poder realizar el
+               #Drive Car, asocia la celebración específica de cada piloto, la celebración de cada piloto es única y se genera
+               #completamente en Python
+
+               #Entrada: Ninguna
+               #Salida: Celebración de acuerdo al piloto que el usuario haya seleccionado
+               #Restricción : Ninguna
+        
                global Piloto
+               #Si el piloto que el usuario seleccionó para realizar el Drive Car es el Piloto A, se habilita la celebración del mismo
                if Piloto[0:9]=="2019A.png":
                    print ("Celebración Piloto A")
+                   #Luz izquierda encendida
                    myCar.send("lf:1;")
                    time.sleep(0.5)
+                   #Luz izuierda apagada
                    myCar.send("lf:0;")
                    time.sleep(0.5)
+                   #Luz izuierda encendida
                    myCar.send("lf:1;")
                    time.sleep(0.5)
+                   #Luz izuierda apagada
                    myCar.send("lf:0;")
                    time.sleep(0.5)
+                   #Movimiento hacia adelante por dos segundos
                    myCar.send("pwm:750;")
                    time.sleep(2)
+                   #Movimiento hacia atras por dos segundos
                    myCar.send("pwm:-1000;")
                    time.sleep(2)
+                   #El carro se detiene
                    myCar.send("pwm:0;")
+
+               #Si el piloto que el usuario seleccionó para realizar el Drive Car es el Piloto A, se habilita la celebración del mismo
                else:
                    print("Celebración Piloto B")
+                   #Luz direccional derecha encendida y movimiento hacia la derecha
                    myCar.send("lr:1;")
                    myCar.send("dir:1;")
                    time.sleep(2)
+                   #Luz direccional derecha apagada, luz direccional izquierda encendida y movimiento hacia la izquierda
                    myCar.send("lr:0;")
                    myCar.send("ll:1;")
                    myCar.send("dir:-1;")
                    time.sleep(2)
+                   #Luz direccional izquierda apagada, movimiento hacia adelante por dos segundos con giro hacia la derecha
                    myCar.send("ll:0;")
                    myCar.send("pwm:900;")
                    myCar.send("dir:1;")
                    time.sleep(2)
+                   #Giro hacia la izquierda
                    myCar.send("dir:-1;")
                    time.sleep(2)
+                   #Giro hacia la derecha
                    myCar.send("dir:1;")
                    time.sleep(2)
+                   #Giro hacia la izquierda
                    myCar.send("dir:-1;")
                    time.sleep(2)
+                   #El carro deja de moverse
                    myCar.send("pwm:0;")
                    
                
            def send (event):
+               """                      Instituto Tecnológico de Costa Rica
+
+                          Ingeniería en Computadores
+
+
+                          
+Curso: Introducción a la Programación
+Grupo: 2
+Profesor: Ing. Milton Villegas Lemus
+Lenguaje: Python 3.7.1
+Versión: v1.0
+País de producción: Costa Rica
+Fecha última modificación: 3/6/2019
+Autor: Emanuel Antonio Marín Gutiérrez
+Carné: 2019067500
+
+Programa: send()
+Descripción: Función encargada de enviar todos los comandos de luces, movimientos y estado del carro al NodeMCU para ser
+#ejecutador por el mismo y actuar físicamente sobre el carro.
+
+Entrada: Ninguna
+Salida: Comandos para el encendido de las luces, el movimiento del carro y el estado del mismo
+Restricciones: No olvidar que cada comando debe finalizar con punto y coma"""
+
+               #Se obtiene el mensaje que se escribe en el Entry
                mns = str(E_Command.get())
+               #Se valida que el comando este bien escrito
                if(len(mns)>0 and mns[-1] == ";"):
                    E_Command.delete(0, 'end')
+                   #Se envia el comando al NodeMCU
                    myCar.send(mns)
                else:
                    messagebox.showwarning("Error del mensaje", "Mensaje sin caracter de finalización (';')")
 
            def back():
+               #Descripción: Función para regresar a la ventana del Test Drive
+
+               #Entrada: Ninguna
+               #Salida: Se vacía la variable que almacena el Piloto seleccionado por el usuario
+               #Restricciones:
                global Piloto
                Piloto = ""
-               car.destroy()
-               test.deiconify()
+               car.destroy()#Se destruye la ventana del Drive Car
+               test.deiconify()#Se regresar a la ventana del Test Drive
 
 
+           #TECLAS ASOCIADAS A LOS DIFERENTES COMANDOS DEL CARRO
            car.bind("<Up>", move_forward)
            car.bind("<Down>", move_back)
            car.bind("p", stop)
@@ -1682,6 +2208,8 @@ def main_window():
            car.bind("<Key>",lights)
 
 
+           #Threads para la animación de la interfaz, para la respuesta de cada comando enviado al NodeMCU, para el
+           #chequeo del nivel de la batería y el tiempo(día y noche) 
            p=Thread(target=intro,args=()).start()
            p = Thread(target=get_log).start()
            p = Thread(target=sense).start()
@@ -1689,16 +2217,26 @@ def main_window():
            main.mainloop()
 
        def back():
-           test.destroy()
-           main.destroy()
-           main_window()
+           #Descripción: Función para retornar a la ventana principal de la interfaz
 
+           #Entrada: Ninguna
+           #Salida: Se retorna a la ventana principal
+           #Restricción: Ninguna
+           test.destroy()#Se destruye la ventana de Test Drive
+           main.destroy()#Se destruye la ventana principal
+           main_window()#Se vuelve a cargar la ventana principal de la interfaz
+
+
+       #BOTONES
+       #Botón para retornar a la ventana principal
        Btn_back = Button(test, text="ATRAS", command=back, bg="#cb3234", fg="white")
        Btn_back.place(x=10,y=595)
 
+       #Botón para seleccionar a uno de los dos pilotos de la Temporada actual
        Btn_pilot = Button(test, text="Seleccionar Piloto", command=select_pilot, bg="#cb3234", fg="white")
        Btn_pilot.place(x=50,y=50)
 
+       #Botón para iniciar el Drive Car
        Start=loadImg("S1.1.png")
        Btn_start = Button(C_test,command=drive_car, fg="black", bg="light blue")
        Btn_start.place(x=380,y=555)
