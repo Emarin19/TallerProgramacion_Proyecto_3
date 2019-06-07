@@ -139,7 +139,7 @@ void setup() {
   }
   server.begin();
   server.setNoDelay(true);
-  shiftOut(ab, clk, MSBFIRST, 0b11111111);
+  shiftOut(ab, clk, MSBFIRST, data);
 
 }
 
@@ -257,8 +257,8 @@ String implementar(String llave, String valor){
     analogWrite(EnA,abs(valorInt));
     digitalWrite(In1,LOW);
     digitalWrite(In2,HIGH);
-    //data &= 0b11110011;
-    //Serial.println(data);
+    data &= 0b11110011;
+    Serial.println(data);
     //shiftOut(ab, clk, MSBFIRST, 0b11110011);
     } 
     //Mover hacia adelante
@@ -537,34 +537,34 @@ int FuncBateria(){
   if(TotalVolt>=7.5){
     return 100;
   }
-  else if(TotalVolt>=7.1){
+  else if(TotalVolt>=7.0){
     return 90;
   }
-  else if(TotalVolt>=6.7){
+  else if(TotalVolt>=6.5){
     return 80;
   }
-  else if(TotalVolt>=6.3){
+  else if(TotalVolt>=6.0){
     return 70;
   }
-  else if(TotalVolt>=5.9){
+  else if(TotalVolt>=5.5){
     return 60;
   }
-  else if(TotalVolt>=5.5){
+  else if(TotalVolt>=5.0){
     return 50;
   }
-  else if(TotalVolt>=5.3){
+  else if(TotalVolt>=4.5){
     return 40;
   }
-  else if(TotalVolt>=5.0){
+  else if(TotalVolt>=4.3){
     return 30;
   }
-  else if(TotalVolt>=4.7){
+  else if(TotalVolt>=4.1){
     return 20;
   }
-  else if(TotalVolt>=4.4){
+  else if(TotalVolt>=3.9){
     return 10;
   }
-  else if(TotalVolt<4.0){
+  else if(TotalVolt<3.7){
     return 0;
   }
 }
