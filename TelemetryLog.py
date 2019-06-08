@@ -18,19 +18,6 @@ Ejemplo de como usar el módudo NodeMCU de WifiConnection
 
 """
 
-"""Instituto Tecnológico de Costa Rica
-Ingenieria en Computadores
-
-Profesor: Milton Villegas Lemus
-Taller de programación
-Proyecto T-Rex Runner v2(Dragon Ball)
-
-Autor: Emanuel Marin Gutiérrez
-Carné: 2019067500
-
-Lenguaje: Python 3.7.1
-Fecha de emisión: 8/4/2019
-Versión: 1.0.0"""
 #           _____________________________________________________
 #__________/ BIBLIOTECAS
 from tkinter import *               # Tk(), Label, Canvas, Photo
