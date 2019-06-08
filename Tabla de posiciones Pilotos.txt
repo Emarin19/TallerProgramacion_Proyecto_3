@@ -1,10 +1,10 @@
 2017B.png Enrique Segoviano Porras 30 costarricense  2017     100 600.0 100.0
 2018A.png Erick Silverstone        27 estadounidense 2018 1000 550.0 100.0
-2018B.png Jonhathan Smith          22 estadounidense 2018 1000 100.0 100.0
-2015A.png Ethan Stronghold         29 canadiense     2015 1000 100.0 100.0
-2019B.png Rembrandt Gerlach        31 holandés       2019 1000 100.0 100.0
+2019B.png Rembrandt Gerlach        31 holandés       2019 17     100 600.0 100.0
 2017A.png Josué Rámirez Rodríguez  33 costarricense  2017 1000 100.0 100.0
 2016B.png Carlo Perontti           43 italiano       2015 1000 100.0 100.0
 2016A.png Alessandro Auditore      36 italiano       2016 1000 100.0 100.0
 2015B.png Jacob August             30 canadiense     2015 1000 100.0 100.0
 2019A.png Jenkin Boudech           39 holandés       2019 1000 100.0 110.0
+2015A.png Ethan Stronghold         29 canadiense     2015 1000 100.0 100.0
+2018B.png Jonhathan Smith          22 estadounidense 2018 1000 100.0 100.0

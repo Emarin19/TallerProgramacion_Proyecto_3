@@ -17,6 +17,20 @@ Restricciónes: Python3.7
 Ejemplo de como usar el módudo NodeMCU de WifiConnection
 
 """
+
+"""Instituto Tecnológico de Costa Rica
+Ingenieria en Computadores
+
+Profesor: Milton Villegas Lemus
+Taller de programación
+Proyecto T-Rex Runner v2(Dragon Ball)
+
+Autor: Emanuel Marin Gutiérrez
+Carné: 2019067500
+
+Lenguaje: Python 3.7.1
+Fecha de emisión: 8/4/2019
+Versión: 1.0.0"""
 #           _____________________________________________________
 #__________/ BIBLIOTECAS
 from tkinter import *               # Tk(), Label, Canvas, Photo
@@ -597,7 +611,6 @@ Restricciones: La Escudería debe tener al menos un patrocinador"""
             def confirmar():
                 #Se almacena en una variable todo los patrocinadores que el usuario ha editado y los que previamente estaban
                 AEscribir = str(E_patro.get())
-                print(AEscribir)
                 #Se específica dónde escribir los patrocinadores en el txt que contiene la información general de la Escudería
                 Logos_Escuderia.seek(37)
                 #Se escribe en el txt en lugar previamente indicado
@@ -619,6 +632,10 @@ Restricciones: La Escudería debe tener al menos un patrocinador"""
             Btn_confirmar.place(x=300, y=100)
 
             main.mainloop()
+                
+        def positions_table_aux():
+            info.destroy()
+            positions_table()
             
         def back():
             #Descripción: Función para cerrar la ventana de información una vez que el usuario ha podido visualizar y editar la
@@ -644,7 +661,7 @@ Restricciones: La Escudería debe tener al menos un patrocinador"""
         Btn_patrocinadores.place(x=1050,y=200)
 
         #Botón para ir a la ventana de tablas de posiciones de pilotos y autos
-        Btn_Pilotos = Button(info, text="Lista Pilotos y Autos", command=positions_table, bg="light blue", fg='black')
+        Btn_Pilotos = Button(info, text="Lista Pilotos y Autos", command=positions_table_aux, bg="light blue", fg='black')
         Btn_Pilotos.place(x=665,y=150)
 
         #Botón para regresar a la ventana principal
@@ -773,6 +790,10 @@ Restricciones: La Escudería debe tener al menos un patrocinador"""
 
         Fondo_Autos = loadImg("Fondo Tabla Autos.png")
         C_positionsA.create_image(0,0,image=Fondo_Autos, anchor=NW,state=NORMAL)
+
+        def back_info():
+            positions.destroy()
+            information()
 
         #Imágenes y textos de pilotos
         def carg_pilotos():
@@ -1355,6 +1376,9 @@ Restricciones: La Escudería debe tener al menos un patrocinador"""
         Btn_back = Button(positions, text="Back", command=back, bg="light blue", fg='black')#Botón para regresar a la ventana principal
         Btn_back.place(x=750,y=615)
 
+        Btn_info = Button(positions, text="Back Info", command=back_info, bg="light blue", fg='black')#Botón para regresar a la ventana de información
+        Btn_info.place(x=10,y=615)
+
         #Botones pestaña pilotos
         Btn_Descendente =Button(tab1, text="Descendente REP", command=descendenteP_REP, bg="light blue", fg='black')#Botón de ordenamiento por REP de los pilotos descendente
         Btn_Descendente.place(x=270,y=592)
@@ -1489,6 +1513,8 @@ del carro deber ser Disponible, es decir, estar cargado."""
        BG1 = loadImg("Test.png")
        C_test.create_image(0, 0, image=BG1, anchor=NW, state=NORMAL)
 
+       C_test.create_text(100, 140, font=("Monotype Corsiva", 30, "bold"), anchor=NW, fill="white", text="¿Ready to start?")
+
        #Se abre el archivo que contiene el estado actual del carro y se coloca una imagen representativa del mismo
        Bat = open("Car state.txt","r+")
        Bat_level = Bat.readlines()
@@ -1599,28 +1625,28 @@ un piloto, de lo contrario no podrá realizar el test."""
            #Nombres de los Pilotos
            C_pilot.create_text(320, 10, font=("Agency", 16, "bold"), anchor=NW, fill="black", text="PILOTOS TEMPORADA 2019")
            C_pilot.create_text(150, 50, font=("Agency", 16, "bold"), anchor=NW, fill="black", text="Nombre")
-           C_pilot.create_text(70, 110, font=("Agency", 12), anchor=NW, fill="black", text=PilotoA[10:35])
-           C_pilot.create_text(70, 210, font=("Agency", 12), anchor=NW, fill="black", text=PilotoB[10:35])
+           C_pilot.create_text(110, 110, font=("Agency", 12), anchor=NW, fill="black", text=PilotoA[10:35])
+           C_pilot.create_text(110, 210, font=("Agency", 12), anchor=NW, fill="black", text=PilotoB[10:35])
 
            #Edad de los Pilotos
            C_pilot.create_text(280, 50, font=("Agency", 16, "bold"), anchor=NW, fill="black", text="Edad")
-           C_pilot.create_text(290, 110, font=("Agency", 12), anchor=NW, fill="black", text=PilotoA[35:37])
-           C_pilot.create_text(290, 210, font=("Agency", 12), anchor=NW, fill="black", text=PilotoB[35:37])
+           C_pilot.create_text(295, 110, font=("Agency", 12), anchor=NW, fill="black", text=PilotoA[35:37])
+           C_pilot.create_text(295, 210, font=("Agency", 12), anchor=NW, fill="black", text=PilotoB[35:37])
 
            #Nacionalidad de los Pilotos
            C_pilot.create_text(350, 50, font=("Agency", 16, "bold"), anchor=NW, fill="black", text="Nacionalidad")
-           C_pilot.create_text(360, 110, font=("Agency", 12), anchor=NW, fill="black", text=PilotoA[38:53])
-           C_pilot.create_text(360, 210, font=("Agency", 12), anchor=NW, fill="black", text=PilotoB[38:53])
+           C_pilot.create_text(380, 110, font=("Agency", 12), anchor=NW, fill="black", text=PilotoA[38:53])
+           C_pilot.create_text(380, 210, font=("Agency", 12), anchor=NW, fill="black", text=PilotoB[38:53])
 
            #Temporada, en este caso será la del 2019
            C_pilot.create_text(500, 50, font=("Agency", 16, "bold"), anchor=NW, fill="black", text="Temporada")
-           C_pilot.create_text(530, 110, font=("Agency", 12), anchor=NW, fill="black", text=PilotoA[53:58])
-           C_pilot.create_text(530, 210, font=("Agency", 12), anchor=NW, fill="black", text=PilotoB[53:58])
+           C_pilot.create_text(535, 110, font=("Agency", 12), anchor=NW, fill="black", text=PilotoA[53:58])
+           C_pilot.create_text(535, 210, font=("Agency", 12), anchor=NW, fill="black", text=PilotoB[53:58])
 
            #Número de competiciones de ambos pilotos
            C_pilot.create_text(620, 50, font=("Agency", 16, "bold"), anchor=NW, fill="black", text="Competencias")
-           C_pilot.create_text(680, 110, font=("Agency", 12), anchor=NW, fill="black", text=PilotoA[58:63])
-           C_pilot.create_text(680, 210, font=("Agency", 12), anchor=NW, fill="black", text=PilotoB[58:63])
+           C_pilot.create_text(675, 110, font=("Agency", 12), anchor=NW, fill="black", text=PilotoA[58:63])
+           C_pilot.create_text(675, 210, font=("Agency", 12), anchor=NW, fill="black", text=PilotoB[58:63])
 
            #Rendimiento global de los Pilotos
            C_pilot.create_text(790, 50, font=("Agency", 16, "bold"), anchor=NW, fill="black", text="RGP")
@@ -1760,37 +1786,52 @@ para los comandos especiales y la celebración característica del piloto selecc
 Restricciones: No presenta"""
 
                #Fondo de la animación de la interfaz
-               BG = loadImg("FE.1.png")
+               BG = loadImg("FE2.png")
                Fondo_intro = C_car.create_image(0, 0, image=BG, anchor=NW, state=NORMAL)
                time.sleep(2.7)
                C_car.itemconfig(Fondo_intro, state=HIDDEN)
 
                #Fondo de la interfaz cuando es de día 
                global Car_Background1
-               BG2 = loadImg("23.1E.png")
+               BG2 = loadImg("CarD.png")
                Car_Background1 = C_car.create_image(0, 0, image=BG2, anchor=NW, state=NORMAL)
 
                #Fondo de la interfaz cuando es de noche
                global Car_Background2
-               BG3 = loadImg("23.N.png")
+               BG3 = loadImg("CarN.png")
                Car_Background2 = C_car.create_image(0, 0, image=BG3, anchor=NW, state=HIDDEN)
+
+               #Botón para reproducir la canción de Fondo
+               Music=loadImg("Music.png")
+               Btn_song = Button(C_car, command=song_main, fg="black", bg="light blue")
+               Btn_song.place(x=1165, y=10)
+               Btn_song.config(image=Music)
+
+               #Botón para silenciar la canción de Fondo
+               Mute=loadImg("Mute.png")
+               Btn_mute=Button(C_car, command=mute, fg="black",bg="light blue")
+               Btn_mute.place(x=1165, y=40)
+               Btn_mute.config(image=Mute)
 
                #Fondo principal para el cambio en el manejo del carro y el encendido y apagado de las luces
                W = loadImg("Widgets.png")
                C_car.create_image(0, 0, image=W, anchor=NW, state=NORMAL)
 
                LB = loadImg("PB.png")
-               C_car.create_image(100, 10, image=LB, anchor=NW, state=NORMAL)
+               C_car.create_image(100, 95, image=LB, anchor=NW, state=NORMAL)
 
                #Se carga el nombre y la nacionalidad del piloto seleccionado por el usuario para realizar el Drive Car
                global Piloto
-               C_car.create_text(890, 5, font=("Agency", 20, "bold"), anchor=NW, fill="white", text=Piloto[10:35])
-               C_car.create_text(1000, 45, font=("Agency", 20, "bold"), anchor=NW, fill="white", text=Piloto[38:53])
-
+               C_car.create_text(20, 5, font=("Monotype Corsiva", 20), anchor=NW, fill="white", text="Nombre:")
+               C_car.create_text(110, 5, font=("Monotype Corsiva", 20), anchor=NW, fill="white", text=Piloto[10:35])
+               C_car.create_text(20, 40, font=("Monotype Corsiva", 20), anchor=NW, fill="white", text="Nacionalidad:")
+               C_car.create_text(160, 40, font=("Monotype Corsiva", 20), anchor=NW, fill="white", text=Piloto[38:53])
+               C_car.create_text(20, 75, font=("Monotype Corsiva", 20), anchor=NW, fill="white", text="Escudería:")
+               
                #Se abre el txt con la información de la Escudería y se carga en pantalla el nombre de la misma
                Logo_Escuderia = Logos = open("Team information.txt", "r+")
                Logo = Logo_Escuderia.readlines()
-               C_car.create_text(100, 250, font=("Agency", 22, "bold"), anchor=NW, fill="white", text=Logo[0][7:22])
+               C_car.create_text(125, 75, font=("Monotype Corsiva", 20), anchor=NW, fill="white", text=Logo[0][7:22])
 
                #Imagen para el encendido y apagado de las luces frontales del carro       
                global Front_img
@@ -1828,25 +1869,27 @@ Restricciones: No presenta"""
                L_PWM_aux = C_car.create_text(592, 462, font=("Agency", 28), anchor=NW, fill="white", text="0")
 
                #ACELERACION
+               #Aceleración hacia adelante
                global LV1_aux, LV2_aux, LV3_aux
                LV1 = loadImg("LV.png")
-               LV1_aux = C_car.create_image(50, 500, image=LV1, anchor=NW, state=HIDDEN)
+               LV1_aux = C_car.create_image(220, 500, image=LV1, anchor=NW, state=HIDDEN)
 
                LV2 = loadImg("LV.png")
-               LV2_aux = C_car.create_image(125, 500, image=LV2, anchor=NW, state=HIDDEN)
+               LV2_aux = C_car.create_image(280, 500, image=LV2, anchor=NW, state=HIDDEN)
 
                LV3 = loadImg("LV.png")
-               LV3_aux = C_car.create_image(225, 500, image=LV3, anchor=NW, state=HIDDEN)
-
+               LV3_aux = C_car.create_image(340, 500, image=LV3, anchor=NW, state=HIDDEN)
+               
+               #Aceleración hacia atrs
                global LR1_aux, LR2_aux, LR3_aux
                LR1 = loadImg("LR.png")
-               LR1_aux = C_car.create_image(600, 500, image=LR1, anchor=NW, state=HIDDEN)
+               LR1_aux = C_car.create_image(930, 500, image=LR1, anchor=NW, state=HIDDEN)
 
                LR2 = loadImg("LR.png")
-               LR2_aux = C_car.create_image(675, 500, image=LR2, anchor=NW, state=HIDDEN)
+               LR2_aux = C_car.create_image(870, 500, image=LR2, anchor=NW, state=HIDDEN)
 
                LR3 = loadImg("LR.png")
-               LR3_aux = C_car.create_image(750, 500, image=LR3, anchor=NW, state=HIDDEN)
+               LR3_aux = C_car.create_image(810, 500, image=LR3, anchor=NW, state=HIDDEN)
               
                #Imagen para cuando el carro se mueve hacia la izquierda
                global L_arrow
@@ -1860,37 +1903,37 @@ Restricciones: No presenta"""
                
                #NIVEL DE BATERIA
                global Battery
-               Battery = C_car.create_text(1108, 155, font=("Agency", 14), anchor=NW, fill="white", text="")
+               Battery = C_car.create_text(20, 100, font=("Monotype Corsiva", 36), anchor=NW, fill="white", text="")
 
                #BOTONES
                #Botón para regresar a la ventana Test Drive y seleccionar otro piloto o bien para regresar a la
                #ventana principal
                Btn_back = Button(car, text="TERMINAR TEST", command=back, bg="#cb3234", fg="white")
-               Btn_back.place(x=10, y=10)
+               Btn_back.place(x=1090, y=640)
 
                #Botón para la celebración del piloto
                Btn_back = Button(car, text="CELEBRACIÓN", command=celebration, bg="#cb3234", fg="white")
-               Btn_back.place(x=1065, y=455)
+               Btn_back.place(x=560, y=640)
 
                #Botón para el movimiento especial(Katarsys) del carro
                Btn_back = Button(car, text="MOV. ESPECIAL", command=special_movement, bg="#cb3234", fg="white")
-               Btn_back.place(x=1065, y=480)
+               Btn_back.place(x=15, y=640)
 
-               #Botón para el movimiento especial(Katarsys) del carro
-               Btn_back = Button(car, text="CIRCLE D", command=circle_right, bg="#cb3234", fg="white")
-               Btn_back.place(x=1065, y=495)
+               #Botón para el movimiento en circulo a la derecha del carro
+               Btn_back = Button(car, text="CIRCLE R", command=circle_right, bg="#cb3234", fg="white")
+               Btn_back.place(x=380, y=640)
 
-               #Botón para el movimiento especial(Katarsys) del carro
+               #Botón para el movimiento en circulo a la izquierda del carro
                Btn_back = Button(car, text="CIRCLE L", command=circle_left, bg="#cb3234", fg="white")
-               Btn_back.place(x=1065, y=510)
+               Btn_back.place(x=220, y=640)
 
-               #Botón para el movimiento especial(Katarsys) del carro
+               #Botón para el movimiento zigzag del carro
                Btn_back = Button(car, text="ZIG ZAG", command=zigzag, bg="#cb3234", fg="white")
-               Btn_back.place(x=1065, y=525)
+               Btn_back.place(x=760, y=640)
 
-               #Botón para el movimiento especial(Katarsys) del carro
+               #Botón para el movimiento infinite del carro
                Btn_back = Button(car, text="INFINITE", command=infinite, bg="#cb3234", fg="white")
-               Btn_back.place(x=1065, y=550)
+               Btn_back.place(x=940, y=640)
 
                time.sleep(100000)
 
@@ -2009,87 +2052,77 @@ Restricciones: No presenta"""
                        #Si el nivel de batería actual del carro es 0, se pondrá ese mismo porcentaje en la interfaz del Drive Car
                        #Como el nivel de batería es 0, en el txt se escribe que el estado actual del carro es Descargado
                        if L_Bat == "0":
-                           print(L_Bat)
-                           C_car.itemconfig(Battery, text=L_Bat + "%")
+                           C_car.itemconfig(Battery, text=L_Bat+"%")
                            Car_state.write("Descargado")
                            Car_state.close()
                            
                        #Si el nivel de batería actual del carro es 10, se pondrá ese mismo porcentaje en la interfaz del Drive Car
                        #Como el nivel de batería es 10, en el txt se escribe que el estado actual del carro es Descargado
                        elif L_Bat == "10":
-                           print(L_Bat)
-                           C_car.itemconfig(Battery, text=L_Bat + "%")
+                           C_car.itemconfig(Battery, text=L_Bat+"%")
                            Car_state.write("Descargado")
                            Car_state.close()
                            
                        #Si el nivel de batería actual del carro es 20, se pondrá ese mismo porcentaje en la interfaz del Drive Car
                        #Como el nivel de batería es 20, en el txt se escribe que el estado actual del carro es Descargado
                        elif L_Bat == "20":
-                           print(L_Bat)
-                           C_car.itemconfig(Battery, text=L_Bat + "%")
+                           C_car.itemconfig(Battery, text=L_Bat+"%")
                            Car_state.write("Descargado")
                            Car_state.close()
                            
                        #Si el nivel de batería actual del carro es 30, se pondrá ese mismo porcentaje en la interfaz del Drive Car
                        #Como el nivel de batería es 30, en el txt se escribe que el estado actual del carro es Descargado
                        elif L_Bat == "30":
-                           print(L_Bat)
-                           C_car.itemconfig(Battery, text=L_Bat + "%")
+                           C_car.itemconfig(Battery, text=L_Bat+"%")
                            Car_state.write("Descargado")
                            Car_state.close()
 
                        #Si el nivel de batería actual del carro es 40, se pondrá ese mismo porcentaje en la interfaz del Drive Car
                        #Como el nivel de batería es 0, en el txt se escribe que el estado actual del carro es Descargado
                        elif L_Bat == "40":
-                           print(L_Bat)
-                           C_car.itemconfig(Battery, text=L_Bat + "%")
+                           C_car.itemconfig(Battery, text=L_Bat+"%")
                            Car_state.write("Descargado")
                            Car_state.close()
 
                        #Si el nivel de batería actual del carro es 50, se pondrá ese mismo porcentaje en la interfaz del Drive Car
                        #Como el nivel de batería es 50, en el txt se escribe que el estado actual del carro es Descargado
                        elif L_Bat == "50":
-                           print(L_Bat)
-                           C_car.itemconfig(Battery, text=L_Bat + "%")
+                           C_car.itemconfig(Battery, text=L_Bat+"%")
                            Car_state.write("Descargado")
                            Car_state.close()
 
                        #Si el nivel de batería actual del carro es 60, se pondrá ese mismo porcentaje en la interfaz del Drive Car
                        #Como el nivel de batería es 60, en el txt se escribe que el estado actual del carro es Disponible
                        elif L_Bat == "60":
-                           print(L_Bat)
-                           C_car.itemconfig(Battery, text=L_Bat + "%")
+                           C_car.itemconfig(Battery, text=L_Bat+"%")
                            Car_state.write("Disponible")
                            Car_state.close()
 
                        #Si el nivel de batería actual del carro es 70, se pondrá ese mismo porcentaje en la interfaz del Drive Car
                        #Como el nivel de batería es 70, en el txt se escribe que el estado actual del carro es Disponible
                        elif L_Bat == "70":
-                           print(L_Bat)
-                           C_car.itemconfig(Battery, text=L_Bat + "%")
+                           C_car.itemconfig(Battery, text=L_Bat+"%")
                            Car_state.write("Disponible")
                            Car_state.close()
 
                        #Si el nivel de batería actual del carro es 80, se pondrá ese mismo porcentaje en la interfaz del Drive Car
                        #Como el nivel de batería es 80, en el txt se escribe que el estado actual del carro es Disponible
                        elif L_Bat == "80":
-                           C_car.itemconfig(Battery, text=L_Bat + "%")
+                           C_car.itemconfig(Battery, text=L_Bat+"%")
                            Car_state.write("Disponible")
                            Car_state.close()
 
                        #Si el nivel de batería actual del carro es 90, se pondrá ese mismo porcentaje en la interfaz del Drive Car
                        #Como el nivel de batería es 90, en el txt se escribe que el estado actual del carro es Disponible
                        elif L_Bat == "90":
-                           print(L_Bat)
-                           C_car.itemconfig(Battery, text=L_Bat + "%")
+                           C_car.itemconfig(Battery, text=L_Bat+"%")
                            Car_state.write("Disponible")
                            Car_state.close()
 
                        #Si el nivel de batería actual del carro es 100, se pondrá ese mismo porcentaje en la interfaz del Drive Car
                        #Como el nivel de batería es 100, en el txt se escribe que el estado actual del carro es Disponible
                        elif L_Bat == "100":
-                           print(L_Bat)
-                           C_car.itemconfig(Battery, text=L_Bat + "%")
+                           C_car.itemconfig(Battery, text=L_Bat+"%")
                            Car_state.write("Disponible")
                            Car_state.close()
                            
@@ -2236,7 +2269,7 @@ Restricciones: No presenta"""
                mns = "lb:0;"
                myCar.send(mns)
                if Forward <1023:
-                   Forward+=1
+                   Forward+=5
                    if Forward <=800:
                        C_car.itemconfig(LV1_aux, state=NORMAL)
                    elif Forward <=900:
@@ -2244,7 +2277,6 @@ Restricciones: No presenta"""
                    else:
                        C_car.itemconfig(LV3_aux, state=NORMAL)
                    mns = "pwm:" + str(Forward) + ";"
-                   print(mns)
                    myCar.send(mns)
                    C_car.itemconfig(L_PWM_aux, text=str(Forward))
                    time.sleep(0.001)
@@ -2279,7 +2311,7 @@ Restricciones: No presenta"""
                mns = "lb:1;"
                myCar.send(mns)
                if Back>-1023:
-                   Back-=1
+                   Back-=5
                    if -800<=Back<=-700:
                        C_car.itemconfig(LR1_aux, state=NORMAL)
                    elif -900<Back<-800:
@@ -2287,7 +2319,6 @@ Restricciones: No presenta"""
                    else:
                        C_car.itemconfig(LR3_aux, state=NORMAL)
                    mns = "pwm:" + str(Back) + ";"
-                   print(mns)
                    myCar.send(mns)
                    C_car.itemconfig(L_PWM_aux, text=str(Back))
                    time.sleep(0.001)
@@ -2555,6 +2586,23 @@ Restricciones: No presenta"""
                    #El carro deja de moverse
                    myCar.send("pwm:0;")
                    
+           def song_main():
+               #Descripción: Función que corre indefinidamente una canción de Fondo para la interfaz de Formula E, una vez que ha
+               #concluido la animación inicial
+
+               #Entrada: Ninguna
+               #Salida: Canción de Fondo para la interfaz
+               #Restrición: La canción debe estar en formato .WAV
+               winsound.PlaySound("Cars", winsound.SND_LOOP + winsound.SND_ASYNC)
+
+           def mute():
+               #Descripción: Función que detiene (silencia) la canción de Fondo de la interfaz
+               
+               #Entrada: Ninguna
+               #Salida: Detiene y reinicia la canción de Fondo de la interfaz
+               #Restrición: La canción debe estar en formato .WAV
+               winsound.PlaySound(None, winsound.SND_ASYNC)
+                   
                
            def send (event):
                """                      Instituto Tecnológico de Costa Rica
@@ -2628,6 +2676,8 @@ Restricciones: No olvidar que cada comando debe finalizar con punto y coma"""
            #Entrada: Ninguna
            #Salida: Se retorna a la ventana principal
            #Restricción: Ninguna
+           global Piloto
+           Piloto =""
            test.destroy()#Se destruye la ventana de Test Drive
            main.destroy()#Se destruye la ventana principal
            main_window()#Se vuelve a cargar la ventana principal de la interfaz
@@ -2640,7 +2690,7 @@ Restricciones: No olvidar que cada comando debe finalizar con punto y coma"""
 
        #Botón para seleccionar a uno de los dos pilotos de la Temporada actual
        Btn_pilot = Button(test, text="Seleccionar Piloto", command=select_pilot, bg="#cb3234", fg="white")
-       Btn_pilot.place(x=50,y=50)
+       Btn_pilot.place(x=180,y=190)
 
        #Botón para iniciar el Drive Car
        Start=loadImg("S1.1.png")
